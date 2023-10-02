@@ -15,12 +15,14 @@ const app = express.Router();
 
 app.post('/login', async(req, res, next)=> {
   try {
-    res.send(await authenticate(req.body));
+    const token = await authenticate(req.body);
+    res.send({ token });
   }
   catch(ex){
     next(ex);
   }
 });
+
 
 app.get('/me', async(req, res, next)=> {
   try {

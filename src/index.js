@@ -5,11 +5,36 @@ import { Link, HashRouter, Routes, Route } from 'react-router-dom';
 import Products from './Products';
 import Orders from './Orders';
 import Cart from './Cart';
+import Login from './Login';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
+  const [auth, setAuth] = useState({});
+
+  const attemptLoginWithToken = async()=> {
+    const token = window.localStorage.getItem('token');
+    if(token){
+      try {
+        const response = await axios.get('/api/me', {
+          headers: {
+            authorization: token
+          }
+        });
+        setAuth(response.data);
+      }
+      catch(ex){
+        if(ex.response.status === 401){
+          window.localStorage.removeItem('token');
+        }
+      }
+    }
+  }
+
+  useEffect(()=> {
+    attemptLoginWithToken();
+  }, []);
 
   useEffect(()=> {
     const fetchData = async()=> {
@@ -73,33 +98,57 @@ const App = ()=> {
     return acc += item.quantity;
   }, 0);
 
+  const login = async(credentials)=> {
+    const response = await axios.post('/api/login', credentials);
+    const { token } = response.data;
+    window.localStorage.setItem('token', token);
+    attemptLoginWithToken();
+  }
+
+  const logout = ()=> {
+    window.localStorage.removeItem('token');
+    setAuth({});
+  }
+
   return (
     <div>
-      <nav>
-        <Link to='/products'>Products ({ products.length })</Link>
-        <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
-        <Link to='/cart'>Cart ({ cartCount })</Link>
-      </nav>
-      <main>
-        <Products
-          products={ products }
-          cartItems = { cartItems }
-          createLineItem = { createLineItem }
-          updateLineItem = { updateLineItem }
-        />
-        <Orders
-          orders = { orders }
-          products = { products }
-          lineItems = { lineItems }
-        />
-        <Cart
-          cart = { cart }
-          lineItems = { lineItems }
-          products = { products }
-          updateOrder = { updateOrder }
-          removeFromCart = { removeFromCart }
-        />
-      </main>
+      {
+        auth.id ? (
+          <>
+            <nav>
+              <Link to='/products'>Products ({ products.length })</Link>
+              <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
+              <Link to='/cart'>Cart ({ cartCount })</Link>
+              <span>
+                Welcome { auth.username }!
+                <button onClick={ logout }>Logout</button>
+              </span>
+            </nav>
+            <main>
+              <Products
+                products={ products }
+                cartItems = { cartItems }
+                createLineItem = { createLineItem }
+                updateLineItem = { updateLineItem }
+              />
+              <Orders
+                orders = { orders }
+                products = { products }
+                lineItems = { lineItems }
+              />
+              <Cart
+                cart = { cart }
+                lineItems = { lineItems }
+                products = { products }
+                updateOrder = { updateOrder }
+                removeFromCart = { removeFromCart }
+              />
+            </main>
+            </>
+        ):(
+          <Login login={ login }/>
+        )
+      }
     </div>
   );
 };
