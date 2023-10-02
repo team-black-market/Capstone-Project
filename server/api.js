@@ -5,11 +5,31 @@ const {
   createLineItem,
   updateLineItem,
   deleteLineItem,
-  updateOrder
+  updateOrder,
+  authenticate,
+  findUserByToken
 } = require('./db');
 
 const express = require('express');
 const app = express.Router();
+
+app.post('/login', async(req, res, next)=> {
+  try {
+    res.send(await authenticate(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.get('/me', async(req, res, next)=> {
+  try {
+    res.send(await findUserByToken(req.headers.authorization));
+  } 
+  catch(ex){
+    next(ex);
+  }
+});
 
 app.get('/products', async(req, res, next)=> {
   try {
