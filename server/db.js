@@ -1,7 +1,8 @@
 const pg = require('pg');
-const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/the_store_db');
+const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/the_store_auth_db');
 const { v4 } = require('uuid');
 const uuidv4 = v4;
+const bcrypt = require('bcrypt');
 
 
 const fetchLineItems = async()=> {
@@ -22,6 +23,18 @@ const fetchProducts = async()=> {
   `;
   const response = await client.query(SQL);
   return response.rows;
+};
+
+const createUser = async(user)=> {
+  if(!user.username.trim() || !user.password.trim()){
+    throw Error('must have username and password');
+  }
+  user.password = await bcrypt.hash(user.password, 5);
+  const SQL = `
+    INSERT INTO users (id, username, password) VALUES($1, $2, $3) RETURNING *
+  `;
+  const response = await client.query(SQL, [ uuidv4(), user.username, user.password ]);
+  return response.rows[0];
 };
 
 const createProduct = async(product)=> {
@@ -112,6 +125,14 @@ const seed = async()=> {
     DROP TABLE IF EXISTS line_items;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS users;
+
+    CREATE TABLE users(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      username VARCHAR(100) UNIQUE NOT NULL,
+      password VARCHAR(100) NOT NULL
+    );
 
     CREATE TABLE products(
       id UUID PRIMARY KEY,
@@ -136,6 +157,12 @@ const seed = async()=> {
 
   `;
   await client.query(SQL);
+
+  const [moe, lucy, ethyl] = await Promise.all([
+    createUser({ username: 'moe', password: 'm_password'}),
+    createUser({ username: 'lucy', password: 'l_password'}),
+    createUser({ username: 'ethyl', password: '1234'})
+  ]);
   const [foo, bar, bazz] = await Promise.all([
     createProduct({ name: 'foo' }),
     createProduct({ name: 'bar' }),
