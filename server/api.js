@@ -13,6 +13,17 @@ const {
 const express = require('express');
 const app = express.Router();
 
+const isLoggedIn = async(req, res, next)=> {
+  try {
+    const user = await findUserByToken(req.headers.authorization);
+    req.user = user;
+    next();
+  }
+  catch(ex){
+    next(ex);
+  }
+};
+
 app.post('/login', async(req, res, next)=> {
   try {
     const token = await authenticate(req.body);
@@ -24,9 +35,9 @@ app.post('/login', async(req, res, next)=> {
 });
 
 
-app.get('/me', async(req, res, next)=> {
+app.get('/me', isLoggedIn, (req, res, next)=> {
   try {
-    res.send(await findUserByToken(req.headers.authorization));
+    res.send(req.user);
   } 
   catch(ex){
     next(ex);
@@ -42,7 +53,7 @@ app.get('/products', async(req, res, next)=> {
   }
 });
 
-app.put('/orders/:id', async(req, res, next)=> {
+app.put('/orders/:id', isLoggedIn, async(req, res, next)=> {
   try {
     res.send(await updateOrder({ ...req.body, id: req.params.id}));
   }
@@ -51,27 +62,25 @@ app.put('/orders/:id', async(req, res, next)=> {
   }
 });
 
-app.get('/orders', async(req, res, next)=> {
+app.get('/orders', isLoggedIn, async(req, res, next)=> {
   try {
-    const user = await findUserByToken(req.headers.authorization); 
-    res.send(await fetchOrders(user.id));
+    res.send(await fetchOrders(req.user.id));
   }
   catch(ex){
     next(ex);
   }
 });
 
-app.get('/lineItems', async(req, res, next)=> {
+app.get('/lineItems', isLoggedIn, async(req, res, next)=> {
   try {
-    const user = await findUserByToken(req.headers.authorization); 
-    res.send(await fetchLineItems(user.id));
+    res.send(await fetchLineItems(req.user.id));
   }
   catch(ex){
     next(ex);
   }
 });
 
-app.post('/lineItems', async(req, res, next)=> {
+app.post('/lineItems', isLoggedIn, async(req, res, next)=> {
   try {
     res.send(await createLineItem(req.body));
   }
@@ -80,7 +89,7 @@ app.post('/lineItems', async(req, res, next)=> {
   }
 });
 
-app.put('/lineItems/:id', async(req, res, next)=> {
+app.put('/lineItems/:id', isLoggedIn, async(req, res, next)=> {
   try {
     res.send(await updateLineItem({...req.body, id: req.params.id}));
   }
@@ -89,8 +98,9 @@ app.put('/lineItems/:id', async(req, res, next)=> {
   }
 });
 
-app.delete('/lineItems/:id', async(req, res, next)=> {
+app.delete('/lineItems/:id', isLoggedIn, async(req, res, next)=> {
   try {
+    console.log(`${req.user.username} Just deleted a lineItem`);
     await deleteLineItem({ id: req.params.id });
     res.sendStatus(204);
   }
