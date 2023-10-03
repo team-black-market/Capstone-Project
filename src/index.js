@@ -45,25 +45,33 @@ const App = ()=> {
   }, []);
 
   useEffect(()=> {
-    const fetchData = async()=> {
-      const response = await axios.get('/api/orders');
-      setOrders(response.data);
-    };
-    fetchData();
-  }, []);
+    if(auth.id){
+      const fetchData = async()=> {
+        const response = await axios.get('/api/orders', {
+          headers: {
+            authorization: window.localStorage.getItem('token')
+          }
+        });
+        setOrders(response.data);
+      };
+      fetchData();
+    }
+  }, [auth]);
 
   useEffect(()=> {
-    const fetchData = async()=> {
-      const response = await axios.get('/api/lineItems');
-      setLineItems(response.data);
-    };
-    fetchData();
-  }, []);
+    if(auth.id){
+      const fetchData = async()=> {
+        const response = await axios.get('/api/lineItems', {
+          headers: {
+            authorization: window.localStorage.getItem('token')
+          }
+        });
+        setLineItems(response.data);
+      };
+      fetchData();
+    }
+  }, [auth]);
 
-  const cart = orders.find(order => order.is_cart);
-  if(!cart){
-    return null;
-  }
 
   const createLineItem = async(product)=> {
     const response = await axios.post('/api/lineItems', {
@@ -91,6 +99,8 @@ const App = ()=> {
     const response = await axios.delete(`/api/lineItems/${lineItem.id}`);
     setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
   };
+
+  const cart = orders.find(order => order.is_cart) || {};
 
   const cartItems = lineItems.filter(lineItem => lineItem.order_id === cart.id);
 

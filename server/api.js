@@ -53,7 +53,8 @@ app.put('/orders/:id', async(req, res, next)=> {
 
 app.get('/orders', async(req, res, next)=> {
   try {
-    res.send(await fetchOrders());
+    const user = await findUserByToken(req.headers.authorization); 
+    res.send(await fetchOrders(user.id));
   }
   catch(ex){
     next(ex);
@@ -62,7 +63,8 @@ app.get('/orders', async(req, res, next)=> {
 
 app.get('/lineItems', async(req, res, next)=> {
   try {
-    res.send(await fetchLineItems());
+    const user = await findUserByToken(req.headers.authorization); 
+    res.send(await fetchLineItems(user.id));
   }
   catch(ex){
     next(ex);
