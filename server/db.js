@@ -35,7 +35,7 @@ const findUserByToken = async(token) => {
   try {
     const payload = await jwt.verify(token, process.env.JWT);
     const SQL = `
-      SELECT id, username 
+      SELECT id, username, is_admin
       FROM users
       WHERE id = $1
     `;
@@ -84,9 +84,9 @@ const createUser = async(user)=> {
   }
   user.password = await bcrypt.hash(user.password, 5);
   const SQL = `
-    INSERT INTO users (id, username, password) VALUES($1, $2, $3) RETURNING *
+    INSERT INTO users (id, username, password, is_admin) VALUES($1, $2, $3, $4) RETURNING *
   `;
-  const response = await client.query(SQL, [ uuidv4(), user.username, user.password ]);
+  const response = await client.query(SQL, [ uuidv4(), user.username, user.password, user.is_admin ]);
   return response.rows[0];
 };
 
@@ -191,7 +191,8 @@ const seed = async()=> {
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
       username VARCHAR(100) UNIQUE NOT NULL,
-      password VARCHAR(100) NOT NULL
+      password VARCHAR(100) NOT NULL,
+      is_admin BOOLEAN DEFAULT false NOT NULL
     );
 
     CREATE TABLE products(
@@ -220,9 +221,9 @@ const seed = async()=> {
   await client.query(SQL);
 
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({ username: 'moe', password: 'm_password'}),
-    createUser({ username: 'lucy', password: 'l_password'}),
-    createUser({ username: 'ethyl', password: '1234'})
+    createUser({ username: 'moe', password: 'm_password', is_admin: false}),
+    createUser({ username: 'lucy', password: 'l_password', is_admin: false}),
+    createUser({ username: 'ethyl', password: '1234', is_admin: true})
   ]);
   const [foo, bar, bazz] = await Promise.all([
     createProduct({ name: 'foo' }),

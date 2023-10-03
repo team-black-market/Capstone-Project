@@ -24,6 +24,17 @@ const isLoggedIn = async(req, res, next)=> {
   }
 };
 
+const isAdmin = (req, res, next)=> {
+  if(req.user.is_admin){
+    next();
+  }
+  else {
+    const error = Error('must be admin');
+    error.status = 401;
+    next(error);
+  }
+};
+
 app.post('/login', async(req, res, next)=> {
   try {
     const token = await authenticate(req.body);
@@ -55,6 +66,7 @@ app.get('/products', async(req, res, next)=> {
 
 app.put('/orders/:id', isLoggedIn, async(req, res, next)=> {
   try {
+    //TODO make sure the order's user_id is req.user.id
     res.send(await updateOrder({ ...req.body, id: req.params.id}));
   }
   catch(ex){
@@ -82,6 +94,7 @@ app.get('/lineItems', isLoggedIn, async(req, res, next)=> {
 
 app.post('/lineItems', isLoggedIn, async(req, res, next)=> {
   try {
+    //TODO make sure the order's user_id is req.user.id 
     res.send(await createLineItem(req.body));
   }
   catch(ex){
@@ -89,8 +102,13 @@ app.post('/lineItems', isLoggedIn, async(req, res, next)=> {
   }
 });
 
+app.put('/products/:id', isLoggedIn, isAdmin, (req, res, next)=> {
+  res.send('hello world');
+});
+
 app.put('/lineItems/:id', isLoggedIn, async(req, res, next)=> {
   try {
+    //TODO make sure the order's user_id is req.user.id 
     res.send(await updateLineItem({...req.body, id: req.params.id}));
   }
   catch(ex){
@@ -100,7 +118,7 @@ app.put('/lineItems/:id', isLoggedIn, async(req, res, next)=> {
 
 app.delete('/lineItems/:id', isLoggedIn, async(req, res, next)=> {
   try {
-    console.log(`${req.user.username} Just deleted a lineItem`);
+    //TODO make sure the order's user_id is req.user.id 
     await deleteLineItem({ id: req.params.id });
     res.sendStatus(204);
   }

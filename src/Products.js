@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Products = ({ products, cartItems, createLineItem, updateLineItem })=> {
+const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
   return (
     <div>
       <h2>Products</h2>
@@ -12,7 +13,14 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem })=> {
               <li key={ product.id }>
                 { product.name }
                 {
-                  cartItem ? <button onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>: <button onClick={ ()=> createLineItem(product)}>Add</button>
+                  auth.id ? (
+                    cartItem ? <button onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>: <button onClick={ ()=> createLineItem(product)}>Add</button>
+                  ): null 
+                }
+                {
+                  auth.is_admin ? (
+                    <Link to={`/products/${product.id}/edit`}>Edit</Link>
+                  ): null
                 }
               </li>
             );

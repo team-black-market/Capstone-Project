@@ -132,6 +132,7 @@ const App = ()=> {
             </nav>
             <main>
               <Products
+                auth = { auth }
                 products={ products }
                 cartItems = { cartItems }
                 createLineItem = { createLineItem }
@@ -152,7 +153,16 @@ const App = ()=> {
             </main>
             </>
         ):(
-          <Login login={ login }/>
+          <div>
+            <Login login={ login }/>
+            <Products
+              products={ products }
+              cartItems = { cartItems }
+              createLineItem = { createLineItem }
+              updateLineItem = { updateLineItem }
+              auth = { auth }
+            />
+          </div>
         )
       }
     </div>
