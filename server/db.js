@@ -1,5 +1,5 @@
 const pg = require('pg');
-const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/the_store_auth_db');
+const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/capstone_2307_db');
 const { v4 } = require('uuid');
 const uuidv4 = v4;
 const bcrypt = require('bcrypt');
