@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import axios from 'axios';
 import { Link, HashRouter, Routes, Route } from 'react-router-dom';
 import Products from './Products';
 import Orders from './Orders';
 import Cart from './Cart';
 import Login from './Login';
+import api from './api';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -13,27 +13,8 @@ const App = ()=> {
   const [lineItems, setLineItems] = useState([]);
   const [auth, setAuth] = useState({});
 
-  const getHeaders = ()=> {
-    return {
-      headers: {
-        authorization: window.localStorage.getItem('token')
-      }
-    };
-  };
-
   const attemptLoginWithToken = async()=> {
-    const token = window.localStorage.getItem('token');
-    if(token){
-      try {
-        const response = await axios.get('/api/me', getHeaders());
-        setAuth(response.data);
-      }
-      catch(ex){
-        if(ex.response.status === 401){
-          window.localStorage.removeItem('token');
-        }
-      }
-    }
+    await api.attemptLoginWithToken(setAuth);
   }
 
   useEffect(()=> {
@@ -42,8 +23,7 @@ const App = ()=> {
 
   useEffect(()=> {
     const fetchData = async()=> {
-      const response = await axios.get('/api/products');
-      setProducts(response.data);
+      await api.fetchProducts(setProducts);
     };
     fetchData();
   }, []);
@@ -51,8 +31,7 @@ const App = ()=> {
   useEffect(()=> {
     if(auth.id){
       const fetchData = async()=> {
-        const response = await axios.get('/api/orders', getHeaders());
-        setOrders(response.data);
+        await api.fetchOrders(setOrders);
       };
       fetchData();
     }
@@ -61,8 +40,7 @@ const App = ()=> {
   useEffect(()=> {
     if(auth.id){
       const fetchData = async()=> {
-        const response = await axios.get('/api/lineItems', getHeaders());
-        setLineItems(response.data);
+        await api.fetchLineItems(setLineItems);
       };
       fetchData();
     }
@@ -70,30 +48,19 @@ const App = ()=> {
 
 
   const createLineItem = async(product)=> {
-    const response = await axios.post('/api/lineItems', {
-      order_id: cart.id,
-      product_id: product.id
-    }, getHeaders());
-    setLineItems([...lineItems, response.data]);
+    await api.createLineItem({ product, cart, lineItems, setLineItems});
   };
 
   const updateLineItem = async(lineItem)=> {
-    const response = await axios.put(`/api/lineItems/${lineItem.id}`, {
-      quantity: lineItem.quantity + 1,
-      order_id: cart.id
-    }, getHeaders());
-    setLineItems(lineItems.map( lineItem => lineItem.id == response.data.id ? response.data: lineItem));
+    await api.updateLineItem({ lineItem, cart, lineItems, setLineItems });
   };
 
   const updateOrder = async(order)=> {
-    await axios.put(`/api/orders/${order.id}`, order, getHeaders());
-    const response = await axios.get('/api/orders', getHeaders());
-    setOrders(response.data);
+    await api.updateOrder({ order, setOrders });
   };
 
   const removeFromCart = async(lineItem)=> {
-    const response = await axios.delete(`/api/lineItems/${lineItem.id}`, getHeaders());
-    setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
+    await api.removeFromCart({ lineItem, lineItems, setLineItems });
   };
 
   const cart = orders.find(order => order.is_cart) || {};
@@ -105,15 +72,11 @@ const App = ()=> {
   }, 0);
 
   const login = async(credentials)=> {
-    const response = await axios.post('/api/login', credentials);
-    const { token } = response.data;
-    window.localStorage.setItem('token', token);
-    attemptLoginWithToken();
+    await api.login({ credentials, setAuth });
   }
 
   const logout = ()=> {
-    window.localStorage.removeItem('token');
-    setAuth({});
+    api.logout(setAuth);
   }
 
   return (
