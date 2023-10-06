@@ -4,9 +4,14 @@ const Login = ({ login })=> {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const _login = (ev)=> {
+  const _login = async(ev)=> {
     ev.preventDefault();
-    login({ username, password });
+    try {
+      await login({ username, password });
+    }
+    catch(ex){
+      console.log(ex.response.data);
+    }
   }
   return (
     <form onSubmit={ _login }>
