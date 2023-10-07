@@ -117,15 +117,19 @@ const App = ()=> {
             </>
         ):(
           <div>
-            <Login login={ login }/>
-            <Products
-              products={ products }
-              cartItems = { cartItems }
-              createLineItem = { createLineItem }
-              updateLineItem = { updateLineItem }
-              auth = { auth }
-              //testing github
-            />
+            <header>
+              <nav>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
+              </nav>
+              <Routes>
+                <Route path="/login" element={<Login login={ login }/>}/>
+                <Route path="/register" element={<h1>Register page here</h1>}/>
+              </Routes>
+            </header>
+            <div id="logoDiv">
+                <img id="logo" src="/assets/noPlaceLikeHome.svg"/>
+            </div> 
           </div>
         )
       }
