@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Young+Serif&display=swap');
+
 body {
-  font-family: verdana;
+  font-family: 'Young Serif', serif;
   background-color: black;
-  color: white
+  color: white;
+  margin:0;
 }
 
 form {
@@ -32,7 +35,8 @@ nav {
 }
 
 nav > a {
-  font-size: 50px;
+  font-size: 4em;
   color: white;
   text-decoration: none;
+
 }
