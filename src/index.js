@@ -13,6 +13,7 @@ const App = ()=> {
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
   const [auth, setAuth] = useState({});
+  const [wishList, setWishList] = useState([]);
 
   const attemptLoginWithToken = async()=> {
     await api.attemptLoginWithToken(setAuth);
@@ -47,6 +48,15 @@ const App = ()=> {
     }
   }, [auth]);
 
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchWishList(setWishList);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
 
   const createLineItem = async(product)=> {
     await api.createLineItem({ product, cart, lineItems, setLineItems});
@@ -64,6 +74,26 @@ const App = ()=> {
     await api.removeFromCart({ lineItem, lineItems, setLineItems });
   };
 
+  const createWishItem = async(product)=> {
+    await api.createWishItem({ product, wishList, setWishList});
+  };
+
+  const updateWishItem = async(wishItem)=> {
+    await api.updateWishItem({ wishItem, wishList, setWishList });
+  };
+
+  const updateWishList = async(product)=> {
+    await api.updateWishList({ product, wishList, setWishList });
+  };
+
+  const removeFromWishList = async(wishItem)=> {
+    await api.deleteWishItem({ wishItem, wishList, setWishList });
+  };
+
+  //const wish = products.find(product => product.is_wish) || {};
+
+  //const wishItems = products.filter(wishItem => wishItem.id === product.id);
+  
   const cart = orders.find(order => order.is_cart) || {};
 
   const cartItems = lineItems.filter(lineItem => lineItem.order_id === cart.id);
@@ -89,6 +119,7 @@ const App = ()=> {
               <Link to='/products'>Products ({ products.length })</Link>
               <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
               <Link to='/cart'>Cart ({ cartCount })</Link>
+              <Link to='/wishList'>Wish List ({ wish.quantity })</Link>
               <span>
                 Welcome { auth.username }!
                 <button onClick={ logout }>Logout</button>
@@ -108,6 +139,12 @@ const App = ()=> {
                 products = { products }
                 updateOrder = { updateOrder }
                 removeFromCart = { removeFromCart }
+              />
+              <WishList
+                createWishItem = { createWishItem }
+                updateWishItem = { updateWishItem }
+                updateWishList = { updateWishList }
+                removeFromWishList = { removeFromWishList }
               />
               <Orders
                 orders = { orders }
