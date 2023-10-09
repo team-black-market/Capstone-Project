@@ -50,6 +50,16 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
   setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
 };
 
+const createProduct = async({ product }, setProducts) => {
+  try {
+    const response = await axios.post('/api/products/', getHeaders());
+    setProducts(response.data);
+  } catch (error) {
+    console.log("stinky poo poo")
+    //verification or routes??
+  }
+};
+
 const attemptLoginWithToken = async(setAuth)=> {
   const token = window.localStorage.getItem('token');
   if(token){
@@ -87,7 +97,8 @@ const api = {
   updateLineItem,
   updateOrder,
   removeFromCart,
-  attemptLoginWithToken
+  attemptLoginWithToken,
+  createProduct
 };
 
 export default api;

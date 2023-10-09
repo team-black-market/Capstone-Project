@@ -12,7 +12,7 @@ const NewProduct = ({ createProduct }) => {
         ev.preventDefault();
         const product = {name: name, description: description, price: price, quantity: quantity}
         createProduct(product)
-        nav('/products')
+        nav('/home')
     };
 
     return (
