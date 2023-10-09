@@ -1,21 +1,17 @@
-@import url('https://fonts.googleapis.com/css?family=Young+Serif&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins, sans-serif';
+}
 
 body {
-  font-family: 'Young Serif', serif;
   background-color: black;
   color: white;
-  margin:0;
+  margin: 0;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-form > * {
-  margin: 0.5rem;
-}
-
+/* Home page */
 #logoDiv {
   display: flex;
   justify-content: center;
@@ -28,15 +24,131 @@ form > * {
   height: 90vh;
 }
 
-nav {
+#homeNav {
   display: flex;
   justify-content: space-around;
   height: 10%;
 }
 
-nav > a {
+#homeNav > a {
   font-size: 4em;
   color: white;
   text-decoration: none;
+}
 
+/* Login page */
+.centerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  flex-direction: column;
+}
+
+#loginNav {
+  height: 10vh;
+}
+
+#loginNav img {
+  margin: 1vh 0 0 1vw;
+  height: 100%;
+}
+
+.wrapper {
+  position: relative;
+  width: 40vw;
+  height: 60vh;
+  border: 3px solid white;
+  border-radius: 2em;
+  background-color: black;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.form-wrapper button {
+  position: relative;
+  width: 100%;
+  height: 2em;
+  background-color: orange;
+  box-shadow: 0 0 15px white;
+  font-size: 1.5em;
+  color: white;
+  border-radius: 30px;
+}
+
+.form-wrapper button:disabled {
+  background-color: #824d08;
+  color: #6e6d6b;
+  box-shadow: none;
+}
+
+#loginText {
+  font-size:3em;
+  text-align: center;
+}
+
+.input-group {
+  position: relative;
+  margin: 3% 0;
+  border-bottom: 2px solid white;
+}
+
+.input-group input {
+  width: 30vw;
+  height: 5vh;
+  font-size: 1.5em;
+  color: white;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding-top:10px;
+}
+
+.input-group input::-webkit-input-placeholder {
+  color: white;
+}
+
+.remember {
+  margin: -5px 0px 15px 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.remember label {
+  color: white;
+  font-size: 1em;
+}
+
+.remember label input {
+  accent-color: orange;
+}
+
+.remember a {
+  color: orange;
+  text-decoration: none;
+}
+
+.remember a:hover {
+  text-decoration: underline;
+}
+
+.signUp {
+  font-size: 1em;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.signUp p a {
+  color: orange;
+  text-decoration: none;
+}
+
+.signUp p a:hover {
+  text-decoration: underline;
 }
