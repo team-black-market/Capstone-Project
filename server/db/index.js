@@ -20,6 +20,15 @@ const {
   fetchOrders
 } = require('./cart');
 
+const {
+  fetchWishItems,
+  createWishItem,
+  updateWishItem,
+  deleteWishItem
+} = require('./wishList');
+
+
+
 
 const seed = async()=> {
   const SQL = `
@@ -27,6 +36,7 @@ const seed = async()=> {
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
+    DROP TABLE IF EXISTS wish_list;
 
     CREATE TABLE users(
       id UUID PRIMARY KEY,
@@ -56,6 +66,14 @@ const seed = async()=> {
       order_id UUID REFERENCES orders(id) NOT NULL,
       quantity INTEGER DEFAULT 1,
       CONSTRAINT product_and_order_key UNIQUE(product_id, order_id)
+    );
+
+    CREATE TABLE wish_list(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      product_id UUID REFERENCES products(id) NOT NULL,
+      quantity INTEGER DEFAULT 1,
+      
     );
 
   `;
@@ -89,6 +107,10 @@ module.exports = {
   createLineItem,
   updateLineItem,
   deleteLineItem,
+  fetchWishItems,
+  createWishItem,
+  updateWishItem,
+  deleteWishItem,
   updateOrder,
   authenticate,
   findUserByToken,

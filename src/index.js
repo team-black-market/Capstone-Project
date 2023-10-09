@@ -6,6 +6,7 @@ import Orders from './Orders';
 import Cart from './Cart';
 import Login from './Login';
 import api from './api';
+import WishList from ('./WishList');
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
