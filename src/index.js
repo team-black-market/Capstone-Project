@@ -6,6 +6,8 @@ import Orders from './Orders';
 import Cart from './Cart';
 import Login from './Login';
 import api from './api';
+import Home from './Home';
+import Register from './Register';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -75,12 +77,17 @@ const App = ()=> {
     await api.login({ credentials, setAuth });
   }
 
+  // Register function(Back end not built)
+  const register = async(newUserInfo)=> {
+    await api.register({ newUserInfo })
+  }
+
   const logout = ()=> {
     api.logout(setAuth);
   }
 
   return (
-    <div>
+    <>
       {
         auth.id ? (
           <>
@@ -116,24 +123,14 @@ const App = ()=> {
             </main>
             </>
         ):(
-          <div>
-            <header>
-              <nav>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
-              </nav>
-              <Routes>
-                <Route path="/login" element={<Login login={ login }/>}/>
-                <Route path="/register" element={<h1>Register page here</h1>}/>
-              </Routes>
-            </header>
-            <div id="logoDiv">
-                <img id="logo" src="/assets/noPlaceLikeHome.svg"/>
-            </div> 
-          </div>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/login/*' element={<Login login={ login }/>}/>
+            <Route path='/register' element={<Register register={ register }/>}/>
+          </Routes>
         )
       }
-    </div>
+    </>
   );
 };
 
