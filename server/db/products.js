@@ -10,7 +10,7 @@ const fetchProducts = async()=> {
   const response = await client.query(SQL);
   return response.rows;
 };
-//need to create route to fetch a single product
+
 const createProduct = async(product)=> {
   const SQL = `
     INSERT INTO products (id, name, price, description, quantity) VALUES($1, $2, $3, $4, $5) RETURNING *

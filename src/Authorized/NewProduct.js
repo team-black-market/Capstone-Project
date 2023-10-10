@@ -12,7 +12,7 @@ const NewProduct = ({ createProduct }) => {
         ev.preventDefault();
         const product = {name: name, description: description, price: price, quantity: quantity}
         createProduct(product)
-        nav('/products')
+        nav('/home')
     };
 
     return (
@@ -24,8 +24,9 @@ const NewProduct = ({ createProduct }) => {
                 <input placeholder='description' onChange={ev => setDescription(ev.target.value)} />
                 <input placeholder='price' onChange={ev => setPrice(ev.target.value)} />
                 <input placeholder='quantity' onChange={ev => setQuantity(ev.target.value)} />
+                <button disabled={!name || !description || !price || !quantity}>Create</button>
             </form>
-            <Link to='/products'>Cancel</Link>
+            <Link to='/home'>Cancel</Link>
         </div>
     </>
     );
