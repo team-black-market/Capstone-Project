@@ -96,5 +96,6 @@ module.exports = {
   authenticate,
   findUserByToken,
   seed,
+  createProduct,
   client
 };

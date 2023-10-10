@@ -52,7 +52,7 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
 
 const createProduct = async({ product }, setProducts) => {
   try {
-    const response = await axios.post('/api/home/', getHeaders());
+    const response = await axios.post('/api/lineItems', getHeaders());
     setProducts(response.data);
   } catch (error) {
     console.log("stinky poo poo")
