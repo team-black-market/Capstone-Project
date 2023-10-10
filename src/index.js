@@ -8,6 +8,7 @@ import Login from './Login';
 import api from './api';
 import Home from './Home';
 import Register from './Register';
+import Searchbar from './Searchbar';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -100,6 +101,9 @@ const App = ()=> {
                 <button onClick={ logout }>Logout</button>
               </span>
             </nav>
+            
+              <Searchbar products={products} />
+     
             <main>
               <Products
                 auth = { auth }
