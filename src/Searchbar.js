@@ -18,7 +18,7 @@ const Searchbar = ({products}) =>{
   useEffect(() =>{
     if(query.length > 0){
    const searchQuery = products.filter((product) => {
-      
+
       return product.name.match(query)
 
     })
