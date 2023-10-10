@@ -60,14 +60,12 @@ const removeFromWishlist = async(item)=> {
   item.setWishlist(item.wishlist.filter((_wishItem) => _wishItem.id !== item.wishItem.id))
 }
 
-const newestProduct = async({ product, products, setProducts }) => {
-  console.log(product, products, setProducts)
+const newestProduct = async(items) => {
   try {
-    const response = await axios.post('/api/products', product, getHeaders());
-    setProducts(...products, response.data);
+    const response = await axios.post('/api/products', items.product, getHeaders());
+    items.setProducts([...items.products, response.data]);
   } catch (error) {
-    console.log("stinky poo poo")
-    //verification or routes??
+    console.log("stinky poo poo");
   }
 };
 
