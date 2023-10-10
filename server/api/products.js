@@ -22,7 +22,7 @@ app.put('/products/:id', isLoggedIn, isAdmin, (req, res, next)=> {
 
 app.post('/', isLoggedIn, async (req, res, next) => {
   try {
-    res.send(await createProduct(req.body))
+    res.send(await createProduct(req.headers.authorization))
   } catch (error) {
     console.log('stinky poo poo 2')
   }

@@ -50,7 +50,7 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
   setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
 };
 
-const createProduct = async({ product }, setProducts) => {
+const createProduct = async({ product, setProducts }) => {
   try {
     const response = await axios.post('/api/lineItems', getHeaders());
     setProducts(response.data);
