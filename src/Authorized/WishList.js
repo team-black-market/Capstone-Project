@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import api from '../api';
 
-const WishList = ()=> {
+const WishList = ({products, auth})=> {
   const [wishlist, setWishlist] = useState([])
 
   useEffect(()=> {
     const fetchData = async()=> {
-      await api.fetchWishlist(setWishlist);
+      const list = await api.fetchWishlist({userId: auth.id, setWishlist: setWishlist});
     };
     fetchData();
   }, []);
