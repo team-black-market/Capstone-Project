@@ -11,6 +11,7 @@ const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createL
               <Link to='/products'>Products ({ products.length })</Link>
               <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
               <Link to='/cart'>Cart ({ cartCount })</Link>
+              <Link to='/wishlist'>Wishlist</Link>
               <span>
                 Welcome { auth.username }!
                 <button onClick={ logout }>Logout</button>

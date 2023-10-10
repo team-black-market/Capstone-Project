@@ -9,6 +9,7 @@ const Product = ({products})=> {
         <>
             <h1>{product.name}</h1>
             <h3>Created at: {product.created_at}</h3>
+            <p>{product.description}</p>
             <Link to="/home">Back</Link>
         </>
     )

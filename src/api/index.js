@@ -46,7 +46,7 @@ const updateOrder = async({ order, setOrders })=> {
 };
 
 const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
-  const response = await axios.delete(`/api/lineItems/${lineItem.id}`, getHeaders());
+  await axios.delete(`/api/lineItems/${lineItem.id}`, getHeaders());
   setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
 };
 
