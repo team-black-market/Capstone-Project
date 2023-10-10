@@ -9,6 +9,7 @@ import Register from './Unauthorized/Register';
 import Product from './Authorized/Product'
 import NewProduct from './Authorized/NewProduct';
 import AuthHome from './Authorized/AuthHome';
+import WishList from './Authorized/WishList';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -104,6 +105,7 @@ const App = ()=> {
             <Route path='/home' element={<AuthHome logout={ logout } cartCount={ cartCount } auth={ auth } createLineItem={ createLineItem } updateLineItem={ updateLineItem } cart={ cart } updateOrder={ updateOrder } removeFromCart={ removeFromCart } orders={ orders } products={ products } lineItems={ lineItems } cartItems={cartItems}/>}/>
             <Route path='/products/:id' element={<Product products={ products }/>}/>
             <Route path='/newProduct' element={<NewProduct createProduct={ createProduct }/>}/>
+            <Route path='/wishlist' element={<WishList products={ products } auth={ auth }/>}/>
             <Route path='*' element={<></>}/>
           </Routes>
 
