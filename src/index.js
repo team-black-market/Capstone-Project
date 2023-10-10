@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Link, HashRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import Login from './Unauthorized/Login';
 import api from './api';
-
-
-import Searchbar from './Searchbar';
+// import Searchbar from './Searchbar';
 import Home from './Unauthorized/Home';
 import Register from './Unauthorized/Register';
 import Product from './Authorized/Product'
@@ -71,8 +69,8 @@ const App = ()=> {
     await api.removeFromCart({ lineItem, lineItems, setLineItems });
   };
 
-  const createProduct = async(newProduct)=> {
-    await api.createProduct({newProduct});
+  const newestProduct = async(newProduct)=> {
+    await api.newestProduct({newProduct});
   }
 
   const cart = orders.find(order => order.is_cart) || {};
@@ -106,7 +104,7 @@ const App = ()=> {
           <Routes>
             <Route path='/home' element={<AuthHome logout={ logout } cartCount={ cartCount } auth={ auth } createLineItem={ createLineItem } updateLineItem={ updateLineItem } cart={ cart } updateOrder={ updateOrder } removeFromCart={ removeFromCart } orders={ orders } products={ products } lineItems={ lineItems } cartItems={cartItems}/>}/>
             <Route path='/products/:id' element={<Product products={ products }/>}/>
-            <Route path='/newProduct' element={<NewProduct createProduct={ createProduct }/>}/>
+            <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct } setProducts={ setProducts } products={ products }/>}/>
             <Route path='/wishlist' element={<WishList products={ products } auth={ auth }/>}/>
             <Route path='*' element={<></>}/>
           </Routes>

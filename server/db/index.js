@@ -119,5 +119,6 @@ module.exports = {
   createWishItem,
   deleteWishItem,
   seed,
+  createProduct,
   client
 };
