@@ -7,7 +7,7 @@ const {
 const express = require('express');
 const app = express.Router();
 const { isLoggedIn, isAdmin } = require('./middleware');
-  
+
 app.get('/:id', async(req, res, next)=> {
     const user_id = req.params.id
     try {
@@ -18,7 +18,7 @@ app.get('/:id', async(req, res, next)=> {
     }
 });
 
-app.post('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
+app.post('/:id', isLoggedIn, async(req, res, next)=> {
     try {
         res.send(await createWishItem(req.body));
     } catch (ex) {
@@ -26,10 +26,12 @@ app.post('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
     }
 });
 
-app.delete('/:id', isLoggedIn, async(req, res, next)=> {
+app.delete('/:id/:itemId', isLoggedIn, async(req, res, next)=> {
     const user_id = req.params.id
+    const item_id = req.params.itemId
+    console.log(req.body)
     try {
-        await deleteWishItem( user_id, req.body.id);
+        await deleteWishItem( user_id, item_id);
         res.sendStatus(204);
     } catch (ex) {
        next(ex);

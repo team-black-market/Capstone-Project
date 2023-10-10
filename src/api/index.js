@@ -55,6 +55,11 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
   setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
 };
 
+const removeFromWishlist = async(item)=> {
+  await axios.delete(`/api/wishlist/${item.userId}/${item.wishItem.id}`, getHeaders())
+  item.setWishlist(item.wishlist.filter((_wishItem) => _wishItem.id !== item.wishItem.id))
+}
+
 const createProduct = async({ product }, setProducts) => {
   try {
     const response = await axios.post('/api/home/', getHeaders());
@@ -103,6 +108,7 @@ const api = {
   updateLineItem,
   updateOrder,
   removeFromCart,
+  removeFromWishlist,
   attemptLoginWithToken,
   createProduct
 };

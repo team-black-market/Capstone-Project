@@ -6,24 +6,28 @@ const WishList = ({products, auth})=> {
 
   useEffect(()=> {
     const fetchData = async()=> {
-      const list = await api.fetchWishlist({userId: auth.id, setWishlist: setWishlist});
+      await api.fetchWishlist({userId: auth.id, setWishlist: setWishlist});
     };
     fetchData();
   }, []);
 
     return (
     <div>
-        <h2>Wish List</h2>
+        <h2>{`${auth.username}'s Wishlist`}</h2>
         <ul>
         {
             wishlist.map( wishItem => {
             const product = products.find(product => product.id === wishItem.product_id) || {};
             return (
-                <li key={ wishItem.id }>
-                { product.name }
-
-                <button onClick={ ()=> removeFromWishList(wishItem)}>Remove From Wish List</button>
-                </li>
+                <div key={ wishItem.id }>
+                  <p>
+                    {<b>{ product.name }</b>}
+                    &nbsp; Added on: &nbsp;
+                    { wishItem.created_at }
+                    &nbsp;
+                    {<button onClick={ ()=> api.removeFromWishlist({userId: auth.id, wishItem, setWishlist, wishlist})}> (remove) </button>}
+                  </p>
+                </div>
                 );
             })
         }
