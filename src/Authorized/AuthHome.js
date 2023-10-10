@@ -7,7 +7,7 @@ import Cart from './Cart';
 const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createLineItem, updateLineItem, cart, lineItems, updateOrder, removeFromCart})=> {
     return (
         <>
-            <nav>
+            <nav className='navBar'>
               <Link to='/products'>Products ({ products.length })</Link>
               <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
               <Link to='/cart'>Cart ({ cartCount })</Link>
