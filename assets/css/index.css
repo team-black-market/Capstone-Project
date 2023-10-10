@@ -33,6 +33,14 @@ body {
   margin: 0.5rem;
 }
 
+a:Link {
+  color:white;
+}
+
+a:visited {
+  color: red;
+}
+
 #homeNav {
   display: flex;
   justify-content: space-around;
