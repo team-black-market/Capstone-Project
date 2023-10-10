@@ -39,6 +39,7 @@ const ensureCart = async(lineItem)=> {
     throw Error("An order which has been placed can not be changed");
   }
 };
+
 const updateLineItem = async(lineItem)=> {
   await ensureCart(lineItem);
   SQL = `
@@ -59,7 +60,7 @@ const createLineItem = async(lineItem)=> {
   const SQL = `
   INSERT INTO line_items (product_id, order_id, id) VALUES($1, $2, $3) RETURNING *
 `;
- response = await client.query(SQL, [ lineItem.product_id, lineItem.order_id, uuidv4()]);
+  const response = await client.query(SQL, [ lineItem.product_id, lineItem.order_id, uuidv4()]);
   return response.rows[0];
 };
 
