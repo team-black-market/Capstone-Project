@@ -60,10 +60,11 @@ const removeFromWishlist = async(item)=> {
   item.setWishlist(item.wishlist.filter((_wishItem) => _wishItem.id !== item.wishItem.id))
 }
 
-const createProduct = async({ product }, setProducts) => {
+const newestProduct = async({ product, products, setProducts }) => {
+  console.log(product, products, setProducts)
   try {
-    const response = await axios.post('/api/lineItems', getHeaders());
-    setProducts(response.data);
+    const response = await axios.post('/api/products', product, getHeaders());
+    setProducts(...products, response.data);
   } catch (error) {
     console.log("stinky poo poo")
     //verification or routes??
@@ -110,7 +111,7 @@ const api = {
   removeFromCart,
   removeFromWishlist,
   attemptLoginWithToken,
-  createProduct
+  newestProduct
 };
 
 export default api;
