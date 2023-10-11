@@ -1,19 +1,40 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Register = ({ register })=> {
+const Register = ({ registerUser })=> {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('')
+    const [count, setCount] = useState(5)
+
+    const navigate = useNavigate()
   
     const _register = async(ev)=> {
+      const credentials = {username: username, password: password}
       ev.preventDefault();
       try {
-        await register({username, password})
+        await registerUser({credentials, setMessage})
       }
       catch(ex){
-        // console.log(ex.response.data);
+        setMessage(ex.response.data);
       }
     }
+
+    let _count = count
+    const countDown = ()=> {
+        if(_count === 0){
+          navigate('/login')
+          clearInterval(countDown)
+        }
+        setCount(_count--)
+    }
+
+    useEffect(()=> {
+      if(message.status === 200){
+        setCount(_count--)
+        setInterval(countDown, 1000)
+      }
+    }, [message])
 
     return (
         <>
@@ -27,6 +48,24 @@ const Register = ({ register })=> {
             <div className='form-wrapper'>
               <form onSubmit={ _register }>
                 <h2 id='loginText'>Register!</h2>
+                { message ? 
+                  <>
+                    {message.error ?
+                      <div className="errorWrap">
+                        <img src="../assets/img/error.svg"/>
+                        &nbsp;
+                        <p>Username taken! Please try again!</p>
+                      </div> 
+                    : null}
+                    {message.status === 200 ? 
+                      <div className="successWrap">
+                        <img src="../assets/img/success.svg"/>
+                        &nbsp;
+                        <p>Account created! You'll be redirected to the login page in: {count}</p> 
+                      </div>
+                    : null}
+                  </>
+                  : null}
                 <div className='input-group'>
                   <input
                   placeholder='Username'

@@ -1,12 +1,20 @@
 const {
   authenticate,
-  findUserByToken
+  findUserByToken,
+  createUser
 } = require('../db');
 
 const express = require('express');
 const app = express.Router();
 const { isLoggedIn } = require('./middleware');
 
+app.post('/register', async(req, res, next)=> {
+  try {
+    res.send(await createUser({username: req.body.username, password: req.body.password, is_admin: false}));
+  } catch (ex) {
+    next(ex);
+  }
+})
 
 app.post('/login', async(req, res, next)=> {
   try {

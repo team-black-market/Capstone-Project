@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const Login = ({ login })=> {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [badCreds, setBadCreds] = useState(false)
 
   const _login = async(ev)=> {
     ev.preventDefault();
@@ -11,7 +12,7 @@ const Login = ({ login })=> {
       await login({ username, password });
     }
     catch(ex){
-      console.log(ex.response.data);
+      setBadCreds(true)
     }
   }
 
@@ -27,6 +28,14 @@ const Login = ({ login })=> {
           <div className='form-wrapper'>
             <form onSubmit={ _login }>
               <h2 id='loginText'>Login</h2>
+              {
+                badCreds ? 
+                <div className="errorWrap">
+                  <img src="../assets/img/error.svg"/>
+                  &nbsp;
+                  <p>Incorrect username or password!</p>
+                </div> : null
+              }
               <div className='input-group'>
                 <input
                 placeholder='Username'

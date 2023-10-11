@@ -133,7 +133,6 @@ a:visited {
   background: transparent;
   border: none;
   outline: none;
-  padding-top:10px;
 }
 
 .input-group input::-webkit-input-placeholder {
@@ -177,6 +176,16 @@ a:visited {
 
 .signUp p a:hover {
   text-decoration: underline;
+}
+
+.errorWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.successWrap {
+  display: flex;
+  justify-content: center;
 }
 
 .imageSize {
