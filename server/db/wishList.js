@@ -17,12 +17,12 @@ const fetchWishItems = async(user_id)=> {
   return response.rows;
 };
 
-const createWishItem = async(wishItem)=> {
+const createWishItem = async({user_id, product_id})=> {
   const SQL = `
-  INSERT INTO wish_items (id, product_id, user_id) VALUES($1, $2, $3) 
+  INSERT INTO wish_items (id, user_id, product_id) VALUES($1, $2, $3) 
   RETURNING *
 `;
-  const response = await client.query(SQL, [uuidv4(), wishItem.product_id, wishItem.user_id]);
+  const response = await client.query(SQL, [ uuidv4(), user_id, product_id]);
   return response.rows[0];
 };
 

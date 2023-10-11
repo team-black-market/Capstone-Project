@@ -55,9 +55,14 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
   setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
 };
 
-const removeFromWishlist = async(item)=> {
-  await axios.delete(`/api/wishlist/${item.userId}/${item.wishItem.id}`, getHeaders())
-  item.setWishlist(item.wishlist.filter((_wishItem) => _wishItem.id !== item.wishItem.id))
+const removeFromWishlist = async({userId, wishItem, setWishlist, wishlist})=> {
+  await axios.delete(`/api/wishlist/${userId}/${wishItem.id}`, getHeaders())
+  setWishlist(wishlist.filter((_wishItem) => _wishItem.id !== wishItem.id))
+}
+
+const addToWishList = async({userId, wishItem, setWishlist, wishlist})=> {
+  const {data} = await axios.post(`/api/wishlist/${userId}/${wishItem.id}`, {}, getHeaders())
+  setWishlist([...wishlist, data])
 }
 
 const newestProduct = async(items) => {
@@ -104,6 +109,7 @@ const api = {
   fetchLineItems,
   fetchWishlist,
   createLineItem,
+  addToWishList,
   updateLineItem,
   updateOrder,
   removeFromCart,
