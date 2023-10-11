@@ -115,6 +115,7 @@ const App = ()=> {
         auth.id ? (
         <>
           <nav className='navBar'>
+            <Link to='/home'>Home</Link>
             <Link to='/products'>Products ({ products.length })</Link>
             <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
             <Link to='/cart'>Cart ({ cartCount })</Link>
@@ -125,7 +126,7 @@ const App = ()=> {
             </span>
           </nav>
           <Routes>
-            <Route path='/home' element={<AuthHome logout={logout} cartCount={cartCount} auth={auth} createLineItem={createLineItem} updateLineItem={updateLineItem} cart={cart} updateOrder={updateOrder} removeFromCart={removeFromCart} orders={orders} products={products} lineItems={lineItems} cartItems={cartItems} wishlist={wishlist} setWishlist={ setWishlist }/>}/>
+            <Route path='/home' element={<Home auth={auth}/>}/>
             <Route path='/products/:id' element={<Product products={ products }/>}/>
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
