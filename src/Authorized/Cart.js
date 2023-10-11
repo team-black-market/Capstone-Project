@@ -19,7 +19,7 @@ let total = 0;
               <li key={ lineItem.id }>
                 { product.name }
                 ({ lineItem.quantity })
-                <button onClick={lineItem.quantity === 1 ? () => removeFromCart(lineItem) : null}>
+                <button onClick={lineItem.quantity === 1 ? () => removeFromCart(lineItem) : () => minusLineItem(lineItem)}>
                   -
                 </button>
                 <button onClick={ lineItem.quantity < product.quantity ? () => updateLineItem(lineItem): null}>
