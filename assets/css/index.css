@@ -178,3 +178,8 @@ a:visited {
 .signUp p a:hover {
   text-decoration: underline;
 }
+
+.imageSize {
+  width: 200px;
+  height: 200px;
+}
