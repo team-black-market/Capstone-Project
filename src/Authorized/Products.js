@@ -14,8 +14,10 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
             const favorite = wishlist.find(wishItem => wishItem.product_id === product.id);
             return (
               <li key={ product.id }>
-                <Link to={`/products/${product.id}`}>
-                  { product.name }
+                <Link to={`/products/${product.id}`}><br/>
+                  { product.name }<br/>
+                  {/* we can totally undo the breaks, just thought it was better readability */}
+                  Price: ${(product.price/100).toFixed(2)}
                 </Link>
                 {
                   auth.id ? (

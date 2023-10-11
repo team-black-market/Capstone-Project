@@ -10,7 +10,7 @@ const Product = ({products, deleteLineItem})=> {
             <h1>{product.name}</h1>
             <h3>Created at: {product.created_at}</h3>
             <p>{product.description}</p>
-            <Link to="/home">Back</Link>
+            <Link to="/products">Back</Link>
             {/* <button onClick={ () => deleteLineItem(product)}>Remove Product</button> */}
         </>
     )
