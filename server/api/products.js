@@ -17,15 +17,18 @@ app.get('/', async(req, res, next)=> {
 });
 
 app.put('/products/:id', isLoggedIn, isAdmin, (req, res, next)=> {
-  res.send('hello world');
+  try {
+    res.send('hello world');
+  } catch (ex) {
+    next(ex)
+  }
 });
 
 app.post('/', isLoggedIn, async (req, res, next) => {
-  console.log(req.body)
   try {
     res.send(await createProduct(req.body))
-  } catch (error) {
-    console.log('stinky poo poo 2')
+  } catch (ex) {
+    next(ex)
   }
 });
 

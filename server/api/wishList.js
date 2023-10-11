@@ -18,9 +18,11 @@ app.get('/:id', async(req, res, next)=> {
     }
 });
 
-app.post('/:id', isLoggedIn, async(req, res, next)=> {
+app.post('/:id/:itemId', isLoggedIn, async(req, res, next)=> {
+    const user_id = req.params.id
+    const product_id = req.params.itemId
     try {
-        res.send(await createWishItem(req.body));
+        res.send(await createWishItem({user_id, product_id}));
     } catch (ex) {
         next(ex);
     }
@@ -29,7 +31,6 @@ app.post('/:id', isLoggedIn, async(req, res, next)=> {
 app.delete('/:id/:itemId', isLoggedIn, async(req, res, next)=> {
     const user_id = req.params.id
     const item_id = req.params.itemId
-    console.log(req.body)
     try {
         await deleteWishItem( user_id, item_id);
         res.sendStatus(204);

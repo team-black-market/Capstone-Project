@@ -16,6 +16,7 @@ const App = ()=> {
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
   const [auth, setAuth] = useState({});
+  const [wishlist, setWishlist] = useState([])
 
   const navigate = useNavigate()
 
@@ -47,6 +48,15 @@ const App = ()=> {
     if(auth.id){
       const fetchData = async()=> {
         await api.fetchLineItems(setLineItems);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchWishlist({userId: auth.id, setWishlist: setWishlist});
       };
       fetchData();
     }
@@ -102,10 +112,10 @@ const App = ()=> {
         auth.id ? (
 
           <Routes>
-            <Route path='/home' element={<AuthHome logout={ logout } cartCount={ cartCount } auth={ auth } createLineItem={ createLineItem } updateLineItem={ updateLineItem } cart={ cart } updateOrder={ updateOrder } removeFromCart={ removeFromCart } orders={ orders } products={ products } lineItems={ lineItems } cartItems={cartItems}/>}/>
+            <Route path='/home' element={<AuthHome logout={logout} cartCount={cartCount} auth={auth} createLineItem={createLineItem} updateLineItem={updateLineItem} cart={cart} updateOrder={updateOrder} removeFromCart={removeFromCart} orders={orders} products={products} lineItems={lineItems} cartItems={cartItems} wishlist={wishlist} setWishlist={ setWishlist }/>}/>
             <Route path='/products/:id' element={<Product products={ products }/>}/>
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
-            <Route path='/wishlist' element={<WishList products={ products } auth={ auth }/>}/>
+            <Route path='/wishlist' element={<WishList products={ products } auth={ auth } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='*' element={<></>}/>
           </Routes>
 

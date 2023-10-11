@@ -72,7 +72,8 @@ const seed = async()=> {
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
       product_id UUID REFERENCES products(id) NOT NULL,
-      user_id UUID REFERENCES users(id) NOT NULL
+      user_id UUID REFERENCES users(id) NOT NULL,
+      CONSTRAINT user_and_product_key UNIQUE(user_id, product_id)
     );
   `;
   await client.query(SQL);
@@ -91,8 +92,8 @@ const seed = async()=> {
   ]);
 
   await Promise.all([
-    createWishItem({ product_id: foo.id, user_id: ethyl.id}),
-    createWishItem({ product_id: bazz.id, user_id: ethyl.id})
+    createWishItem({ user_id: ethyl.id, product_id: foo.id}),
+    createWishItem({ user_id: ethyl.id, product_id: bazz.id})
   ])
 
   let orders = await fetchOrders(ethyl.id);

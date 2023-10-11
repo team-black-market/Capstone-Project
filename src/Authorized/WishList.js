@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
+import { Link } from 'react-router-dom';
 
-const WishList = ({products, auth})=> {
-  const [wishlist, setWishlist] = useState([])
-
-  useEffect(()=> {
-    const fetchData = async()=> {
-      await api.fetchWishlist({userId: auth.id, setWishlist: setWishlist});
-    };
-    fetchData();
-  }, []);
-
+const WishList = ({products, auth, wishlist, setWishlist})=> {
     return (
     <div>
         <h2>{`${auth.username}'s Wishlist`}</h2>
+        <Link to="/home">Home</Link>
         <ul>
         {
             wishlist.map( wishItem => {

@@ -53,6 +53,15 @@ a:visited {
   text-decoration: none;
 }
 
+#products > li {
+  display: flex;
+}
+
+.favoriteButton {
+  width: 1em;
+  height: 1em;
+}
+
 /* Login page */
 .centerWrapper {
   display: flex;
