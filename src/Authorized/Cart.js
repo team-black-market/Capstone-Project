@@ -1,8 +1,11 @@
 import React, { useState } from 'react';//added useState
 
-const Cart = ({ updateOrder, removeFromCart, lineItems, cart, products })=> {
+const Cart = ({ updateOrder, removeFromCart, lineItems, cart, products, updateLineItem, minusLineItem })=> {
+  let total = 0;
+
+
 //built in function to take in address
-  const newAddress = {};
+  const newAddress = { address, city, state, zip };
   const addAddress = ()=> {
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -10,13 +13,13 @@ const Cart = ({ updateOrder, removeFromCart, lineItems, cart, products })=> {
     const [zip, setZip] = useState('');
   
 
-  function submit(ev){
-    ev.preventDefault()
-    newAddress = {
-        address, city, state, zip
-    }
-}
-//CALL NEEDED?
+ // function submit(ev){
+   // ev.preventDefault()
+   // newAddress = {
+    //    address, city, state, zip
+   // }
+//}
+
 return (
     <form id="shipping" onSubmit={ submit }>
       <h4>Please Add Shipping Address</h4>
@@ -37,39 +40,44 @@ return (
     </form>
 
 )}
-addAddress(newAddress);//I want to call this somewhere else, but it's not working somewhere else
-let total = 0;
-  return (
-    <div>
-      <h2>Cart</h2>
-      <ul>
-     
+const addShipTo = addAddress(newAddress);
+
+    return (
+      <div>
+        <h2>Cart</h2>
+        { addShipTo }
+        <ul>
+          {
+            lineItems.filter(lineItem=> lineItem.order_id === cart.id).map( lineItem => {
+              const product = products.find(product => product.id === lineItem.product_id) || {};
+              total += product.price * lineItem.quantity
+  
+  
+              return (
+                <li key={ lineItem.id }>
+                  { product.name }
+                  ({ lineItem.quantity })
+                  <button onClick={lineItem.quantity === 1 ? () => removeFromCart(lineItem) : () => minusLineItem(lineItem)}>
+                    -
+                  </button>
+                  <button onClick={ lineItem.quantity < product.quantity ? () => updateLineItem(lineItem): null}>
+                    +
+                  </button>
+                  <button onClick={ ()=> removeFromCart(lineItem)}>Remove From Cart</button>
+                </li>
+              );
+            })
+          }
+        </ul>
+        {total !== 0.00 ? `Your total is $${(total/100).toFixed(2)}` : 'Your cart is empty!'}
+        <br />
         {
-          lineItems.filter(lineItem=> lineItem.order_id === cart.id).map( lineItem => {
-            const product = products.find(product => product.id === lineItem.product_id) || {};
-            total += product.price * lineItem.quantity
-
-            return (
-              <li key={ lineItem.id }>
-                { product.name }
-                ({ lineItem.quantity })
-                <button onClick={ ()=> removeFromCart(lineItem)}>Remove From Cart</button>
-              </li>
-            );
-          })
+          lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? <button onClick={()=> {
+            updateOrder({...cart, is_cart: false });
+          }}>Create Order</button>: null
         }
-      </ul>
-      {`Your total is $${(total/100).toFixed(2)}`} 
-      <br />
-      {`Shipping to: ${ (newAddress) }`}
-      <br />
-      {
-        lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? <button onClick={ ()=> {
-          updateOrder({...cart, is_cart: false }); }}>Create Order</button>: null
-      }
-      
-    </div>
-  );
-};
-
-export default Cart;
+      </div>
+    );
+  };
+  
+  export default Cart;
