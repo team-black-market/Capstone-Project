@@ -4,7 +4,6 @@ import { Link, HashRouter, Routes, Route, useNavigate, Navigate } from 'react-ro
 import Login from './Unauthorized/Login';
 import api from './api';
 
-
 import Searchbar from './Searchbar';
 import Home from './Unauthorized/Home';
 import Register from './Unauthorized/Register';

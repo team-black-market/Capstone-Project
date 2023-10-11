@@ -4,7 +4,7 @@ import Products from './Products';
 import Orders from './Orders';
 import Cart from './Cart';
 
-const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createLineItem, updateLineItem, cart, lineItems, updateOrder, removeFromCart})=> {
+const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createLineItem, updateLineItem, cart, lineItems, updateOrder, removeFromCart, minusLineItem})=> {
     return (
         <>
             <nav className='navBar'>
@@ -30,6 +30,8 @@ const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createL
                 products = { products }
                 updateOrder = { updateOrder }
                 removeFromCart = { removeFromCart }
+                updateLineItem = { updateLineItem }
+                minusLineItem = { minusLineItem }
               />
               <Orders
                 orders = { orders }
