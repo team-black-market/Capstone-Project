@@ -109,8 +109,8 @@ const App = ()=> {
   }
 
   // Register function(Back end not built)
-  const register = async(newUserInfo)=> {
-    await api.register({ newUserInfo })
+  const registerUser = async(newUserInfo)=> {
+    await api.registerUser(newUserInfo)
   }
 
   const logout = ()=> {
@@ -149,7 +149,7 @@ const App = ()=> {
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/login/*' element={<Login login={ login }/>}/>
-            <Route path='/register' element={<Register register={ register }/>}/>
+            <Route path='/register' element={<Register registerUser={ registerUser }/>}/>
             <Route path='*' element={<></>}/>
           </Routes>
         )

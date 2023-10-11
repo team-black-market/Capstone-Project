@@ -106,6 +106,11 @@ const login = async({ credentials, setAuth })=> {
   attemptLoginWithToken(setAuth);
 }
 
+const registerUser = async(newUserInfo)=> {
+  const response = await axios.post('/api/register', newUserInfo.credentials)
+  newUserInfo.setMessage(response)
+}
+
 const logout = (setAuth)=> {
   window.localStorage.removeItem('token');
   setAuth({});
@@ -126,7 +131,8 @@ const api = {
   removeFromCart,
   removeFromWishlist,
   attemptLoginWithToken,
-  newestProduct
+  newestProduct,
+  registerUser
 };
 
 export default api;

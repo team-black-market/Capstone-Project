@@ -12,7 +12,6 @@ const Login = ({ login })=> {
       await login({ username, password });
     }
     catch(ex){
-      console.log(ex)
       setBadCreds(true)
     }
   }
@@ -31,7 +30,7 @@ const Login = ({ login })=> {
               <h2 id='loginText'>Login</h2>
               {
                 badCreds ? 
-                <div id="errorWrap">
+                <div className="errorWrap">
                   <img src="../assets/img/error.svg"/>
                   &nbsp;
                   <p>Incorrect username or password!</p>
