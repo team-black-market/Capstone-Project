@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Orders = ({ orders, products, lineItems })=> {
+const Orders = ({ orders, products, lineItems, cart })=> {
+let total = 0
+  
   return (
     <div>
       <h2>Orders</h2>
@@ -15,9 +17,11 @@ const Orders = ({ orders, products, lineItems })=> {
                   {
                     orderLineItems.map( lineItem => {
                       const product = products.find(product => product.id === lineItem.product_id);
+                        total += product.price * lineItem.quantity
                       return (
                         <li key={ lineItem.id }>
-                          { product ? product.name: '' }
+                          { product ? product.name: '' }<br/>
+                          <ul>Total: ${(total/100).toFixed(2)}</ul><br/>
                         </li>
                       );
                     })
