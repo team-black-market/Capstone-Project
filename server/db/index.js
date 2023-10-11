@@ -20,9 +20,16 @@ const {
   fetchOrders
 } = require('./cart');
 
+const {
+  fetchWishItems,
+  createWishItem,
+  deleteWishItem
+} = require('./wishList')
+
 
 const seed = async()=> {
   const SQL = `
+    DROP TABLE IF EXISTS wish_items;
     DROP TABLE IF EXISTS line_items;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS orders;
@@ -61,6 +68,13 @@ const seed = async()=> {
       CONSTRAINT product_and_order_key UNIQUE(product_id, order_id)
     );
 
+    CREATE TABLE wish_items(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      product_id UUID REFERENCES products(id) NOT NULL,
+      user_id UUID REFERENCES users(id) NOT NULL,
+      CONSTRAINT user_and_product_key UNIQUE(user_id, product_id)
+    );
   `;
   await client.query(SQL);
 
@@ -69,12 +83,19 @@ const seed = async()=> {
     createUser({ username: 'lucy', password: 'l_password', is_admin: false}),
     createUser({ username: 'ethyl', password: '1234', is_admin: true})
   ]);
+
   const [foo, bar, bazz] = await Promise.all([
     createProduct({ name: 'The Bat Mobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in gotham, Batman!', quantity: 1}),
     createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1 }),
     createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1 }),
     createProduct({ name: 'Baby Picture of Morgan Freeman', price:9004, description:'A rare sight none have seen before. A youthful picture of the age defying legend!', quantity:2 }),
   ]);
+
+  await Promise.all([
+    createWishItem({ user_id: ethyl.id, product_id: foo.id}),
+    createWishItem({ user_id: ethyl.id, product_id: bazz.id})
+  ])
+
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
   let lineItem = await createLineItem({ order_id: cart.id, product_id: foo.id});
@@ -95,6 +116,10 @@ module.exports = {
   updateOrder,
   authenticate,
   findUserByToken,
+  fetchWishItems,
+  createWishItem,
+  deleteWishItem,
   seed,
+  createProduct,
   client
 };

@@ -38,7 +38,7 @@ a:Link {
 }
 
 a:visited {
-  color: red;
+  color: orange;
 }
 
 #homeNav {
@@ -51,6 +51,15 @@ a:visited {
   font-size: 4em;
   color: white;
   text-decoration: none;
+}
+
+#products > li {
+  display: flex;
+}
+
+.favoriteButton {
+  width: 1em;
+  height: 1em;
 }
 
 /* Login page */

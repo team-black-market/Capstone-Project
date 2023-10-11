@@ -1,5 +1,6 @@
 const {
   fetchProducts,
+  createProduct
 } = require('../db');
 
 const express = require('express');
@@ -16,7 +17,19 @@ app.get('/', async(req, res, next)=> {
 });
 
 app.put('/products/:id', isLoggedIn, isAdmin, (req, res, next)=> {
-  res.send('hello world');
+  try {
+    res.send('hello world');
+  } catch (ex) {
+    next(ex)
+  }
+});
+
+app.post('/', isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await createProduct(req.body))
+  } catch (ex) {
+    next(ex)
+  }
 });
 
 

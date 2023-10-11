@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const NewProduct = ({ createProduct }) => {
+const NewProduct = ({newestProduct, products, setProducts}) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
@@ -11,7 +11,7 @@ const NewProduct = ({ createProduct }) => {
     const submit = async(ev)=> {
         ev.preventDefault();
         const product = {name: name, description: description, price: price, quantity: quantity}
-        createProduct(product)
+        newestProduct({products: products, product: product, setProducts: setProducts})
         nav('/home')
     };
 

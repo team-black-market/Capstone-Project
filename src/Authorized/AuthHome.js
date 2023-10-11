@@ -4,18 +4,11 @@ import Products from './Products';
 import Orders from './Orders';
 import Cart from './Cart';
 
-const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createLineItem, updateLineItem, cart, lineItems, updateOrder, removeFromCart, minusLineItem})=> {
+
+const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createLineItem, updateLineItem, cart, lineItems, updateOrder, removeFromCart, wishlist, setWishlist, minusLineItem})=> {
+
     return (
         <>
-            <nav className='navBar'>
-              <Link to='/products'>Products ({ products.length })</Link>
-              <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
-              <Link to='/cart'>Cart ({ cartCount })</Link>
-              <span>
-                Welcome { auth.username }!
-                <button onClick={ logout }>Logout</button>
-              </span>
-            </nav>
             <main>
               <Products
                 auth = { auth }
@@ -23,6 +16,7 @@ const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createL
                 cartItems = { cartItems }
                 createLineItem = { createLineItem }
                 updateLineItem = { updateLineItem }
+
               />
               <Cart
                 cart = { cart }
@@ -37,6 +31,9 @@ const AuthHome = ({products, orders, cartCount, auth, logout, cartItems, createL
                 orders = { orders }
                 products = { products }
                 lineItems = { lineItems }
+                wishlist={ wishlist }
+                setWishlist={ setWishlist }
+
               />
             </main>
         </>

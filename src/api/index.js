@@ -23,6 +23,11 @@ const fetchLineItems = async(setLineItems)=> {
   setLineItems(response.data);
 };
 
+const fetchWishlist = async({userId, setWishlist})=> {
+  const response = await axios.get(`/api/wishlist/${userId}`)
+  setWishlist(response.data)
+}
+
 const createLineItem = async({ product, cart, lineItems, setLineItems })=> {
   const response = await axios.post('/api/lineItems', {
     order_id: cart.id,
@@ -56,17 +61,26 @@ const updateOrder = async({ order, setOrders })=> {
 };
 
 const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
-  const response = await axios.delete(`/api/lineItems/${lineItem.id}`, getHeaders());
+  await axios.delete(`/api/lineItems/${lineItem.id}`, getHeaders());
   setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
 };
 
-const createProduct = async({ product }, setProducts) => {
+const removeFromWishlist = async({userId, wishItem, setWishlist, wishlist})=> {
+  await axios.delete(`/api/wishlist/${userId}/${wishItem.id}`, getHeaders())
+  setWishlist(wishlist.filter((_wishItem) => _wishItem.id !== wishItem.id))
+}
+
+const addToWishList = async({userId, wishItem, setWishlist, wishlist})=> {
+  const {data} = await axios.post(`/api/wishlist/${userId}/${wishItem.id}`, {}, getHeaders())
+  setWishlist([...wishlist, data])
+}
+
+const newestProduct = async(items) => {
   try {
-    const response = await axios.post('/api/home/', getHeaders());
-    setProducts(response.data);
+    const response = await axios.post('/api/products', items.product, getHeaders());
+    items.setProducts([...items.products, response.data]);
   } catch (error) {
-    console.log("stinky poo poo")
-    //verification or routes??
+    console.log("stinky poo poo");
   }
 };
 
@@ -103,13 +117,16 @@ const api = {
   fetchProducts,
   fetchOrders,
   fetchLineItems,
+  fetchWishlist,
   createLineItem,
+  addToWishList,
   updateLineItem,
   minusLineItem,
   updateOrder,
   removeFromCart,
+  removeFromWishlist,
   attemptLoginWithToken,
-  createProduct
+  newestProduct
 };
 
 export default api;
