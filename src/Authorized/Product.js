@@ -10,10 +10,11 @@ const Product = ({products, deleteLineItem})=> {
             <h1>{product.name}</h1>
             <h3>Created at: {product.created_at}</h3>
             <p>{product.description}</p>
+            <img className='imageSize' src={product.image_url}></img><br/>
             <Link to="/products">Back</Link>
             {/* <button onClick={ () => deleteLineItem(product)}>Remove Product</button> */}
         </>
     )
-}
+};
 
 export default Product

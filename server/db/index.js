@@ -49,7 +49,8 @@ const seed = async()=> {
       name VARCHAR(100) UNIQUE NOT NULL,
       price INTEGER,
       description TEXT,
-      quantity INTEGER
+      quantity INTEGER,
+      image_url VARCHAR(255)
     );
 
     CREATE TABLE orders(
@@ -85,10 +86,10 @@ const seed = async()=> {
   ]);
 
   const [foo, bar, bazz] = await Promise.all([
-    createProduct({ name: 'The Bat Mobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in gotham, Batman!', quantity: 1}),
-    createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1 }),
-    createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1 }),
-    createProduct({ name: 'Baby Picture of Morgan Freeman', price:9004, description:'A rare sight none have seen before. A youthful picture of the age defying legend!', quantity:2 }),
+    createProduct({ name: 'The Bat Mobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in gotham, Batman!', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/' }),
+    createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/' }),
+    createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/' }),
+    createProduct({ name: 'Baby Picture of Morgan Freeman', price:9004, description:'A rare sight none have seen before. A youthful picture of the age defying legend!', quantity:2, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/' }),
   ]);
 
   await Promise.all([

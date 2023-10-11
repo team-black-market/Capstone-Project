@@ -187,3 +187,8 @@ a:visited {
   display: flex;
   justify-content: center;
 }
+
+.imageSize {
+  width: 200px;
+  height: 200px;
+}
