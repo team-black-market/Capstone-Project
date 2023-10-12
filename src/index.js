@@ -3,19 +3,16 @@ import ReactDOM from 'react-dom/client';
 import { Link, HashRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import Login from './Unauthorized/Login';
 import api from './api';
-
-
- import Searchbar from './Searchbar';
-
+import Searchbar from './Searchbar';
 import Home from './Unauthorized/Home';
 import Register from './Unauthorized/Register';
 import Product from './Authorized/Product'
 import NewProduct from './Authorized/NewProduct';
-import AuthHome from './Authorized/AuthHome';
 import WishList from './Authorized/WishList';
 import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
+import Profile from './Authorized/Profile';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -67,10 +64,6 @@ const App = ()=> {
       fetchData();
     }
   }, [auth]);
-
-
-
-
 
   const createLineItem = async(product)=> {
     await api.createLineItem({ product, cart, lineItems, setLineItems});
@@ -132,13 +125,11 @@ const App = ()=> {
             <div className='dropDown'>
               <Link className='dropbtn'> {auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
               <div className='dropDownContent'>
-                <Link to='/profile:id'><img className='icon' src='../assets/img/profileIcon.svg'/> Profile</Link>
+                <Link to='/profile'><img className='icon' src='../assets/img/profileIcon.svg'/> Profile</Link>
                 <Link to='/settings'><img className='icon' src='../assets/img/settingsIcon.svg'/> Settings</Link>
                 <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/> Logout</Link>
               </div>
             </div>
-
-            
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
@@ -148,6 +139,7 @@ const App = ()=> {
             <Route path='/orders' element={<Orders orders = { orders } products = { products } lineItems = { lineItems }/>}/>
             <Route path='/cart' element={<Cart cart = { cart } lineItems = { lineItems } products = { products } updateOrder = { updateOrder } removeFromCart = { removeFromCart } minusLineItem = { minusLineItem } setLineItems= { setLineItems }/>}/>
             <Route path='/wishlist' element={<WishList products={ products } auth={ auth } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
+            <Route path='/profile' element={<Profile auth={auth}/>}/>
             <Route path='*' element={<></>}/>
           </Routes>
         </>
