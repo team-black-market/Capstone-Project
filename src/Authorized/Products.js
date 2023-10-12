@@ -17,7 +17,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                 <Link to={`/products/${product.id}`}><br/>
                   { product.name }<br/>
                   {/* we can totally undo the breaks, just thought it was better readability */}
-                  Price: ${(product.price/100).toFixed(2)}
+                  Price: ${(product.price).toFixed(2)}
                 </Link>
                 {
                   auth.id ? (

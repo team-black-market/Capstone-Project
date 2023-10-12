@@ -58,9 +58,6 @@ const minusLineItem = async({ lineItem, cart, lineItems, setLineItems })=> {
   }
 };
 
-
-
-
 const updateOrder = async({ order, setOrders })=> {
   await axios.put(`/api/orders/${order.id}`, order, getHeaders());
   const response = await axios.get('/api/orders', getHeaders());
