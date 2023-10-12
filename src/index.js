@@ -129,7 +129,16 @@ const App = ()=> {
             <Link to='/orders'><img className='icon' src='../assets/img/orderIcon.svg'/> Orders ({ orders.filter(order => !order.is_cart).length })</Link>
             <Link to='/cart'><img className='icon' src='../assets/img/cartIcon.svg'/> Cart ({ cartCount })</Link>
             <Link to='/wishlist'><img className='icon' src='../assets/img/favoriteNav.svg'/> Wishlist ({wishlist.length})</Link>
-            <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/> Logout</Link>
+            <div className='dropDown'>
+              <Link className='dropbtn'> {auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
+              <div className='dropDownContent'>
+                <Link to='/profile:id'><img className='icon' src='../assets/img/profileIcon.svg'/> Profile</Link>
+                <Link to='/settings'><img className='icon' src='../assets/img/settingsIcon.svg'/> Settings</Link>
+                <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/> Logout</Link>
+              </div>
+            </div>
+
+            
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
