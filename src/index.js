@@ -16,13 +16,15 @@ import WishList from './Authorized/WishList';
 import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
+import Reviews from './Authorized/Reviews';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
   const [auth, setAuth] = useState({});
-  const [wishlist, setWishlist] = useState([])
+  const [wishlist, setWishlist] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   const navigate = useNavigate()
 
@@ -68,9 +70,14 @@ const App = ()=> {
     }
   }, [auth]);
 
-
-
-
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchReviews(setReviews);
+      };
+      fetchData();
+    }
+  }, [auth]);
 
   const createLineItem = async(product)=> {
     await api.createLineItem({ product, cart, lineItems, setLineItems});
@@ -87,13 +94,18 @@ const App = ()=> {
   const minusLineItem = async(lineItem)=> {
     await api.minusLineItem({lineItem, cart, lineItems, setLineItems})
   }
+  
   const removeFromCart = async(lineItem)=> {
     await api.removeFromCart({ lineItem, lineItems, setLineItems });
   };
 
   const newestProduct = async(items)=> {
     await api.newestProduct(items);
-  }
+  };
+
+  const newReview = async(items) => {
+    await api.newReview(items);
+  };
 
   const cart = orders.find(order => order.is_cart) || {};
 
@@ -142,7 +154,8 @@ const App = ()=> {
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
-            <Route path='/products/:id' element={<Product products={ products }/>}/>
+            <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews}/>}/>
+            {/* check route & id here ^^^^ */}
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='/orders' element={<Orders orders = { orders } products = { products } lineItems = { lineItems }/>}/>

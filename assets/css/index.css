@@ -230,3 +230,14 @@ a {
   width: 200px;
   height: 200px;
 }
+
+/* Reviews */
+#rating {
+  display: flex;
+  align-items: center;
+}
+
+#rating img{
+  width: 1em;
+  height: 1em;
+}

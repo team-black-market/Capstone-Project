@@ -13,6 +13,11 @@ const fetchProducts = async(setProducts)=> {
   setProducts(response.data);
 };
 
+const fetchReviews = async(setReviews)=> {
+  const response = await axios.get('/api/products/reviews');
+  setReviews(response.data);
+};
+
 const fetchOrders = async(setOrders)=> {
   const response = await axios.get('/api/orders', getHeaders());
   setOrders(response.data);
@@ -88,6 +93,15 @@ const newestProduct = async(items) => {
   }
 };
 
+const newReview = async(items) => {
+  try {
+    const response = await axios.post(`/api/products/${items.id}`, items.review, getHeaders());
+    items.setReviews([...items.reviews, response.data]);
+  } catch (ex) {
+    console.log(ex);
+  }
+};
+
 const attemptLoginWithToken = async(setAuth)=> {
   const token = window.localStorage.getItem('token');
   if(token){
@@ -136,7 +150,9 @@ const api = {
   removeFromWishlist,
   attemptLoginWithToken,
   newestProduct,
-  registerUser
+  registerUser,
+  newReview,
+  fetchReviews
 };
 
 export default api;

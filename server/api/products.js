@@ -1,6 +1,8 @@
 const {
   fetchProducts,
-  createProduct
+  createProduct,
+  fetchReviews,
+  createReview
 } = require('../db');
 
 const express = require('express');
@@ -23,6 +25,7 @@ app.put('/products/:id', isLoggedIn, isAdmin, (req, res, next)=> {
     next(ex)
   }
 });
+// need to use this for the edit function 
 
 app.post('/', isLoggedIn, async (req, res, next) => {
   try {
@@ -32,6 +35,21 @@ app.post('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.get('/reviews', async(req, res, next)=> {
+  try {
+    res.send(await fetchReviews());
+  }
+  catch(ex){
+    next(ex);
+  }
+});
 
+app.post('/:id', isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await createReview(req.body))
+  } catch (ex) {
+    next(ex)
+  }
+});
 
 module.exports = app;
