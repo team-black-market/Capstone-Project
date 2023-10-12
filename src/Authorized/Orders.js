@@ -21,7 +21,7 @@ let total = 0
                       return (
                         <li key={ lineItem.id }>
                           { product ? product.name: '' }<br/>
-                          <ul>Total: ${(total/100).toFixed(2)}</ul><br/>
+                          <ul>Total: ${(total).toFixed(2)}</ul><br/>
                         </li>
                       );
                     })
