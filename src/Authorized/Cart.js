@@ -3,8 +3,6 @@ import React from 'react';
 const Cart = ({ updateOrder, removeFromCart, lineItems, cart, products, updateLineItem, minusLineItem })=> {
 let total = 0;
 
-
-
   return (
     <div>
       <h2>Cart</h2>
@@ -21,9 +19,6 @@ let total = 0;
                 ({ lineItem.quantity })
                 <button onClick={lineItem.quantity === 1 ? () => removeFromCart(lineItem) : () => minusLineItem(lineItem)}>
                   -
-                </button>
-                <button onClick={ lineItem.quantity < product.quantity ? () => updateLineItem(lineItem): null}>
-                  +
                 </button>
                 <button onClick={ ()=> removeFromCart(lineItem)}>Remove From Cart</button>
               </li>
