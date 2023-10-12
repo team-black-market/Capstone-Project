@@ -124,15 +124,12 @@ const App = ()=> {
         auth.id ? (
         <>
           <nav className='navBar'>
-            <Link to='/home'>Home</Link>
-            <Link to='/products'>Products ({ products.length })</Link>
-            <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
-            <Link to='/cart'>Cart ({ cartCount })</Link>
-            <Link to='/wishlist'>Wishlist ({wishlist.length})</Link>
-            <span>
-              Welcome { auth.username }!
-              <button onClick={ logout }>Logout</button>
-            </span>
+            <Link to='/home'><img className='icon' src='../assets/img/homeIcon.svg'/> Home</Link>
+            <Link to='/products'><img className='icon' src='../assets/img/productIcon.svg'/> Products ({ products.length })</Link>
+            <Link to='/orders'><img className='icon' src='../assets/img/orderIcon.svg'/> Orders ({ orders.filter(order => !order.is_cart).length })</Link>
+            <Link to='/cart'><img className='icon' src='../assets/img/cartIcon.svg'/> Cart ({ cartCount })</Link>
+            <Link to='/wishlist'><img className='icon' src='../assets/img/favoriteNav.svg'/> Wishlist ({wishlist.length})</Link>
+            <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/> Logout</Link>
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>

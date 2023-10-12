@@ -6,7 +6,6 @@ const WishList = ({products, auth, wishlist, setWishlist})=> {
     return (
     <div>
         <h2>{`${auth.username}'s Wishlist`}</h2>
-        <Link to="/home">Home</Link>
         <ul>
         {
             wishlist.map( wishItem => {

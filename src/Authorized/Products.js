@@ -31,8 +31,8 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                 }
                 {
                   favorite ? 
-                  <img onClick={()=> api.removeFromWishlist({userId: auth.id, wishItem: favorite, setWishlist, wishlist})} className="favoriteButton" key="wishItem.id" src="../assets/img/favorite.svg"/>
-                  : <img onClick={()=> api.addToWishList({userId: auth.id, wishItem: product, setWishlist, wishlist})} className="favoriteButton" key="wishItem.id" src="../assets/img/notFavorite.svg"/>
+                  <img onClick={()=> api.removeFromWishlist({userId: auth.id, wishItem: favorite, setWishlist, wishlist})} className="icon" key="wishItem.id" src="../assets/img/favorite.svg"/>
+                  : <img onClick={()=> api.addToWishList({userId: auth.id, wishItem: product, setWishlist, wishlist})} className="icon" key="wishItem.id" src="../assets/img/notFavorite.svg"/>
                 }
                 
               </li>
