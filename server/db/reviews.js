@@ -13,7 +13,7 @@ const fetchReviews = async()=> {
 
 const createReview = async(review)=> {
     const SQL = `
-    INSERT INTO reviews (id, title, description, stars) VALUES($1, $2, $3, $4) RETURN *
+    INSERT INTO reviews (id, title, description, stars) VALUES($1, $2, $3, $4) RETURNING *
     `;
     const response = await client.query(SQL, [ uuidv4(), review.title, review.description, review.stars]);
     return response.rows[0];

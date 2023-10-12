@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Review from './Reviews';
 
-const Product = ({products})=> {
+const Product = ({products, newReview, reviews, setReviews})=> {
     const { id } = useParams();
     const product = products.find(product => product.id === id)
 
@@ -14,7 +14,7 @@ const Product = ({products})=> {
             <p>{product.description}</p>
             <img className='imageSize' src={product.image_url}></img><br/>
             <Link to="/products">Back</Link>
-            <Review products={products} />
+            <Review newReview={newReview} reviews={reviews} setReviews={setReviews}/>
             {/* <button onClick={ () => deleteLineItem(product)}>Remove Product</button> */}
         </>
     )

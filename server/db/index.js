@@ -69,7 +69,6 @@ const seed = async()=> {
     CREATE TABLE reviews(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
-      user_id UUID REFERENCES users(id) NOT NULL,
       title VARCHAR(100) UNIQUE NOT NULL,
       description TEXT,
       stars INT

@@ -5,15 +5,14 @@ const Reviews = ({products, newReview, setReviews, reviews}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [stars, setStars] = useState('');
-    const nav = useNavigate();
     const { id } = useParams();
 
     const submit = async(ev)=> {
         ev.preventDefault();
-        const reviews = {title: title, description: description, stars: stars}
-        newReview({ id: id, products: products, setReviews: setReviews, newReview: newReview, reviews: reviews})
-        // nav('/product/:id')
+        const review = {title: title, description: description, stars: stars}
+        newReview({ id: id, setReviews: setReviews, review: review, reviews: reviews})
     };
+    const star = '<img src=\'../assets/img/favoriteNav.svg\'/>';
 
 return (
     <>
@@ -25,7 +24,24 @@ return (
                 <input placeholder='stars' onChange={ev => setStars(ev.target.value)} />
                 <button>Submit</button>
             </form>
-            
+            {
+                reviews.map(review => {
+                    return(
+                        <div key={review.id}>
+                            
+                            <div id='rating'>
+                                <h1>{review.title}</h1> &nbsp;
+                                {review.stars === 1 ? <div dangerouslySetInnerHTML={{__html: star}}></div> : null}
+                                {review.stars === 2 ? <div dangerouslySetInnerHTML={{__html: star + star}}></div> : null}
+                                {review.stars === 3 ? <div dangerouslySetInnerHTML={{__html: star + star + star}}></div> : null}
+                                {review.stars === 4 ? <div dangerouslySetInnerHTML={{__html: star + star + star + star}}></div> : null}
+                                {review.stars === 5 ? <div dangerouslySetInnerHTML={{__html: star + star + star + star + star}}></div> : null}
+                            </div>
+                            <h3>{review.description}</h3>
+                        </div>
+                    )
+                })
+            }
         </div>
     </>
     )

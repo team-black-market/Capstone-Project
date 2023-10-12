@@ -16,7 +16,6 @@ const fetchProducts = async(setProducts)=> {
 const fetchReviews = async(setReviews)=> {
   const response = await axios.get('/api/products/reviews');
   setReviews(response.data);
-  console.log(response)
 };
 
 const fetchOrders = async(setOrders)=> {
@@ -95,12 +94,11 @@ const newestProduct = async(items) => {
 };
 
 const newReview = async(items) => {
-  console.log(items)
   try {
-    const response = await axios.post(`/products/${product.id}`, items.product, getHeaders());
-    items.setReview([...items.products, response.data]);
-  } catch (error) {
-    console.log("even stinker poo poo");
+    const response = await axios.post(`/api/products/${items.id}`, items.review, getHeaders());
+    items.setReviews([...items.reviews, response.data]);
+  } catch (ex) {
+    console.log(ex);
   }
 };
 

@@ -79,10 +79,6 @@ const App = ()=> {
     }
   }, [auth]);
 
-
-
-
-
   const createLineItem = async(product)=> {
     await api.createLineItem({ product, cart, lineItems, setLineItems});
   };
@@ -98,6 +94,7 @@ const App = ()=> {
   const minusLineItem = async(lineItem)=> {
     await api.minusLineItem({lineItem, cart, lineItems, setLineItems})
   }
+  
   const removeFromCart = async(lineItem)=> {
     await api.removeFromCart({ lineItem, lineItems, setLineItems });
   };
@@ -157,8 +154,7 @@ const App = ()=> {
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
-            <Route path='/products/:id' element={<Product products={ products }/>}/>
-            <Route path='/products/:id' element={<Reviews newReview={ newReview } products={products} reviews={reviews} setReviews={setReviews}/>}/>
+            <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews}/>}/>
             {/* check route & id here ^^^^ */}
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
