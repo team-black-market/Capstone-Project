@@ -13,6 +13,12 @@ const fetchProducts = async(setProducts)=> {
   setProducts(response.data);
 };
 
+const fetchReviews = async(setReviews)=> {
+  const response = await axios.get('/api/products/reviews');
+  setReviews(response.data);
+  console.log(response)
+};
+
 const fetchOrders = async(setOrders)=> {
   const response = await axios.get('/api/orders', getHeaders());
   setOrders(response.data);
@@ -88,6 +94,16 @@ const newestProduct = async(items) => {
   }
 };
 
+const newReview = async(items) => {
+  console.log(items)
+  try {
+    const response = await axios.post(`/products/${product.id}`, items.product, getHeaders());
+    items.setReview([...items.products, response.data]);
+  } catch (error) {
+    console.log("even stinker poo poo");
+  }
+};
+
 const attemptLoginWithToken = async(setAuth)=> {
   const token = window.localStorage.getItem('token');
   if(token){
@@ -136,7 +152,9 @@ const api = {
   removeFromWishlist,
   attemptLoginWithToken,
   newestProduct,
-  registerUser
+  registerUser,
+  newReview,
+  fetchReviews
 };
 
 export default api;

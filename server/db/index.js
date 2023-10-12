@@ -6,6 +6,11 @@ const {
 } = require('./products');
 
 const {
+  fetchReviews,
+  createReview
+} = require('./reviews');
+
+const {
   createUser,
   authenticate,
   findUserByToken
@@ -29,6 +34,7 @@ const {
 
 const seed = async()=> {
   const SQL = `
+    DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS wish_items;
     DROP TABLE IF EXISTS line_items;
     DROP TABLE IF EXISTS products;
@@ -58,6 +64,15 @@ const seed = async()=> {
       created_at TIMESTAMP DEFAULT now(),
       is_cart BOOLEAN NOT NULL DEFAULT true,
       user_id UUID REFERENCES users(id) NOT NULL
+    );
+
+    CREATE TABLE reviews(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      user_id UUID REFERENCES users(id) NOT NULL,
+      title VARCHAR(100) UNIQUE NOT NULL,
+      description TEXT,
+      stars INT
     );
 
     CREATE TABLE line_items(
@@ -99,9 +114,13 @@ const seed = async()=> {
   ]);
 
   await Promise.all([
+    createReview({ title: 'stinky', description: 'poo poo', stars: 2})
+  ]);
+
+  await Promise.all([
     createWishItem({ user_id: ethyl.id, product_id: foo.id}),
     createWishItem({ user_id: ethyl.id, product_id: bazz.id})
-  ])
+  ]);
 
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
@@ -129,5 +148,7 @@ module.exports = {
   seed,
   createProduct,
   createUser,
+  fetchReviews,
+  createReview,
   client
 };
