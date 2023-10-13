@@ -8,16 +8,11 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=
   return (
     <div>
       <h2>Products</h2>
-      <br/>
-      <Link to='/NewProduct'>Add a Product</Link>
-      <br/>
-      <input placeholder='Search our inventory' value={ term || '' } onChange={ev => navigate(ev.target.value ? `/products/search/${ev.target.value}`: '/products')}/>
-      <br/>
-      <ul>
+      {auth.is_admin ? ( <Link to='/NewProduct'>Add a Product</Link> ) : null}<br/><br/>
+        <input placeholder='Search our inventory' value={ term || '' } onChange={ev => navigate(ev.target.value ? `/products/search/${ev.target.value}`: '/products')}/><br/>
+        <ul id="products">
         {
-          products
-          .filter(product => !term || product.name.includes(term))
-          .map( product => {
+          products.filter(product => !term || product.name.includes(term)).map( product => {
             const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
             return (
               <li key={ product.id }>

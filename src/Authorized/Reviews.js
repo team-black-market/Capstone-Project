@@ -13,7 +13,7 @@ const Reviews = ({products, newReview, setReviews, reviews}) => {
         newReview({ id: id, setReviews: setReviews, review: review, reviews: reviews})
     };
     const star = '<img src=\'../assets/img/favoriteNav.svg\'/>';
-    console.log(reviews)
+
 return (
     <>
     <h1>Add your Review!</h1>

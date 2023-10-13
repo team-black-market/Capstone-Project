@@ -17,6 +17,7 @@ import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
 import Reviews from './Authorized/Reviews';
+import EditProduct from './Authorized/Edit';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -107,6 +108,10 @@ const App = ()=> {
     await api.newReview(items);
   };
 
+  const updateProduct = async(items) => {
+    await api.updateProduct(items)
+  };
+
   const cart = orders.find(order => order.is_cart) || {};
 
   const cartItems = lineItems.filter(lineItem => lineItem.order_id === cart.id);
@@ -156,6 +161,7 @@ const App = ()=> {
             <Route path='/home' element={<Home auth={auth}/>}/>
             <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews}/>}/>
             {/* check route & id here ^^^^ */}
+            <Route path='/products/:id/edit' element={<EditProduct products={ products } updateProduct={ updateProduct } setProducts={ setProducts }/>} />
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='/products/search/:term' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>

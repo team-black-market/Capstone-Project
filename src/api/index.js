@@ -85,11 +85,16 @@ const addToWishList = async({userId, wishItem, setWishlist, wishlist})=> {
 }
 
 const newestProduct = async(items) => {
-  try {
     const response = await axios.post('/api/products', items.product, getHeaders());
     items.setProducts([...items.products, response.data]);
-  } catch (error) {
-    console.log("stinky poo poo");
+};
+
+const updateProduct = async(items) => {
+  try {
+    const response = await axios.put(`/api/products/${items.updatedProduct.id}`, items.updatedProduct, getHeaders());
+    items.setProducts(items.products.map( product => product.id == response.data.id ? response.data: product));
+  } catch (ex) {
+    console.log(ex);
   }
 };
 
@@ -152,7 +157,8 @@ const api = {
   newestProduct,
   registerUser,
   newReview,
-  fetchReviews
+  fetchReviews,
+  updateProduct
 };
 
 export default api;
