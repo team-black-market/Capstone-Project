@@ -71,7 +71,8 @@ const seed = async()=> {
       created_at TIMESTAMP DEFAULT now(),
       title VARCHAR(100) UNIQUE NOT NULL,
       description TEXT,
-      stars INT
+      stars INT,
+      productId UUID REFERENCES products(id) NOT NULL
     );
 
     CREATE TABLE line_items(
@@ -113,7 +114,7 @@ const seed = async()=> {
   ]);
 
   await Promise.all([
-    createReview({ title: 'stinky', description: 'poo poo', stars: 2})
+    createReview({ title: 'stinky', description: 'poo poo', stars: 2, productId: foo.id})
   ]);
 
   await Promise.all([

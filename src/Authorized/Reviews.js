@@ -9,11 +9,11 @@ const Reviews = ({products, newReview, setReviews, reviews}) => {
 
     const submit = async(ev)=> {
         ev.preventDefault();
-        const review = {title: title, description: description, stars: stars}
+        const review = {title: title, description: description, stars: stars, productId: id}
         newReview({ id: id, setReviews: setReviews, review: review, reviews: reviews})
     };
     const star = '<img src=\'../assets/img/favoriteNav.svg\'/>';
-
+    console.log(reviews)
 return (
     <>
     <h1>Add your Review!</h1>
@@ -25,10 +25,9 @@ return (
                 <button>Submit</button>
             </form>
             {
-                reviews.map(review => {
+                reviews.filter(review => review.productid === id).map(review => {
                     return(
                         <div key={review.id}>
-                            
                             <div id='rating'>
                                 <h1>{review.title}</h1> &nbsp;
                                 {review.stars === 1 ? <div dangerouslySetInnerHTML={{__html: star}}></div> : null}
