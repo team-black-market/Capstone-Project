@@ -1,19 +1,15 @@
 import React from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import api from '../api';
 
-
-const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
-  const navigate = useNavigate();
-  const { term } = useParams();
+const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, wishlist, setWishlist})=> {
   return (
     <div>
-      <input placeholder='Search our inventory' value={ term || '' } onChange={ev => navigate(ev.target.value ? `/products/search/${ev.target.value}`: '/products')}/>
-      <ul>
+      <ul id="products">
         {
-          products
-          .filter(product => !term || product.name.includes(term))
-          .map( product => {
+          products.map( product => {
             const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
+            const favorite = wishlist.find(wishItem => wishItem.product_id === product.id);
             return (
               <div className='productContainer' key={ product.id }>
                 <div id='productHeader'>
