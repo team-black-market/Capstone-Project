@@ -26,7 +26,7 @@ let total = 0;
           })
         }
       </ul>
-      {total !== 0.00 ? `Your total is $${(total/100).toFixed(2)}` : 'Your cart is empty!'}
+      {total !== 0.00 ? `Your total is $${(total).toFixed(2)}` : 'Your cart is empty!'}
       <br />
       {
         lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? <button onClick={()=> {

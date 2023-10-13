@@ -6,6 +6,11 @@ const {
 } = require('./products');
 
 const {
+  fetchReviews,
+  createReview
+} = require('./reviews');
+
+const {
   createUser,
   authenticate,
   findUserByToken
@@ -29,6 +34,7 @@ const {
 
 const seed = async()=> {
   const SQL = `
+    DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS wish_items;
     DROP TABLE IF EXISTS line_items;
     DROP TABLE IF EXISTS products;
@@ -58,6 +64,15 @@ const seed = async()=> {
       created_at TIMESTAMP DEFAULT now(),
       is_cart BOOLEAN NOT NULL DEFAULT true,
       user_id UUID REFERENCES users(id) NOT NULL
+    );
+
+    CREATE TABLE reviews(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      title VARCHAR(100) UNIQUE NOT NULL,
+      description TEXT,
+      stars INT,
+      productId UUID REFERENCES products(id) NOT NULL
     );
 
     CREATE TABLE line_items(
@@ -94,12 +109,18 @@ const seed = async()=> {
     createProduct({ name: 'Kryptonite', price:10500500, description:'All you will ever need to be more pwerful than Superman.', quantity: 1, image_url: 'https://www.syfy.com/sites/syfy/files/2021/12/gettyimages-886851320.jpg' }),
     createProduct({ name: 'Power Ring', price:600, description:'For the justice fighter on a budget.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/71DnkGb6aJL._AC_UY1000_.jpg' }),
     createProduct({ name: 'Sunblade', price:770660, description:'The most powerful weapon you have never heard of.', quantity: 1, image_url: 'https://static.displate.com/857x1200/displate/2020-04-16/efe7e21a54155ea7fda02f78d401d031_772a9c614abdd596d330932afe4271cc.jpg' }),
+    createProduct({ name: 'Spidermans Web Shooters', price:3000, description:'This is spidermans web gadget used on his wrist. Each purchase comes with 10 reloads of premade web fluid.', quantity: 4, image_url: 'https://i.pinimg.com/550x/a4/29/d3/a429d3d5410d417ae86b38c2d1af5e79.jpg' }),
+    createProduct({ name: 'Thors Hammer', price:100, description:'Our cheapest item. We can provide you the coordinates once paid. Delivery is not an option because none of the team members are worthy. Good luck trying to pick this up yourself.', quantity: 1, image_url: '20593-2113-4ace-9767-47d31f0ef12d/thumbs/cover/1200x630/jpg/img_5334.jpg' }),
+  ]);
+
+  await Promise.all([
+    createReview({ title: 'stinky', description: 'poo poo', stars: 2, productId: foo.id})
   ]);
 
   await Promise.all([
     createWishItem({ user_id: ethyl.id, product_id: foo.id}),
     createWishItem({ user_id: ethyl.id, product_id: bazz.id})
-  ])
+  ]);
 
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
@@ -127,5 +148,7 @@ module.exports = {
   seed,
   createProduct,
   createUser,
+  fetchReviews,
+  createReview,
   client
 };
