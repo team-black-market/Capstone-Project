@@ -21,7 +21,7 @@ app.get('/', async(req, res, next)=> {
 
 app.put('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
   try {
-    res.send(await updateProduct(req.body));
+    res.send(await updateProduct({ ...req.body, id: req.params.id}));
   } catch (ex) {
     next(ex)
   }
