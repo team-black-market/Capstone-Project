@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = ({auth})=> {
+   
     return(
     <>
         {
@@ -19,6 +20,7 @@ const Home = ({auth})=> {
         </div> 
     </>
     )
+    
 }
 
 export default Home;
