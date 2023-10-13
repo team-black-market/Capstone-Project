@@ -8,7 +8,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
   const { term } = useParams();
   return (
     <div>
-      <div id='searchBarContainer'><br/>
+      <div id='searchBarContainer'>
         <input placeholder='Search' value={ term || '' } onChange={ev => navigate(ev.target.value ? `/products/search/${ev.target.value}`: '/products')}/>
       </div>
         <ul id="products">
@@ -38,7 +38,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                   </Link>
                   {
                     auth.id ? (
-                      cartItem ? <button onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>: <button onClick={ ()=> createLineItem(product)}>Add</button>
+                      cartItem ? <button className='buttonStyle'onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>: <button onClick={ ()=> createLineItem(product)}>Add</button>
                     ): null 
                   }
                   {

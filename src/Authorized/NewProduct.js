@@ -26,7 +26,7 @@ const NewProduct = ({newestProduct, products, setProducts}) => {
                 <input placeholder='price' onChange={ev => setPrice(ev.target.value)} />
                 <input placeholder='quantity' onChange={ev => setQuantity(ev.target.value)} />
                 <input placeholder='image url' onChange={ev => setImage_url(ev.target.value)} />
-                <button disabled={!name || !description || !price || !quantity || !image_url}>Create</button>
+                <button className='buttonStyle'disabled={!name || !description || !price || !quantity || !image_url}>Create</button>
             </form>
             <Link to='/home'>Cancel</Link>
         </div>
