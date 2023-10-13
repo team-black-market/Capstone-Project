@@ -2,7 +2,8 @@ const client = require('./client');
 
 const {
   fetchProducts,
-  createProduct
+  createProduct,
+  updateProduct
 } = require('./products');
 
 const {
@@ -150,5 +151,6 @@ module.exports = {
   createUser,
   fetchReviews,
   createReview,
+  updateProduct,
   client
 };

@@ -5,15 +5,15 @@ const {
 
 const express = require('express');
 const app = express.Router();
-const { isLoggedIn, isAdmin } = require('./middleware');
+const { isLoggedIn, isAdmin, isVip } = require('./middleware');
 
-app.put('/:id', isLoggedIn, async(req, res, next)=> {
+app.put('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
   try {
     //TODO make sure the order's user_id is req.user.id
     res.send(await updateOrder({ ...req.body, id: req.params.id}));
   }
-  catch(ex){
-    next(ex);
+  catch(error){
+    console.log("orders.js backend STINKY POO POO")
   }
 });
 
@@ -25,5 +25,9 @@ app.get('/', isLoggedIn, async(req, res, next)=> {
     next(ex);
   }
 });
+
+//not using isAdmin here or isVip
+
+
 
 module.exports = app;

@@ -6,7 +6,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
   return (
     <div>
       <h2>Products</h2>
-      <Link to='/NewProduct'>Add a Product</Link>
+      {auth.is_admin ? ( <Link to='/NewProduct'>Add a Product</Link> ) : null}
       <ul id="products">
         {
           products.map( product => {
