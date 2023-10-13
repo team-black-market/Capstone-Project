@@ -111,7 +111,7 @@ const seed = async()=> {
     createProduct({ name: 'Power Ring', price:600, description:'For the justice fighter on a budget.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/71DnkGb6aJL._AC_UY1000_.jpg' }),
     createProduct({ name: 'Sunblade', price:770660, description:'The most powerful weapon you have never heard of.', quantity: 1, image_url: 'https://static.displate.com/857x1200/displate/2020-04-16/efe7e21a54155ea7fda02f78d401d031_772a9c614abdd596d330932afe4271cc.jpg' }),
     createProduct({ name: 'Spidermans Web Shooters', price:3000, description:'This is spidermans web gadget used on his wrist. Each purchase comes with 10 reloads of premade web fluid.', quantity: 4, image_url: 'https://i.pinimg.com/550x/a4/29/d3/a429d3d5410d417ae86b38c2d1af5e79.jpg' }),
-    createProduct({ name: 'Thors Hammer', price:100, description:'Our cheapest item. We can provide you the coordinates once paid. Delivery is not an option because none of the team members are worthy. Good luck trying to pick this up yourself.', quantity: 1, image_url: '20593-2113-4ace-9767-47d31f0ef12d/thumbs/cover/1200x630/jpg/img_5334.jpg' }),
+    createProduct({ name: 'Thors Hammer', price:100, description:'Our cheapest item. We can provide you the coordinates once paid. Delivery is not an option because none of the team members are worthy. Good luck trying to pick this up yourself.', quantity: 1, image_url: 'https://media.printables.com/media/prints/292790/images/2572161_3c320593-2113-4ace-9767-47d31f0ef12d/thumbs/cover/1200x630/jpg/img_5334.jpg' }),
   ]);
 
   await Promise.all([
