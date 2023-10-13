@@ -92,8 +92,7 @@ const newestProduct = async(items) => {
 const updateProduct = async(items) => {
   try {
     const response = await axios.put(`/api/products/${items.updatedProduct.id}`, items.updatedProduct, getHeaders());
-    items.setProducts([...items.products, response.data]);
-    console.log(response)
+    items.setProducts(items.products.map( product => product.id == response.data.id ? response.data: product));
   } catch (ex) {
     console.log(ex);
   }
