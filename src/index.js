@@ -3,15 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { Link, HashRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import Login from './Unauthorized/Login';
 import api from './api';
-
-
- import Searchbar from './Searchbar';
-
 import Home from './Unauthorized/Home';
 import Register from './Unauthorized/Register';
 import Product from './Authorized/Product'
 import NewProduct from './Authorized/NewProduct';
-import AuthHome from './Authorized/AuthHome';
 import WishList from './Authorized/WishList';
 import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
