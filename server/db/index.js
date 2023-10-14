@@ -2,8 +2,14 @@ const client = require('./client');
 
 const {
   fetchProducts,
-  createProduct
+  createProduct,
+  updateProduct
 } = require('./products');
+
+const {
+  fetchReviews,
+  createReview
+} = require('./reviews');
 
 const {
   createUser,
@@ -28,7 +34,9 @@ const {
 
 
 const seed = async()=> {
+  // add vip with boolean
   const SQL = `
+    DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS wish_items;
     DROP TABLE IF EXISTS line_items;
     DROP TABLE IF EXISTS products;
@@ -60,6 +68,15 @@ const seed = async()=> {
       user_id UUID REFERENCES users(id) NOT NULL
     );
 
+    CREATE TABLE reviews(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      title VARCHAR(100) UNIQUE NOT NULL,
+      description TEXT,
+      stars INT,
+      productId UUID REFERENCES products(id) NOT NULL
+    );
+
     CREATE TABLE line_items(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
@@ -86,6 +103,7 @@ const seed = async()=> {
   ]);
 
   const [foo, bar, bazz] = await Promise.all([
+    //add vip item
     createProduct({ name: 'The Batmobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in gotham, Batman!', quantity: 1, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmfDSHF5eotCiwTQbfT981MuXDn5G66tiT3TfPNU-F2iGizWRproABlsU16ygzkeDCMHs&usqp=CAU' }),
     createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/' }),
     createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1, image_url: 'https://media.sketchfab.com/models/57b18282c1a84c5899fcc7f67762a386/thumbnails/256649c3628f4a27ba26b4f28f6f5d6d/a3a7c33dabb64747953debf50e283685.jpeg' }),
@@ -95,13 +113,17 @@ const seed = async()=> {
     createProduct({ name: 'Power Ring', price:600, description:'For the justice fighter on a budget.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/71DnkGb6aJL._AC_UY1000_.jpg' }),
     createProduct({ name: 'Sunblade', price:770660, description:'The most powerful weapon you have never heard of.', quantity: 1, image_url: 'https://static.displate.com/857x1200/displate/2020-04-16/efe7e21a54155ea7fda02f78d401d031_772a9c614abdd596d330932afe4271cc.jpg' }),
     createProduct({ name: 'Spidermans Web Shooters', price:3000, description:'This is spidermans web gadget used on his wrist. Each purchase comes with 10 reloads of premade web fluid.', quantity: 4, image_url: 'https://i.pinimg.com/550x/a4/29/d3/a429d3d5410d417ae86b38c2d1af5e79.jpg' }),
-    createProduct({ name: 'Thors Hammer', price:100, description:'Our cheapest item. We can provide you the coordinates once paid. Delivery is not an option because none of the team members are worthy. Good luck trying to pick this up yourself.', quantity: 1, image_url: '20593-2113-4ace-9767-47d31f0ef12d/thumbs/cover/1200x630/jpg/img_5334.jpg' }),
+    createProduct({ name: 'Thors Hammer', price:100, description:'Our cheapest item. We can provide you the coordinates once paid. Delivery is not an option because none of the team members are worthy. Good luck trying to pick this up yourself.', quantity: 1, image_url: 'https://media.printables.com/media/prints/292790/images/2572161_3c320593-2113-4ace-9767-47d31f0ef12d/thumbs/cover/1200x630/jpg/img_5334.jpg' }),
+  ]);
+
+  await Promise.all([
+    createReview({ title: 'stinky', description: 'poo poo', stars: 2, productId: foo.id})
   ]);
 
   await Promise.all([
     createWishItem({ user_id: ethyl.id, product_id: foo.id}),
     createWishItem({ user_id: ethyl.id, product_id: bazz.id})
-  ])
+  ]);
 
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
@@ -129,5 +151,8 @@ module.exports = {
   seed,
   createProduct,
   createUser,
+  fetchReviews,
+  createReview,
+  updateProduct,
   client
 };
