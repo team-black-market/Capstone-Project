@@ -11,6 +11,7 @@ import WishList from './Authorized/WishList';
 import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
+import Profile from './Authorized/Profile';
 import Reviews from './Authorized/Reviews';
 import EditProduct from './Authorized/Edit';
 
@@ -145,7 +146,7 @@ const App = ()=> {
             <div className='dropDown'>
               <Link className='dropbtn'> {auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
               <div className='dropDownContent'>
-                <Link to='/profile:id'><img className='icon' src='../assets/img/profileIcon.svg'/> Profile</Link>
+                <Link to='/profile'><img className='icon' src='../assets/img/profileIcon.svg'/> Profile</Link>
                 <Link to='/settings'><img className='icon' src='../assets/img/settingsIcon.svg'/> Settings</Link>
                 <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/> Logout</Link>
               </div>
@@ -162,6 +163,7 @@ const App = ()=> {
             <Route path='/orders' element={<Orders orders = { orders } products = { products } lineItems = { lineItems }/>}/>
             <Route path='/cart' element={<Cart cart = { cart } lineItems = { lineItems } products = { products } updateOrder = { updateOrder } removeFromCart = { removeFromCart } minusLineItem = { minusLineItem } setLineItems= { setLineItems }/>}/>
             <Route path='/wishlist' element={<WishList products={ products } auth={ auth } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
+            <Route path='/profile' element={<Profile auth={auth}/>}/>
             <Route path='*' element={<></>}/>
           </Routes>
         </>
