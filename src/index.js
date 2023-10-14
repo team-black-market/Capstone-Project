@@ -91,7 +91,7 @@ const App = ()=> {
   const minusLineItem = async(lineItem)=> {
     await api.minusLineItem({lineItem, cart, lineItems, setLineItems})
   }
-  
+
   const removeFromCart = async(lineItem)=> {
     await api.removeFromCart({ lineItem, lineItems, setLineItems });
   };

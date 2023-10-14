@@ -8,7 +8,7 @@ const Register = ({ registerUser })=> {
     const [count, setCount] = useState(5)
 
     const navigate = useNavigate()
-  
+
     const _register = async(ev)=> {
       const credentials = {username: username, password: password}
       ev.preventDefault();
@@ -48,20 +48,20 @@ const Register = ({ registerUser })=> {
             <div className='form-wrapper'>
               <form onSubmit={ _register }>
                 <h2 id='loginText'>Register!</h2>
-                { message ? 
+                { message ?
                   <>
                     {message.error ?
                       <div className="errorWrap">
                         <img src="../assets/img/error.svg"/>
                         &nbsp;
                         <p>Username taken! Please try again!</p>
-                      </div> 
+                      </div>
                     : null}
-                    {message.status === 200 ? 
+                    {message.status === 200 ?
                       <div className="successWrap">
                         <img src="../assets/img/success.svg"/>
                         &nbsp;
-                        <p>Account created! You'll be redirected to the login page in: {count}</p> 
+                        <p>Account created! You'll be redirected to the login page in: {count}</p>
                       </div>
                     : null}
                   </>
