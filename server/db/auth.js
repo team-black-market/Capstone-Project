@@ -18,7 +18,6 @@ const findUserByToken = async(token) => {
       error.status = 401;
       throw error;
     }
-
     return response.rows[0];
   }
   catch(ex){
@@ -57,14 +56,27 @@ const createUser = async(user)=> {
   }
   user.password = await bcrypt.hash(user.password, 5);
   const SQL = `
-    INSERT INTO users (id, username, password, is_admin) VALUES($1, $2, $3, $4) RETURNING *
+    INSERT INTO users (id, username, password, is_admin, is_vip) VALUES($1, $2, $3, $4, $5) RETURNING *
   `;
-  const response = await client.query(SQL, [ uuidv4(), user.username, user.password, user.is_admin ]);
+  const response = await client.query(SQL, [ uuidv4(), user.username, user.password, user.is_admin, user.is_vip]);
   return response.rows[0];
 };
 
+const updateUser = async(user)=> {
+  try {
+    const SQL = `
+      UPDATE users SET username = $2, password = $3, is_admin = $4, is_vip = $5 WHERE id = $1 RETURNING *
+    `;
+    const response = await client.query(SQL, [user.id, user.username, user.password, user.is_admin, user.is_vip]);
+    return response.rows[0];
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   createUser,
+  updateUser,
   authenticate,
   findUserByToken
 };

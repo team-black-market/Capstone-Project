@@ -13,6 +13,7 @@ const {
 
 const {
   createUser,
+  updateUser,
   authenticate,
   findUserByToken
 } = require('./auth');
@@ -34,7 +35,6 @@ const {
 
 
 const seed = async()=> {
-  // add vip with boolean
   const SQL = `
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS wish_items;
@@ -48,7 +48,8 @@ const seed = async()=> {
       created_at TIMESTAMP DEFAULT now(),
       username VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL,
-      is_admin BOOLEAN DEFAULT false NOT NULL
+      is_admin BOOLEAN DEFAULT false,
+      is_vip BOOLEAN DEFAULT false
     );
 
     CREATE TABLE products(
@@ -58,7 +59,8 @@ const seed = async()=> {
       price INTEGER,
       description TEXT,
       quantity INTEGER,
-      image_url VARCHAR(255)
+      image_url VARCHAR(255),
+      for_vip BOOLEAN DEFAULT false
     );
 
     CREATE TABLE orders(
@@ -97,23 +99,23 @@ const seed = async()=> {
   await client.query(SQL);
 
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({ username: 'moe', password: 'm_password', is_admin: false}),
-    createUser({ username: 'lucy', password: 'l_password', is_admin: false}),
-    createUser({ username: 'ethyl', password: '1234', is_admin: true})
+    createUser({ username: 'moe', password: '1234', is_admin: false, is_vip: false}),
+    createUser({ username: 'lucy', password: '1234', is_admin: false, is_vip: true}),
+    createUser({ username: 'ethyl', password: '1234', is_admin: true, is_vip: true})
   ]);
 
   const [foo, bar, bazz] = await Promise.all([
     //add vip item
-    createProduct({ name: 'The Batmobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in gotham, Batman!', quantity: 1, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmfDSHF5eotCiwTQbfT981MuXDn5G66tiT3TfPNU-F2iGizWRproABlsU16ygzkeDCMHs&usqp=CAU' }),
-    createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/' }),
-    createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1, image_url: 'https://media.sketchfab.com/models/57b18282c1a84c5899fcc7f67762a386/thumbnails/256649c3628f4a27ba26b4f28f6f5d6d/a3a7c33dabb64747953debf50e283685.jpeg' }),
-    createProduct({ name: 'Baby Picture of Morgan Freeman', price:9004, description:'A rare sight none have seen before. A youthful picture of the age defying legend!', quantity:2, image_url: 'https://i.ytimg.com/vi/3F4i6fcLWIA/hqdefault.jpg' }),
-    createProduct({ name: 'The Trident of Neptune', price:676900, description:'The weapon of choice of aquatic demigods. One of a kind.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/71OyzgTdl9L._UF1000,1000_QL80_.jpg' }),
-    createProduct({ name: 'Kryptonite', price:10500500, description:'All you will ever need to be more pwerful than Superman.', quantity: 1, image_url: 'https://www.syfy.com/sites/syfy/files/2021/12/gettyimages-886851320.jpg' }),
-    createProduct({ name: 'Power Ring', price:600, description:'For the justice fighter on a budget.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/71DnkGb6aJL._AC_UY1000_.jpg' }),
-    createProduct({ name: 'Sunblade', price:770660, description:'The most powerful weapon you have never heard of.', quantity: 1, image_url: 'https://static.displate.com/857x1200/displate/2020-04-16/efe7e21a54155ea7fda02f78d401d031_772a9c614abdd596d330932afe4271cc.jpg' }),
-    createProduct({ name: 'Spidermans Web Shooters', price:3000, description:'This is spidermans web gadget used on his wrist. Each purchase comes with 10 reloads of premade web fluid.', quantity: 4, image_url: 'https://i.pinimg.com/550x/a4/29/d3/a429d3d5410d417ae86b38c2d1af5e79.jpg' }),
-    createProduct({ name: 'Thors Hammer', price:100, description:'Our cheapest item. We can provide you the coordinates once paid. Delivery is not an option because none of the team members are worthy. Good luck trying to pick this up yourself.', quantity: 1, image_url: 'https://media.printables.com/media/prints/292790/images/2572161_3c320593-2113-4ace-9767-47d31f0ef12d/thumbs/cover/1200x630/jpg/img_5334.jpg' }),
+    createProduct({ name: 'The Batmobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in gotham, Batman!', quantity: 1, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmfDSHF5eotCiwTQbfT981MuXDn5G66tiT3TfPNU-F2iGizWRproABlsU16ygzkeDCMHs&usqp=CAU', for_vip: true }),
+    createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/', for_vip: true }),
+    createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1, image_url: 'https://media.sketchfab.com/models/57b18282c1a84c5899fcc7f67762a386/thumbnails/256649c3628f4a27ba26b4f28f6f5d6d/a3a7c33dabb64747953debf50e283685.jpeg', for_vip: true }),
+    createProduct({ name: 'Baby Picture of Morgan Freeman', price:9004, description:'A rare sight none have seen before. A youthful picture of the age defying legend!', quantity:2, image_url: 'https://i.ytimg.com/vi/3F4i6fcLWIA/hqdefault.jpg', for_vip: false }),
+    createProduct({ name: 'The Trident of Neptune', price:676900, description:'The weapon of choice of aquatic demigods. One of a kind.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/71OyzgTdl9L._UF1000,1000_QL80_.jpg', for_vip: false }),
+    createProduct({ name: 'Kryptonite', price:10500500, description:'All you will ever need to be more pwerful than Superman.', quantity: 1, image_url: 'https://www.syfy.com/sites/syfy/files/2021/12/gettyimages-886851320.jpg', for_vip: false }),
+    createProduct({ name: 'Power Ring', price:600, description:'For the justice fighter on a budget.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/71DnkGb6aJL._AC_UY1000_.jpg', for_vip: false }),
+    createProduct({ name: 'Sunblade', price:770660, description:'The most powerful weapon you have never heard of.', quantity: 1, image_url: 'https://static.displate.com/857x1200/displate/2020-04-16/efe7e21a54155ea7fda02f78d401d031_772a9c614abdd596d330932afe4271cc.jpg', for_vip: false }),
+    createProduct({ name: 'Spidermans Web Shooters', price:3000, description:'This is spidermans web gadget used on his wrist. Each purchase comes with 10 reloads of premade web fluid.', quantity: 4, image_url: 'https://i.pinimg.com/550x/a4/29/d3/a429d3d5410d417ae86b38c2d1af5e79.jpg', for_vip: false }),
+    createProduct({ name: 'Thors Hammer', price:100, description:'Our cheapest item. We can provide you the coordinates once paid. Delivery is not an option because none of the team members are worthy. Good luck trying to pick this up yourself.', quantity: 1, image_url: 'https://media.printables.com/media/prints/292790/images/2572161_3c320593-2113-4ace-9767-47d31f0ef12d/thumbs/cover/1200x630/jpg/img_5334.jpg', for_vip: false }),
   ]);
 
   await Promise.all([
@@ -143,6 +145,7 @@ module.exports = {
   updateLineItem,
   deleteLineItem,
   updateOrder,
+  updateUser,
   authenticate,
   findUserByToken,
   fetchWishItems,
