@@ -150,7 +150,7 @@ const App = ()=> {
               </div>
             </div>
 
-            
+
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
