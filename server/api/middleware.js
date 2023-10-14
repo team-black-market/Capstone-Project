@@ -22,4 +22,15 @@ const isAdmin = (req, res, next)=> {
   }
 };
 
-module.exports = { isLoggedIn, isAdmin }
+const isVip = (req, res, next)=> {
+  if(req.user.is_vip){
+    next();
+  }
+  else {
+    const error = Error("you're not VIP yet");
+    error.status = 401;
+    next(error);
+  }
+};
+
+module.exports = { isLoggedIn, isAdmin, isVip }

@@ -19,6 +19,7 @@ const WishList = ({products, auth, wishlist, setWishlist})=> {
                     &nbsp;
                     {<button onClick={ ()=> api.removeFromWishlist({userId: auth.id, wishItem, setWishlist, wishlist})}> (remove) </button>}
                   </p>
+                  <button>Add to cart</button>
                 </div>
                 );
             })

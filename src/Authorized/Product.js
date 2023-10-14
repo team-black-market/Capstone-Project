@@ -16,6 +16,7 @@ const Product = ({products, newReview, reviews, setReviews})=> {
             <Link to="/products">Back</Link>
             <Review newReview={newReview} reviews={reviews} setReviews={setReviews}/>
             {/* <button onClick={ () => deleteLineItem(product)}>Remove Product</button> */}
+            {/* TO DO */}
         </>
     )
 };
