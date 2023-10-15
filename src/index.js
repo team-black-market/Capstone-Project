@@ -160,7 +160,7 @@ const App = ()=> {
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist } minusLineItem={ minusLineItem } removeFromCart={ removeFromCart }/>}/>
             <Route path='/products/search/:term' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='/orders' element={<Orders orders = { orders } products = { products } lineItems = { lineItems }/>}/>
-            <Route path='/cart' element={<Cart cart = { cart } lineItems = { lineItems } products = { products } updateOrder = { updateOrder } removeFromCart = { removeFromCart } minusLineItem = { minusLineItem } setLineItems= { setLineItems }/>}/>
+            <Route path='/cart' element={<Cart cart = { cart } lineItems = { lineItems } products = { products } updateOrder = { updateOrder } removeFromCart = { removeFromCart } minusLineItem = { minusLineItem } setLineItems= { setLineItems } updateLineItem={ updateLineItem }/>}/>
             <Route path='/wishlist' element={<WishList products={ products } auth={ auth } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='/profile' element={<Profile auth={auth}/>}/>
             <Route path='/settings' element={<Settings auth={auth} attemptLoginWithToken={ attemptLoginWithToken }/>}/>
