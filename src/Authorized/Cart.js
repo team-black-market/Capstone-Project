@@ -15,10 +15,12 @@ let total = 0;
               <li key={ lineItem.id }>
                 { product.name }
                 ({ lineItem.quantity })
-                <button onClick={lineItem.quantity === 1 ? () => removeFromCart(lineItem) : () => minusLineItem(lineItem)}>
-                  -
-                </button>
-                <button onClick={ ()=> removeFromCart(lineItem)}>Remove From Cart</button>
+                <button onClick={ ()=> updateLineItem(lineItem)} disabled={(lineItem.quantity === product.quantity) ? true : false}>+</button>
+                &nbsp;
+                {
+                  lineItem.quantity > 1 ? <button onClick={ ()=> minusLineItem(lineItem)}>-</button> 
+                  : <button onClick={ ()=> removeFromCart(lineItem)}>Remove from cart?</button>
+                }
               </li>
             );
           })
