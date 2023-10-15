@@ -8,7 +8,7 @@ const findUserByToken = async(token) => {
   try {
     const payload = await jwt.verify(token, process.env.JWT);
     const SQL = `
-      SELECT id, username, is_admin
+      SELECT id, username, is_admin, is_vip
       FROM users
       WHERE id = $1
     `;
@@ -65,9 +65,22 @@ const createUser = async(user)=> {
 const updateUser = async(user)=> {
   try {
     const SQL = `
-      UPDATE users SET username = $2, password = $3, is_admin = $4, is_vip = $5 WHERE id = $1 RETURNING *
+      UPDATE users SET username = $2 WHERE id = $1 RETURNING *
     `;
-    const response = await client.query(SQL, [user.id, user.username, user.password, user.is_admin, user.is_vip]);
+    const response = await client.query(SQL, [user.id, user.username]);
+    return response.rows[0];
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const updatePass = async(user)=> {
+  user.password = await bcrypt.hash(user.password, 5);
+  try {
+    const SQL = `
+      UPDATE users SET password = $2 WHERE id = $1 RETURNING *
+    `;
+    const response = await client.query(SQL, [user.id, user.password]);
     return response.rows[0];
   } catch (error) {
     console.log(error)
@@ -77,6 +90,7 @@ const updateUser = async(user)=> {
 module.exports = {
   createUser,
   updateUser,
+  updatePass,
   authenticate,
   findUserByToken
 };

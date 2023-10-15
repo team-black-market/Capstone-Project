@@ -134,6 +134,16 @@ const registerUser = async(newUserInfo)=> {
   newUserInfo.setMessage(response)
 }
 
+const updateUser = async({credentials, setUsernameMessage})=> {
+  const response = await axios.put('/api/updateUser', credentials)
+  setUsernameMessage(response)
+}
+
+const updatePass = async({credentials, setPasswordMessage})=> {
+  const response = await axios.put('/api/updatePass', credentials)
+  setPasswordMessage(response)
+}
+
 const logout = (setAuth)=> {
   window.localStorage.removeItem('token');
   setAuth({});
@@ -149,6 +159,8 @@ const api = {
   createLineItem,
   addToWishList,
   updateLineItem,
+  updateUser,
+  updatePass,
   minusLineItem,
   updateOrder,
   removeFromCart,

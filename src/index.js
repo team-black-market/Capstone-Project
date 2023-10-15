@@ -14,6 +14,7 @@ import Cart from './Authorized/Cart';
 import Profile from './Authorized/Profile';
 import Reviews from './Authorized/Reviews';
 import EditProduct from './Authorized/Edit';
+import Settings from './Authorized/Settings'
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -121,7 +122,6 @@ const App = ()=> {
     navigate('/home')
   }
 
-  // Register function(Back end not built)
   const registerUser = async(newUserInfo)=> {
     await api.registerUser(newUserInfo)
   }
@@ -137,25 +137,24 @@ const App = ()=> {
         auth.id ? (
         <>
           <nav className='navBar'>
-            <Link to='/home'><img className='icon' src='../assets/img/homeIcon.svg'/> Home</Link>
-            <Link to='/products'><img className='icon' src='../assets/img/productIcon.svg'/> Products</Link>
-            <Link to='/NewProduct'><img className='icon' src='../assets/img/postIcon.svg'/> Post</Link>
-            <Link to='/wishlist'><img className='icon' src='../assets/img/favoriteNav.svg'/> Wishlist</Link>
-            <Link to='/orders'><img className='icon' src='../assets/img/orderIcon.svg'/> Orders</Link>
-            <Link to='/cart'><img className='icon' src='../assets/img/cartIcon.svg'/> Cart ({ cartCount })</Link>
+            <Link to='/home'><img className='icon' src='../assets/img/homeIcon.svg'/>&nbsp;Home</Link>
+            <Link to='/products'><img className='icon' src='../assets/img/productIcon.svg'/>&nbsp;Products</Link>
+            <Link to='/NewProduct'><img className='icon' src='../assets/img/postIcon.svg'/>&nbsp;Post</Link>
+            <Link to='/wishlist'><img className='icon' src='../assets/img/favoriteNav.svg'/>&nbsp;Wishlist</Link>
+            <Link to='/orders'><img className='icon' src='../assets/img/orderIcon.svg'/>&nbsp;Orders</Link>
+            <Link to='/cart'><img className='icon' src='../assets/img/cartIcon.svg'/>&nbsp;Cart ({ cartCount })</Link>
             <div className='dropDown'>
-              <Link className='dropbtn'> {auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
+              <Link className='dropbtn'> {auth.is_vip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null}&nbsp;{auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
               <div className='dropDownContent'>
-                <Link to='/profile'><img className='icon' src='../assets/img/profileIcon.svg'/> Profile</Link>
-                <Link to='/settings'><img className='icon' src='../assets/img/settingsIcon.svg'/> Settings</Link>
-                <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/> Logout</Link>
+                <Link to='/profile'><img className='icon' src='../assets/img/profileIcon.svg'/>&nbsp;Profile</Link>
+                <Link to='/settings'><img className='icon' src='../assets/img/settingsIcon.svg'/>&nbsp;Settings</Link>
+                <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/>&nbsp;Logout</Link>
               </div>
             </div>
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
             <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews}/>}/>
-            {/* check route & id here ^^^^ */}
             <Route path='/products/:id/edit' element={<EditProduct products={ products } updateProduct={ updateProduct } setProducts={ setProducts }/>} />
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
@@ -164,6 +163,7 @@ const App = ()=> {
             <Route path='/cart' element={<Cart cart = { cart } lineItems = { lineItems } products = { products } updateOrder = { updateOrder } removeFromCart = { removeFromCart } minusLineItem = { minusLineItem } setLineItems= { setLineItems }/>}/>
             <Route path='/wishlist' element={<WishList products={ products } auth={ auth } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='/profile' element={<Profile auth={auth}/>}/>
+            <Route path='/settings' element={<Settings auth={auth} attemptLoginWithToken={ attemptLoginWithToken }/>}/>
             <Route path='*' element={<></>}/>
           </Routes>
         </>
