@@ -17,7 +17,7 @@
 - [X] as a user if I decrement an quantity to zero, the line_item should be deleted
 - [X] as a user I should see an error message if my credentials are not correct
 - [X] as a user I should be able to create an account.
-- [ ] as a user I should have profile settings which I can edit
+- [X] as a user I should have profile settings which I can edit
 - [ ] as a user I should be able to add an avatar to my profile
 - [ ] as a user I should be able to add a shipping address to an order
 - [X] as a user I should be able see reviews for products on the product detail page
@@ -26,9 +26,9 @@
 - [ ] as a user I should be able to rank the products in my wishlist
 - [X] as a user I should be able to search for products, based on the name of the product.
 - [ ] as a user I should be able to bookmark the search results
-- [ ] as a vip user I should be able to see that I am a vip user
-- [ ] as a vip user I should be able to see vip_only products
-- [ ] as a non-vip user, I should not be able to see vip_only products
+- [X] as a vip user I should be able to see that I am a vip user
+- [X] as a vip user I should be able to see vip_only products
+- [X] as a non-vip user, I should not be able to see vip_only products
 - [ ] as a user I should be able to page through products in groups of 10 products per page
 - [ ] as a user I should be able to filter products based on tags
 - [ ] as a user I should be able to login via a third party app (github)

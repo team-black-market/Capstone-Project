@@ -33,6 +33,10 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 50%;
+}
+
 /* Home page */
 .emberContainer{
   z-index: 0;

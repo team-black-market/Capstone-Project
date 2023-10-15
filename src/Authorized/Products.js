@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../api';
 
 
-const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, wishlist, setWishlist})=> {
+const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, wishlist, setWishlist, minusLineItem, removeFromCart, deleteProduct})=> {
   const navigate = useNavigate();
   const { term } = useParams();
   return (
@@ -31,8 +31,18 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                       &nbsp;&nbsp;
                       {
                         favorite ? 
-                        <img onClick={()=> api.removeFromWishlist({userId: auth.id, wishItem: favorite, setWishlist, wishlist})} key="wishItem.id" src="../assets/img/favorite.svg"/>
-                        : <img onClick={()=> api.addToWishList({userId: auth.id, wishItem: product, setWishlist, wishlist})} key="wishItem.id" src="../assets/img/notFavorite.svg"/>
+                        <img style={{cursor: 'pointer'}} onClick={()=> api.removeFromWishlist({userId: auth.id, wishItem: favorite, setWishlist, wishlist})} key="wishItem.id" src="../assets/img/favorite.svg"/>
+                        : <img style={{cursor: 'pointer'}} onClick={()=> api.addToWishList({userId: auth.id, wishItem: product, setWishlist, wishlist})} key="wishItem.id" src="../assets/img/notFavorite.svg"/>
+                      }
+                      &nbsp;&nbsp;
+                      {
+                        auth.is_admin ? (
+                          <>
+                            <Link to={`/products/${product.id}/edit`}><img className='icon' src='../assets/img/editIcon.svg'/></Link>
+                            &nbsp;&nbsp;
+                            <img style={{cursor: 'pointer'}} onClick={ deleteProduct } className='icon' src='../assets/img/deleteIcon.svg'/>
+                          </>
+                        ): null
                       }
                     </div>
                   </div>
@@ -41,17 +51,21 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                   </div>
                   <div id='productFooter'>
                     <Link to={`/products/${product.id}`}>
-                      { product.name }
+                      { product.name.length <= 15 ? product.name : product.name.slice(0, 15) + '...' }
                     </Link>
                     {
                       auth.id ? (
-                        cartItem ? <button className='buttonStyle'onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>: <button onClick={ ()=> createLineItem(product)}>Add</button>
+                        cartItem ?
+                        <div>
+                          <button onClick={ ()=> updateLineItem(cartItem)} disabled={(cartItem.quantity === product.quantity) ? true : false}>+</button>
+                          &nbsp;
+                          {
+                            cartItem.quantity > 1 ? <button onClick={ ()=> minusLineItem(cartItem)}>-</button> 
+                            : <button onClick={ ()=> removeFromCart(cartItem)}>-</button>
+                          }
+                        </div>
+                        : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
                       ): null 
-                    }
-                    {
-                      auth.is_admin ? (
-                        <Link to={`/products/${product.id}/edit`}>Edit</Link>
-                      ): null
                     }  
                   </div>
                 </div>

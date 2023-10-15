@@ -11,8 +11,6 @@ let total = 0;
           lineItems.filter(lineItem=> lineItem.order_id === cart.id).map( lineItem => {
             const product = products.find(product => product.id === lineItem.product_id) || {};
             total += product.price * lineItem.quantity
-
-
             return (
               <li key={ lineItem.id }>
                 { product.name }

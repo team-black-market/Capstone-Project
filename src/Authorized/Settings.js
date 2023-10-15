@@ -22,6 +22,7 @@ const Settings = ({ auth, attemptLoginWithToken })=> {
         try {
             await updateUsername({credentials: credentials, setUsernameMessage: setUsernameMessage});
             attemptLoginWithToken()
+            setUsername('')
         } 
         catch(ex){
             console.log(ex)
@@ -33,6 +34,7 @@ const Settings = ({ auth, attemptLoginWithToken })=> {
         const credentials = { id: auth.id, password: password }
         try {
             await updatePassword({credentials: credentials, setPasswordMessage: setPasswordMessage})
+            setPassword('')
         } catch (ex) {
             console.log(ex)
         }
@@ -44,6 +46,9 @@ const Settings = ({ auth, attemptLoginWithToken })=> {
             <div>
                 <h2>Update username?</h2>
                 <p>Only you can see your username!</p>
+                <form onSubmit={ updateUser }>
+                    <input placeholder='Username' name='username' type='username' value={ username } onChange={ ev => setUsername(ev.target.value)} required/>
+                    <button>Update</button>
                     {usernameMessage.status === 200 ?
                         <div>
                             <img src="../assets/img/success.svg"/>
@@ -51,24 +56,21 @@ const Settings = ({ auth, attemptLoginWithToken })=> {
                             <p>Username updated!</p>
                         </div>
                     : null}
-                <form onSubmit={ updateUser }>
-                    <input placeholder='Username' name='username' type='username' value={ username } onChange={ ev => setUsername(ev.target.value)} required/>
-                    <button>Update</button>
                 </form>
             </div>
             <div>
                 <h2>Update Password?</h2>
                 <p>A secure password helps protect your Black Market account!</p>
-                {passwordMessage.status === 200 ?
+                <form onSubmit={ updatePass }>
+                    <input placeholder='Password' name='password' type='password' value={ password } onChange={ ev => setPassword(ev.target.value)} required/>
+                    <button>Update</button>
+                    {passwordMessage.status === 200 ?
                     <div>
                         <img src="../assets/img/success.svg"/>
                         &nbsp;
                         <p>Password updated!</p>
                     </div>
                 : null}
-                <form onSubmit={ updatePass }>
-                    <input placeholder='Password' name='password' type='password' value={ password } onChange={ ev => setPassword(ev.target.value)} required/>
-                    <button>Update</button>
                 </form>
             </div>
         </div>
