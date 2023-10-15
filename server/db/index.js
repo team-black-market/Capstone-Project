@@ -14,6 +14,7 @@ const {
 const {
   createUser,
   updateUser,
+  updatePass,
   authenticate,
   findUserByToken
 } = require('./auth');
@@ -146,6 +147,7 @@ module.exports = {
   deleteLineItem,
   updateOrder,
   updateUser,
+  updatePass,
   authenticate,
   findUserByToken,
   fetchWishItems,

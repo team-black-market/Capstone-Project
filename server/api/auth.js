@@ -2,7 +2,8 @@ const {
   authenticate,
   findUserByToken,
   createUser,
-  updateUser
+  updateUser,
+  updatePass
 } = require('../db');
 
 const express = require('express');
@@ -17,9 +18,17 @@ app.post('/register', async(req, res, next)=> {
   }
 })
 
-app.put('/update', async(req, res, next)=> {
+app.put('/updateUser', async(req, res, next)=> {
   try {
-    res.send(await updateUser({username: req.body.username, password: req.body.password, is_admin: false, is_vip: req.body.is_vip}))
+    res.send(await updateUser({id: req.body.id, username: req.body.username}))
+  } catch (ex) {
+    next(ex)
+  }
+})
+
+app.put('/updatePass', async(req, res, next)=> {
+  try {
+    res.send(await updatePass({id: req.body.id,  password: req.body.password}))
   } catch (ex) {
     next(ex)
   }
