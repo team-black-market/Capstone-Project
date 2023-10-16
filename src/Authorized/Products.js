@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../api';
 
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, wishlist, setWishlist, minusLineItem, removeFromCart, deleteProduct})=> {
+  const [deletePrompt, setDeletePrompt] = useState(false)
+  const [deleteItem, setDeleteItem] = useState('')
   const navigate = useNavigate();
   const { term } = useParams();
+
+  const setDeleteStates = (product)=> {
+    setDeletePrompt(true)
+    setDeleteItem(product)
+  }
+
   return (
     <div>
+      {
+        deletePrompt ?
+        <div>
+          <h2>Are you sure you want to delete this product? This process is irreversible!</h2>
+          <button onClick={()=> {deleteProduct(deleteItem); setDeletePrompt(false)}}>Delete</button>
+          <button onClick={()=> {setDeletePrompt(false)}}>Cancel</button>
+        </div>
+        : null
+      }
       <div id='searchBarContainer'>
         <input placeholder='Search' value={ term || '' } onChange={ev => navigate(ev.target.value ? `/products/search/${ev.target.value}`: '/products')}/>
       </div>
@@ -40,7 +57,11 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                           <>
                             <Link to={`/products/${product.id}/edit`}><img className='icon' src='../assets/img/editIcon.svg'/></Link>
                             &nbsp;&nbsp;
-                            <img style={{cursor: 'pointer'}} onClick={ deleteProduct } className='icon' src='../assets/img/deleteIcon.svg'/>
+                            <img 
+                            style={{cursor: 'pointer'}} 
+                            onClick={()=> {setDeleteStates(product)}} 
+                            className='icon' 
+                            src='../assets/img/deleteIcon.svg'/>
                           </>
                         ): null
                       }

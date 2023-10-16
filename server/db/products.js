@@ -31,8 +31,21 @@ const updateProduct = async(product)=> {
   }
 };
 
+const deleteProduct = async(product)=> {
+  try {
+    const SQL = `
+      DELETE from products
+      WHERE id = $1
+    `;
+    await client.query(SQL, [product.id]);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   fetchProducts,
   createProduct,
-  updateProduct
+  updateProduct,
+  deleteProduct
 };

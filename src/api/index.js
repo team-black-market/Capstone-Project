@@ -98,6 +98,15 @@ const updateProduct = async(items) => {
   }
 };
 
+const deleteProduct = async({product, products, setProducts})=> {
+  try {
+    await axios.delete(`/api/products/${product.id}`, getHeaders())
+    setProducts(products.filter((_product) => _product.id !== product.id))
+  } catch (ex) {
+    console.log(ex)
+  }
+}
+
 const newReview = async(items) => {
   try {
     const response = await axios.post(`/api/products/${items.id}`, items.review, getHeaders());
@@ -170,7 +179,8 @@ const api = {
   registerUser,
   newReview,
   fetchReviews,
-  updateProduct
+  updateProduct,
+  deleteProduct
 };
 
 export default api;
