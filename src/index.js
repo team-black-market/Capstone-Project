@@ -14,7 +14,7 @@ import Cart from './Authorized/Cart';
 import Profile from './Authorized/Profile';
 import Reviews from './Authorized/Reviews';
 import EditProduct from './Authorized/Edit';
-import Settings from './Authorized/Settings'
+import Settings from './Authorized/Settings';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -23,6 +23,7 @@ const App = ()=> {
   const [auth, setAuth] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [productTags, setProductTags] = useState([]);
 
   const navigate = useNavigate()
 
@@ -72,6 +73,15 @@ const App = ()=> {
     if(auth.id){
       const fetchData = async()=> {
         await api.fetchReviews(setReviews);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchProductTags(setProductTags);
       };
       fetchData();
     }

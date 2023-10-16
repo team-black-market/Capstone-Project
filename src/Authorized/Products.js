@@ -26,7 +26,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
         : null
       }
       <div id='searchBarContainer'>
-        <input placeholder='Search' value={ term || '' } onChange={ev => navigate(ev.target.value ? `/products/search/${ev.target.value}`: '/products')}/>
+        <input placeholder='Search' value={ term || '' } onChange={ev => navigate(`/products/search/${encodeURIComponent(ev.target.value) || ''}`)}/>
       </div>
         <ul id="products">
         { 
@@ -62,12 +62,12 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                             onClick={()=> {setDeleteStates(product)}} 
                             className='icon' 
                             src='../assets/img/deleteIcon.svg'/>
+                            {/* add drop down menu here */}
                           </>
                         ): null
                       }
                     </div>
                   </div>
-                  {/* hereeeeeeeeeeeeeeeeeeeeeeeeeee */}
                   <div id='productImage'>
                     <img src={product.image_url}/>
                   </div>
@@ -90,7 +90,6 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                       ): null 
                     }  
                   </div>
-                  {/* hereeeeeeeeeeeeeeeeeeeeeeeeeee */}
                 </div>
               );
             })
@@ -125,10 +124,19 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                     { product.name }
                   </Link>
                   {
-                    auth.id ? (
-                      cartItem ? <button className='buttonStyle'onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>: <button onClick={ ()=> createLineItem(product)}>Add</button>
-                    ): null 
-                  }
+                      auth.id ? (
+                        cartItem ?
+                        <div>
+                          <button onClick={ ()=> updateLineItem(cartItem)} disabled={(cartItem.quantity === product.quantity) ? true : false}>+</button>
+                          &nbsp;
+                          {
+                            cartItem.quantity > 1 ? <button onClick={ ()=> minusLineItem(cartItem)}>-</button> 
+                            : <button onClick={ ()=> removeFromCart(cartItem)}>-</button>
+                          }
+                        </div>
+                        : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
+                      ): null 
+                    }
                   {
                     auth.is_admin ? (
                       <Link to={`/products/${product.id}/edit`}>Edit</Link>

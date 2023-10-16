@@ -41,11 +41,21 @@ const deleteProduct = async(product)=> {
   } catch (error) {
     console.log(error)
   }
-}
+};
+
+const fetchProductTags = async()=> {
+  const SQL = `
+    SELECT *
+    FROM product_tags
+  `;
+  const response = await client.query(SQL);
+  return response.rows;
+};
 
 module.exports = {
   fetchProducts,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  fetchProductTags
 };
