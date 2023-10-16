@@ -21,6 +21,11 @@ const {
 } = require('./auth');
 
 const {
+  createAddress,
+  fetchAddresses
+} = require('./address');
+
+const {
   fetchLineItems,
   createLineItem,
   updateLineItem,
@@ -38,6 +43,7 @@ const {
 
 const seed = async()=> {
   const SQL = `
+    DROP TABLE IF EXISTS addresses;
     DROP TABLE IF EXISTS product_tags;
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS wish_items;
@@ -55,6 +61,13 @@ const seed = async()=> {
       is_vip BOOLEAN DEFAULT false
     );
 
+    CREATE TABLE addresses(
+      id UUID PRIMARY KEY,
+      created at TIMESTAMP DEFAULT now(),
+      data JSON DEFAULT '{}',
+      user_id UUID REFERENCES users(id) NOT NULL
+    );
+    
     CREATE TABLE products(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
@@ -119,6 +132,10 @@ const seed = async()=> {
     createUser({ username: 'ethyl', password: '1234', is_admin: true, is_vip: true})
   ]);
 
+  await createAddress({ user_id: moe.id, data: { formatted_address: '1010 Downing Ave'}});
+  await createAddress({ user_id: moe.id, data: { formatted_address: '2020 Vision St'}});
+  await createAddress({ user_id: moe.id, data: { formatted_address: '907 S Peters St'}});
+
   const [foo, bar, bazz] = await Promise.all([
     //add vip item
     createProduct({ name: 'The Batmobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in Gotham, Batman!', quantity: 1, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmfDSHF5eotCiwTQbfT981MuXDn5G66tiT3TfPNU-F2iGizWRproABlsU16ygzkeDCMHs&usqp=CAU', for_vip: true }),
@@ -154,6 +171,8 @@ const seed = async()=> {
 
 module.exports = {
   fetchProducts,
+  fetchAddresses,
+  createAddress,
   fetchOrders,
   fetchLineItems,
   createLineItem,

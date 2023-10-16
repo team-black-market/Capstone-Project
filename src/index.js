@@ -5,6 +5,7 @@ import Login from './Unauthorized/Login';
 import api from './api';
 import Home from './Unauthorized/Home';
 import Register from './Unauthorized/Register';
+import Addresses from './Authorized/Addresses';
 import Product from './Authorized/Product'
 import NewProduct from './Authorized/NewProduct';
 import WishList from './Authorized/WishList';
@@ -23,6 +24,7 @@ const App = ()=> {
   const [auth, setAuth] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [addresses, setAddresses] = useState([]);
 
   const navigate = useNavigate()
 
@@ -50,6 +52,15 @@ const App = ()=> {
     }
   }, [auth]);
 
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchAddresses(setAddresses);
+      };
+      fetchData();
+    }
+  }, [auth]);
+  
   useEffect(()=> {
     if(auth.id){
       const fetchData = async()=> {
@@ -147,6 +158,7 @@ const App = ()=> {
             <Link to='/wishlist'><img className='icon' src='../assets/img/favoriteNav.svg'/>&nbsp;Wishlist</Link>
             <Link to='/orders'><img className='icon' src='../assets/img/orderIcon.svg'/>&nbsp;Orders</Link>
             <Link to='/cart'><img className='icon' src='../assets/img/cartIcon.svg'/>&nbsp;Cart ({ cartCount })</Link>
+            <Link to='/addresses'>Addresses ({ addresses.length })</Link>
             <div className='dropDown'>
               <Link className='dropbtn'> {auth.is_vip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null}&nbsp;{auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
               <div className='dropDownContent'>
@@ -169,6 +181,9 @@ const App = ()=> {
             <Route path='/profile' element={<Profile auth={auth}/>}/>
             <Route path='/settings' element={<Settings auth={auth} attemptLoginWithToken={ attemptLoginWithToken }/>}/>
             <Route path='*' element={<></>}/>
+            <Route path='/addresses' element={ 
+              <Addresses createAddress={ createAddress } addresses={ addresses } />
+              }/>
           </Routes>
         </>
         ):(
