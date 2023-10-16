@@ -29,7 +29,7 @@ app.put('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
   }
 });
 
-app.delete('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
+app.put('/delete/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
   try {
     res.send(await deleteProduct({id: req.params.id}))
   } catch (ex) {

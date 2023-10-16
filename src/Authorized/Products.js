@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../api';
 
@@ -6,6 +6,7 @@ import api from '../api';
 const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, wishlist, setWishlist, minusLineItem, removeFromCart, deleteProduct})=> {
   const [deletePrompt, setDeletePrompt] = useState(false)
   const [deleteItem, setDeleteItem] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const navigate = useNavigate();
   const { term } = useParams();
 
@@ -14,24 +15,39 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
     setDeleteItem(product)
   }
 
+  const searchFunction = ()=> {
+    if(searchTerm !== ''){
+      navigate(`/products/search/${searchTerm}`)
+    } else {
+      navigate(`/products`)
+    }
+  }
+
   return (
     <div>
       {
         deletePrompt ?
-        <div>
-          <h2>Are you sure you want to delete this product? This process is irreversible!</h2>
-          <button onClick={()=> {deleteProduct(deleteItem); setDeletePrompt(false)}}>Delete</button>
-          <button onClick={()=> {setDeletePrompt(false)}}>Cancel</button>
+        <div className='deletePrompt'>
+          <div>
+            <h1>Are you sure you want to delete this product?</h1>
+            <div>
+              <button className='deletePromptButton' id='deleteButton' onClick={()=> {deleteProduct(deleteItem); setDeletePrompt(false)}}>Delete</button>
+              <button className='deletePromptButton' onClick={()=> {setDeletePrompt(false)}}>Cancel</button>
+            </div>
+          </div>
         </div>
         : null
       }
       <div id='searchBarContainer'>
-        <input placeholder='Search' value={ term || '' } onChange={ev => navigate(`/products/search/${encodeURIComponent(ev.target.value) || ''}`)}/>
+        <form onSubmit={searchFunction}>
+          <input placeholder='Search' value={ searchTerm || '' } onChange={ev => {setSearchTerm(ev.target.value)}}/>
+          <button>Search</button>
+        </form>
       </div>
         <ul id="products">
         { 
           auth.is_vip ? 
-            products.filter(product => !term || product.name.includes(term)).map( product => {
+            products.filter(product => !term || product.name.toLowerCase().includes(term.toLowerCase())).map( product => {
               const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
               const favorite = wishlist.find(wishItem => wishItem.product_id === product.id);
               return (
@@ -94,7 +110,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
               );
             })
           : 
-          products.filter(product => (!term || product.name.includes(term)) && !product.for_vip).map( product => {
+          products.filter(product => (!term || product.name.toLowerCase().includes(term).toLowerCase()) && !product.for_vip).map( product => {
             const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
             const favorite = wishlist.find(wishItem => wishItem.product_id === product.id);
             return (

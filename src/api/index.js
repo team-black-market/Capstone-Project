@@ -10,7 +10,7 @@ const getHeaders = ()=> {
 
 const fetchProducts = async(setProducts)=> {
   const response = await axios.get('/api/products');
-  setProducts(response.data);
+  setProducts(response.data.filter(product => product.is_active === true));
 };
 
 const fetchReviews = async(setReviews)=> {
@@ -100,7 +100,7 @@ const updateProduct = async(items) => {
 
 const deleteProduct = async({product, products, setProducts})=> {
   try {
-    await axios.delete(`/api/products/${product.id}`, getHeaders())
+    await axios.put(`/api/products/delete/${product.id}`, product, getHeaders())
     setProducts(products.filter((_product) => _product.id !== product.id))
   } catch (ex) {
     console.log(ex)

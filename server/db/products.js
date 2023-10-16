@@ -34,8 +34,7 @@ const updateProduct = async(product)=> {
 const deleteProduct = async(product)=> {
   try {
     const SQL = `
-      DELETE from products
-      WHERE id = $1
+      UPDATE products SET is_active = false WHERE id = $1
     `;
     await client.query(SQL, [product.id]);
   } catch (error) {
