@@ -38,6 +38,7 @@ const {
 
 const seed = async()=> {
   const SQL = `
+    DROP TABLE IF EXISTS product_tags;
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS wish_items;
     DROP TABLE IF EXISTS line_items;
@@ -96,6 +97,18 @@ const seed = async()=> {
       product_id UUID REFERENCES products(id) NOT NULL,
       user_id UUID REFERENCES users(id) NOT NULL,
       CONSTRAINT user_and_product_key UNIQUE(user_id, product_id)
+    );
+
+    CREATE TABLE product_tags(
+      id UUID PRIMARY KEY,
+      product_id UUID REFERENCES products(id) NOT NULL,
+      is_weapon BOOLEAN DEFAULT false,
+      is_unique BOOLEAN DEFAULT false,
+      is_accessory BOOLEAN DEFAULT false,
+      is_material BOOLEAN DEFAULT false,
+      is_suit BOOLEAN DEFAULT false,
+      is_substance BOOLEAN DEFAULT false,
+      is_vehicle BOOLEAN DEFAULT false
     );
   `;
   await client.query(SQL);
