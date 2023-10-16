@@ -46,6 +46,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                       }
                     </div>
                   </div>
+                  {/* hereeeeeeeeeeeeeeeeeeeeeeeeeee */}
                   <div id='productImage'>
                     <img src={product.image_url}/>
                   </div>
@@ -68,6 +69,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                       ): null 
                     }  
                   </div>
+                  {/* hereeeeeeeeeeeeeeeeeeeeeeeeeee */}
                 </div>
               );
             })

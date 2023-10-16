@@ -46,7 +46,7 @@ const updateLineItem = async({ lineItem, cart, lineItems, setLineItems })=> {
     quantity: lineItem.quantity + 1,
     order_id: cart.id
   }, getHeaders());
-  setLineItems(lineItems.map( lineItem => lineItem.id == response.data.id ? response.data: lineItem));
+  setLineItems(lineItems.map((item) => item.id === response.data.id ? response.data: item));
 };
 
 const minusLineItem = async({ lineItem, cart, lineItems, setLineItems })=> {
