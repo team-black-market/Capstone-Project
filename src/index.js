@@ -131,6 +131,10 @@ const App = ()=> {
     navigate('/')
   }
 
+  const deleteProduct = (product)=> {
+    api.deleteProduct({product: product, products: products, setProducts: setProducts})
+  }
+
   return (
     <>
       {
@@ -157,7 +161,7 @@ const App = ()=> {
             <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews}/>}/>
             <Route path='/products/:id/edit' element={<EditProduct products={ products } updateProduct={ updateProduct } setProducts={ setProducts }/>} />
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
-            <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist } minusLineItem={ minusLineItem } removeFromCart={ removeFromCart }/>}/>
+            <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist } minusLineItem={ minusLineItem } removeFromCart={ removeFromCart } deleteProduct={ deleteProduct }/>}/>
             <Route path='/products/search/:term' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='/orders' element={<Orders orders = { orders } products = { products } lineItems = { lineItems }/>}/>
             <Route path='/cart' element={<Cart cart = { cart } lineItems = { lineItems } products = { products } updateOrder = { updateOrder } removeFromCart = { removeFromCart } minusLineItem = { minusLineItem } setLineItems= { setLineItems } updateLineItem={ updateLineItem }/>}/>

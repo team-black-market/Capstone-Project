@@ -3,7 +3,8 @@ const {
   createProduct,
   fetchReviews,
   createReview,
-  updateProduct
+  updateProduct,
+  deleteProduct
 } = require('../db');
 
 const express = require('express');
@@ -26,7 +27,14 @@ app.put('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
     next(ex)
   }
 });
-// need to use this for the edit function 
+
+app.delete('/:id', isLoggedIn, isAdmin, async(req, res, next)=> {
+  try {
+    res.send(await deleteProduct({id: req.params.id}))
+  } catch (ex) {
+    next(ex)
+  }
+})
 
 app.post('/', isLoggedIn, async (req, res, next) => {
   try {
