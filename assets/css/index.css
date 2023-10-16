@@ -35,6 +35,7 @@ button:hover {
 
 button:disabled {
   opacity: 50%;
+  cursor: default;
 }
 
 /* Home page */
@@ -315,6 +316,7 @@ button:disabled {
   height: 1.75em;
 }
 
+/* Products */
 #products {
   display: flex;
   flex-wrap: wrap;
@@ -324,7 +326,7 @@ button:disabled {
   padding: 0.25em;
   border: 1px solid white;
   margin: 2vh 1vw 0 1vw;
-  width: calc(90vw/5);
+  width: calc(90vw/4);
   border-radius: 0.5em;
   box-shadow: 2px 2px 0.5em white;
 }
@@ -378,4 +380,80 @@ button:disabled {
 
 .searchBar {
   width: 80vw;
+}
+
+.deletePrompt {
+  background-color: rgb(0, 0, 0, 0.6);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 97vh
+}
+
+.deletePrompt > div {
+  padding: 1em;
+  background-color: black;
+  border-radius: 1em;
+  border: solid 2px white;
+}
+
+.deletePrompt div div {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.deletePrompt .deletePromptButton {
+  padding: 0 .4em 0 .4em;
+  font-size: 1.5em;
+}
+
+#deleteButton {
+  border-color: red;
+  color: red;
+}
+
+/* Edit page */
+.editContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+.editContainer .formContainer {
+  margin-left: 4em;
+  width: 50vw;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.editForm input, .editForm button{
+  display: flex;
+  flex-direction: column;
+}
+
+.editForm input, .editForm input::placeholder {
+  font-size: 1em;
+  color: white;
+  padding: 0.2em;
+  background-color: black;
+  border-bottom: 1px solid white;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.editForm div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.editForm button {
+  padding: 0.2em;
+  width: 4em;
 }

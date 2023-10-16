@@ -10,19 +10,33 @@ const EditProduct = ({ products, updateProduct, setProducts }) => {
     const [image_url, setImage_url] = useState('');
     const nav = useNavigate();
     const {id} = useParams();
+    const product = products.find((product) => product.id === id)
 
 useEffect(() => {
-    const product = products.find((product) => product.id === id)
-    if (product) {
-        setName(product.name);
-        setDescription(product.description);
-        setPrice(product.price);
-        setQuantity(product.quantity);
-        setImage_url(product.image_url);
-    } else {
-        console.log("massive stinky poo poo")
-    }
+    setName(product.name);
+    setDescription(product.description);
+    setPrice(product.price);
+    setQuantity(product.quantity);
+    setImage_url(product.image_url);
 }, []);
+
+useEffect(() => {
+    if(name === ''){
+        setName(product.name);
+    }
+    if(description === ''){
+        setDescription(product.description);
+    }
+    if(price === ''){
+        setPrice(product.price);
+    }
+    if(quantity === ''){
+        setQuantity(product.quantity);
+    }
+    if(image_url === ''){
+        setImage_url(product.image_url);
+    }
+}, [name, description, price, quantity, image_url]);
 
     const submit = async(ev)=> {
         ev.preventDefault();
@@ -32,20 +46,44 @@ useEffect(() => {
     };
 
 return (
-        <>
-            <h1>Edit Product</h1>
+        <div className='editContainer'>
+            <div className='productContainer' style={{margin: 0}} key={ product.id }>
+                <h1>Old Product</h1>
+                <div id='productHeader'>
                 <div>
-                    <form onSubmit={ submit }>
-                        <input placeholder='name' onChange={ev => setName(ev.target.value)} />
-                        <input placeholder='description' onChange={ev => setDescription(ev.target.value)} />
-                        <input placeholder='price' onChange={ev => setPrice(ev.target.value)} />
-                        <input placeholder='quantity' onChange={ev => setQuantity(ev.target.value)} />
-                        <input placeholder='image url' onChange={ev => setImage_url(ev.target.value)} />
-                        <button disabled={!name || !description || !price || !quantity || !image_url}>Update</button>
-                    </form>
-                    <Link to='/products'>Cancel</Link>
+                    <p>${price ? price : (product.price).toFixed(2)}</p>
+                    <p>Qty: {quantity ? quantity : product.quantity}</p>
                 </div>
-        </>
+                <div>
+                    {
+                    product.for_vip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null
+                    }
+                </div>
+                </div>
+                <div id='productImage'>
+                <img src={image_url ? image_url : product.image_url}/>
+                </div>
+                <div id='productFooter'>
+                <Link to={`/products/${product.id}`}>
+                    { name ? (name.length <= 15 ? name : name.slice(0, 15) + '...') : (product.name.length <= 15 ? product.name : product.name.slice(0, 15) + '...')}
+                </Link> 
+                </div>
+            </div>
+            <div className='formContainer'>
+                <h1 style={{textAlign: 'center'}}>New Product</h1>
+                <form className='editForm' onSubmit={ submit }>
+                    <input placeholder={'Name: ' + product.name} onChange={ev => setName(ev.target.value)} />
+                    <input contentEditable="true" placeholder={'Description: ' + product.description} onChange={ev => setDescription(ev.target.value)} />
+                    <input type='number' placeholder={'Price: $' + (product.price).toFixed(2)} onChange={ev => setPrice(ev.target.value)} />
+                    <input type='number' placeholder={'Quantity: ' + product.quantity} onChange={ev => setQuantity(ev.target.value)} />
+                    <input placeholder={'Image URL: ' + product.image_url} onChange={ev => setImage_url(ev.target.value)} />
+                    <div>
+                        <button onClick={()=> {nav('/products')}}>Cancel</button>
+                        <button disabled={ name === product.name && description === product.description && price === product.price && quantity === product.quantity && image_url === product.image_url}>Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 }
 

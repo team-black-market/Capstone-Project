@@ -62,6 +62,7 @@ const seed = async()=> {
       price INTEGER,
       description TEXT,
       quantity INTEGER,
+      is_active BOOLEAN DEFAULT TRUE,
       image_url VARCHAR(255),
       for_vip BOOLEAN DEFAULT false
     );
