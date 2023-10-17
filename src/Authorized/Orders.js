@@ -21,7 +21,7 @@ let total = 0
                       return (
                         <li key={ lineItem.id }>
                           { product ? product.name: '' }<br/>
-                          <ul>Total: ${(total).toFixed(2)}</ul><br/>
+                          <ul>Total: ${total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</ul><br/>
                         </li>
                       );
                     })
