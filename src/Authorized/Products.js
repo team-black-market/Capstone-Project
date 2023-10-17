@@ -54,7 +54,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
               <div className='productContainer' key={ product.id }>
                   <div id='productHeader'>
                     <div>
-                      <p>${(product.price).toFixed(2)}</p>
+                      <p>${(product.price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</p>
                       <p>Qty: {product.quantity}</p>
                     </div>
                     <div>
