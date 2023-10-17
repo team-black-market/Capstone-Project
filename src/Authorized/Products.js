@@ -47,12 +47,12 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
       </div>
         <ul id="products">
         { 
-          auth.is_vip ? 
             products.filter(product => !term || product.name.toLowerCase().includes(term.toLowerCase())).map( product => {
               const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
               const favorite = wishlist.find(wishItem => wishItem.product_id === product.id);
               return (
-              <div className='productContainer' key={ product.id }>
+                auth.is_vip || product.id === auth.id ?
+                <div className='productContainer' key={ product.id }>
                   <div id='productHeader'>
                     <div>
                       <p>${(product.price).toFixed(2)}</p>
@@ -107,14 +107,8 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                     }  
                   </div>
                 </div>
-              );
-            })
-          : 
-          products.filter(product => (!term || product.name.toLowerCase().includes(term).toLowerCase()) && !product.for_vip).map( product => {
-            const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
-            const favorite = wishlist.find(wishItem => wishItem.product_id === product.id);
-            return (
-            <div className='productContainer' key={ product.id }>
+                :
+                <div className='productContainer' key={ product.id }>
                 <div id='productHeader'>
                   <div>
                     <p>${(product.price).toFixed(2)}</p>
@@ -151,7 +145,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                   }  
                 </div>
               </div>
-            );
+              );
           })
         }
       </ul>
@@ -160,3 +154,5 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
 };
 
 export default Products;
+
+  
