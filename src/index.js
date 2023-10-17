@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Link, HashRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Link, HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './Unauthorized/Login';
 import api from './api';
 import Home from './Unauthorized/Home';
@@ -12,7 +12,6 @@ import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
 import Profile from './Authorized/Profile';
-import Reviews from './Authorized/Reviews';
 import EditProduct from './Authorized/Edit';
 import Settings from './Authorized/Settings';
 
@@ -23,6 +22,7 @@ const App = ()=> {
   const [auth, setAuth] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [addresses, setAddresses] = useState([]);
   const [productTags, setProductTags] = useState([]);
 
   const navigate = useNavigate()
@@ -54,6 +54,15 @@ const App = ()=> {
   useEffect(()=> {
     if(auth.id){
       const fetchData = async()=> {
+        await api.fetchAddresses({setAddresses, auth});
+      };
+      fetchData();
+    }
+  }, [auth]);
+  
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
         await api.fetchLineItems(setLineItems);
       };
       fetchData();
@@ -73,6 +82,15 @@ const App = ()=> {
     if(auth.id){
       const fetchData = async()=> {
         await api.fetchReviews(setReviews);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchProductTags(setProductTags);
       };
       fetchData();
     }
@@ -168,7 +186,7 @@ const App = ()=> {
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
-            <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews} setProductTags={setProductTags}/>}/>
+            <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews} productTags={productTags} setProductTags={setProductTags}/>}/>
             <Route path='/products/:id/edit' element={<EditProduct products={ products } updateProduct={ updateProduct } setProducts={ setProducts }/>} />
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist } minusLineItem={ minusLineItem } removeFromCart={ removeFromCart } deleteProduct={ deleteProduct }/>}/>

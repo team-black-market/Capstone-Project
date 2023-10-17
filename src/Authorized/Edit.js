@@ -48,29 +48,27 @@ useEffect(() => {
 return (
         <div className='editContainer'>
             <div className='productContainer' style={{margin: 0}} key={ product.id }>
-                <h1>Old Product</h1>
                 <div id='productHeader'>
-                <div>
-                    <p>${price ? price : (product.price).toFixed(2)}</p>
-                    <p>Qty: {quantity ? quantity : product.quantity}</p>
-                </div>
-                <div>
-                    {
-                    product.for_vip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null
-                    }
-                </div>
+                    <div>
+                        <p>${price ? price : (product.price).toFixed(2)}</p>
+                        <p>Qty: {quantity ? quantity : product.quantity}</p>
+                    </div>
+                    <div>
+                        {
+                        product.for_vip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null
+                        }
+                    </div>
                 </div>
                 <div id='productImage'>
-                <img src={image_url ? image_url : product.image_url}/>
+                    <img src={image_url ? image_url : product.image_url}/>
                 </div>
                 <div id='productFooter'>
-                <Link to={`/products/${product.id}`}>
-                    { name ? (name.length <= 15 ? name : name.slice(0, 15) + '...') : (product.name.length <= 15 ? product.name : product.name.slice(0, 15) + '...')}
-                </Link> 
+                    <Link to={`/products/${product.id}`}>
+                        { name ? (name.length <= 15 ? name : name.slice(0, 15) + '...') : (product.name.length <= 15 ? product.name : product.name.slice(0, 15) + '...')}
+                    </Link>
                 </div>
             </div>
             <div className='formContainer'>
-                <h1 style={{textAlign: 'center'}}>New Product</h1>
                 <form className='editForm' onSubmit={ submit }>
                     <input placeholder={'Name: ' + product.name} onChange={ev => setName(ev.target.value)} />
                     <input contentEditable="true" placeholder={'Description: ' + product.description} onChange={ev => setDescription(ev.target.value)} />
