@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Link, HashRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Link, HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './Unauthorized/Login';
 import api from './api';
 import Home from './Unauthorized/Home';
@@ -12,7 +12,6 @@ import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
 import Profile from './Authorized/Profile';
-import Reviews from './Authorized/Reviews';
 import EditProduct from './Authorized/Edit';
 import Settings from './Authorized/Settings'
 
@@ -23,6 +22,7 @@ const App = ()=> {
   const [auth, setAuth] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [addresses, setAddresses] = useState([]);
 
   const navigate = useNavigate()
 
@@ -50,6 +50,15 @@ const App = ()=> {
     }
   }, [auth]);
 
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchAddresses({setAddresses, auth});
+      };
+      fetchData();
+    }
+  }, [auth]);
+  
   useEffect(()=> {
     if(auth.id){
       const fetchData = async()=> {

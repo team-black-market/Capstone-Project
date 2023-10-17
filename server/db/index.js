@@ -21,6 +21,11 @@ const {
 } = require('./auth');
 
 const {
+  createAddress,
+  fetchAddresses
+} = require('./address');
+
+const {
   fetchLineItems,
   createLineItem,
   updateLineItem,
@@ -38,6 +43,7 @@ const {
 
 const seed = async()=> {
   const SQL = `
+    DROP TABLE IF EXISTS addresses;
     DROP TABLE IF EXISTS product_tags;
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS wish_items;
@@ -55,10 +61,17 @@ const seed = async()=> {
       is_vip BOOLEAN DEFAULT false
     );
 
+    CREATE TABLE addresses(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      data JSON DEFAULT '{}',
+      user_id UUID REFERENCES users(id) NOT NULL
+    );
+    
     CREATE TABLE products(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
-      name VARCHAR(100) UNIQUE NOT NULL,
+      name VARCHAR(100) NOT NULL,
       price INTEGER,
       description TEXT,
       quantity INTEGER,
@@ -120,8 +133,11 @@ const seed = async()=> {
     createUser({ username: 'ethyl', password: '1234', is_admin: true, is_vip: true})
   ]);
 
+  await createAddress({ user_id: moe.id, data: { formatted_address: '1010 Downing Ave'}});
+  await createAddress({ user_id: moe.id, data: { formatted_address: '2020 Vision St'}});
+  await createAddress({ user_id: moe.id, data: { formatted_address: '907 S Peters St'}});
+
   const [foo, bar, bazz] = await Promise.all([
-    //add vip item
     createProduct({ name: 'The Batmobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in Gotham, Batman!', quantity: 1, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmfDSHF5eotCiwTQbfT981MuXDn5G66tiT3TfPNU-F2iGizWRproABlsU16ygzkeDCMHs&usqp=CAU', for_vip: true }),
     createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/', for_vip: true }),
     createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1, image_url: 'https://media.sketchfab.com/models/57b18282c1a84c5899fcc7f67762a386/thumbnails/256649c3628f4a27ba26b4f28f6f5d6d/a3a7c33dabb64747953debf50e283685.jpeg', for_vip: true }),
@@ -139,6 +155,21 @@ const seed = async()=> {
     createProduct({ name: 'Cloak of Invisibility', price:4000, description:'60% of the time, it works every time.', quantity: 1, image_url: 'https://i.pinimg.com/originals/42/90/66/4290666c9cf783195aaa576bf2e52691.jpg', for_vip: false }),
     createProduct({ name: 'Asgardian Scepter', price:80000, description:'Like new.  You do not have to be a god to wield it, but it helps.', quantity: 1, image_url: 'https://i.pinimg.com/originals/62/02/4d/62024d912e2688a6f128e1fe65ca2991.jpg', for_vip: true }),
     createProduct({ name: 'Cape', price:7, description:'Just cape.', quantity: 1, image_url: 'https://images.halloweencostumes.co.uk/products/54333/1-1/adult-blue-superhero-cape.jpg', for_vip: false }),
+    createProduct({ name: 'Robin\'s Grappling Gun', price:30, description:'Nicknamed the Bat rope, the Grappling Gun is a hand-held device that can fire a grappling hook across far distances!', quantity: 1, image_url: 'https://files.cults3d.com/uploaders/5620755/illustration-file/4901b22c-6e58-425a-8162-d973ab0cf12c/render.JPG', for_vip: false }),
+    createProduct({ name: 'Batarang\'s', price:15, description:'Batman\s iconic batarangs!', quantity: 6, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGktTTiH3-ThjblBbTpV9miuPmnin9wZFHow&usqp=CAU', for_vip: false }),
+    createProduct({ name: 'Vibranium', price:100000000, description:'A piece of the very rare metal Vibranium.', quantity: 1, image_url: 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/1/17/Vibranium_in_Hand.jpg', for_vip: true }),
+    createProduct({ name: 'Starlord\'s Old Helmet', price:25000000, description:'An old school helmet from the legend himself. Best as a collector\'s item.', quantity: 1, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQABVztO4uhES5RcH9-FUyfwganskdzw6Ff5A&usqp=CAU', for_vip: false }),
+    createProduct({ name: 'Catwoman\'s Whip', price:100, description:'A lost companion.', quantity: 1, image_url: 'https://www.heavencostumes.com.au/media/catalog/product/cache/0af21d88f990463ba047d7bbbbb4e2b1/l/o/long-black-whip-costume-weapon-accessory-int-ya30blk.jpg', for_vip: false }),
+    createProduct({ name: 'The Flash\'s Lightning bolt', price:10000, description:'With advanced technology I was able to capture one of the flash\'s lightnig bolts!', quantity: 1, image_url: 'https://media.istockphoto.com/id/157166346/photo/lightning-bottle.jpg?s=612x612&w=0&k=20&c=x6mRtAudFKrfOCmBGm02OYYZKqfyu2e9YOWS_ay5lqE=', for_vip: false }),
+    createProduct({ name: 'Jarvis Recreation', price:340000000, description:'After getting my hands on some of Iron Man\'s gadgets, I was able to create a copy of Jarvis, Iron Man\'s trusted AI companion!', quantity: 1, image_url: 'https://static.wikia.nocookie.net/marvelmovies/images/0/06/J.A.R.V.I.S..jpg', for_vip: true }),
+    createProduct({ name: 'Amulet of Agamotto', price:99999999, description:'Stolen from Dr. Strange himself.', quantity: 1, image_url: 'https://m.media-amazon.com/images/I/61YPp496lzL._AC_UY1000_.jpg', for_vip: false }),
+    createProduct({ name: 'Trident of Neptune', price:50000, description:'Aquaman\s trident waiting to be weld again!', quantity: 1, image_url: 'https://i.etsystatic.com/19286482/r/il/e7fdc9/2098298360/il_fullxfull.2098298360_21ur.jpg', for_vip: false }),
+    createProduct({ name: 'Green Arrow\s bow and arrows', price:500000, description:'Looking to get 500k for the whole set. A great collectors item.', quantity: 1, image_url: 'https://i.etsystatic.com/19083621/r/il/cf5cfb/3404353711/il_600x600.3404353711_gvkf.jpg', for_vip: false }),
+    createProduct({ name: 'Silver Surfer\'s Surfboard', price:60000, description:'Imagine actually surfing with this thing dude! You could brag to your friends so much!', quantity: 1, image_url: 'https://i.ebayimg.com/images/g/0I0AAOSwTxNkG4MF/s-l1600.jpg', for_vip: false }),
+    createProduct({ name: 'The Hulk\s Ripped Shorts', price:50000, description:'Don\'t ask, just buy.', quantity: 1, image_url: 'https://marveltoynews.com/wp-content/uploads/2013/09/20130925-161754-e1380141660704.jpg', for_vip: false }),
+    createProduct({ name: 'Raphael\'s Sai', price:5000, description:'The Teenage Mutant Ninja Turtle, Raphael\'s Sai\'s!', quantity: 2, image_url: 'https://static.wikia.nocookie.net/tmnt/images/c/ca/Sai.jpg', for_vip: false }),
+    createProduct({ name: 'Scorption\s Kunai', price:7, description:'Straight from one of Scorpion\'s frosty opponents.', quantity: 1, image_url: 'https://cdna.artstation.com/p/assets/images/images/038/430/292/4k/eric-newgard-img-0970-small.jpg?1623082656', for_vip: false }),
+    createProduct({ name: 'Carbonadium Katana', price:30000000, description:'Carbonadium is nearly as strong as adamantium, but more flexible. It emits toxic radiation and can impede superhuman healing factors.', quantity: 1, image_url: 'https://www.hsbladesent.com/cdn/shop/products/AAA_9834-1-510x340_jpg.webp?v=1648841051', for_vip: true }),
   ]);
 
   await Promise.all([
@@ -162,6 +193,8 @@ const seed = async()=> {
 
 module.exports = {
   fetchProducts,
+  fetchAddresses,
+  createAddress,
   fetchOrders,
   fetchLineItems,
   createLineItem,

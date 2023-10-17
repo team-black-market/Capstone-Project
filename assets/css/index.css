@@ -326,7 +326,7 @@ button:disabled {
   padding: 0.25em;
   border: 1px solid white;
   margin: 2vh 1vw 0 1vw;
-  width: calc(90vw/4);
+  width: calc(90vw/3);
   border-radius: 0.5em;
   box-shadow: 2px 2px 0.5em white;
 }
@@ -349,9 +349,9 @@ button:disabled {
 }
 
 .productContainer #productImage img {
-  min-height: 15vh;
-  max-width: 15vw;
-  max-height: 15vh;
+  min-height: 25vh;
+  max-width: 25vw;
+  max-height: 25vh;
 }
 
 .productContainer #productFooter {
@@ -363,7 +363,7 @@ button:disabled {
   display: flex;
   justify-content: center;
   padding-top: 1em;
-  width: 100vw;
+  width: 97vw;
 }
 
 #searchBarContainer input::placeholder {
@@ -376,6 +376,11 @@ button:disabled {
   background-color: #6e6d6b;
   border-radius: 5rem;
   padding-left: 0.5rem;
+  height: 2em;
+}
+
+#searchBarContainer button {
+  height: 2em;
 }
 
 .searchBar {

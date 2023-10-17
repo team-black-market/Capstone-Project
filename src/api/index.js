@@ -13,6 +13,11 @@ const fetchProducts = async(setProducts)=> {
   setProducts(response.data.filter(product => product.is_active === true));
 };
 
+const fetchAddresses = async({setAddresses, auth})=> {
+  const response = await axios.get(`api/addresses/${auth.id}`, getHeaders());
+  setAddresses(response.data);
+}
+
 const fetchReviews = async(setReviews)=> {
   const response = await axios.get('/api/products/reviews');
   setReviews(response.data);
@@ -162,6 +167,7 @@ const api = {
   login,
   logout,
   fetchProducts,
+  fetchAddresses, 
   fetchOrders,
   fetchLineItems,
   fetchWishlist,
