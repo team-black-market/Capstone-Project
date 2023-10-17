@@ -164,9 +164,9 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                   }  
                   {
                     auth.is_admin ? (
-                      setProductTags.map((option) => (
-                        <button key={option.id} onClick={() => chooseTag(option)}>
-                          {option.name}
+                      setProductTags.map((productTag) => (
+                        <button key={productTag.id} onClick={() => chooseTag(productTag)}>
+                          {productTag.name}
                         </button>
                       ))
                     ): null
