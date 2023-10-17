@@ -180,5 +180,6 @@ module.exports = {
   createReview,
   updateProduct,
   deleteProduct,
+  fetchProductTags,
   client
 };

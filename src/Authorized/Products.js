@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../api';
 
-
-const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, wishlist, setWishlist, minusLineItem, removeFromCart, deleteProduct})=> {
+const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, wishlist, setWishlist, minusLineItem, removeFromCart, deleteProduct, setProductTags})=> {
   const [deletePrompt, setDeletePrompt] = useState(false)
   const [deleteItem, setDeleteItem] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
@@ -13,6 +12,11 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
   const setDeleteStates = (product)=> {
     setDeletePrompt(true)
     setDeleteItem(product)
+  }
+
+  const chooseTag = (selectedTag) => {
+    // setProductTag(selectedTag)
+    navigate('/products')
   }
 
   const searchFunction = ()=> {
@@ -78,7 +82,6 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                             onClick={()=> {setDeleteStates(product)}} 
                             className='icon' 
                             src='../assets/img/deleteIcon.svg'/>
-                            {/* add drop down menu here */}
                           </>
                         ): null
                       }
@@ -158,6 +161,15 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                       <Link to={`/products/${product.id}/edit`}>Edit</Link>
                     ): null
                   }  
+                  {
+                    auth.is_admin ? (
+                      setProductTags.map((option) => (
+                        <button key={option.id} onClick={() => chooseTag(option)}>
+                          {option.name}
+                        </button>
+                      ))
+                    ): null
+                  } 
                 </div>
               </div>
             );
