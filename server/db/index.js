@@ -65,7 +65,7 @@ const seed = async()=> {
     CREATE TABLE addresses(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
-      data JSON DEFAULT '{}',
+      address text NOT NULL,
       user_id UUID REFERENCES users(id) NOT NULL
     );
     
@@ -78,7 +78,8 @@ const seed = async()=> {
       quantity INTEGER,
       is_active BOOLEAN DEFAULT TRUE,
       image_url VARCHAR(255),
-      for_vip BOOLEAN DEFAULT false
+      for_vip BOOLEAN DEFAULT false,
+      userId UUID REFERENCES users(id)
     );
 
     CREATE TABLE orders(

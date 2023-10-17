@@ -14,7 +14,7 @@ const fetchAddresses = async(userId)=> {
 
 const createAddress = async(address)=> {
   const SQL = `
-  INSERT INTO addresses(id, user_id, data) VALUES($1, $2, $3) RETURNING *
+  INSERT INTO addresses(id, user_id, address) VALUES($1, $2, $3) RETURNING *
 `;
  response = await client.query(SQL, [ uuidv4(), address.user_id, address.data]);
   return response.rows[0];
