@@ -38,7 +38,7 @@ const Login = ({ login })=> {
               }
               <div className='input-group'>
                 <input
-                placeholder='Username'
+                  placeholder='Username'
                   name='userName'
                   autoComplete='username'
                   type='text'
