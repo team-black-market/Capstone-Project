@@ -22,9 +22,9 @@ const createProduct = async(product)=> {
 const updateProduct = async(product)=> {
   try {
     const SQL = `
-      UPDATE products SET name = $2, price = $3, description = $4, quantity = $5, image_url = $6 WHERE id = $1 RETURNING *
+      UPDATE products SET name = $2, price = $3, description = $4, quantity = $5, image_url = $6, for_vip = $7 WHERE id = $1 RETURNING *
     `;
-    const response = await client.query(SQL, [product.id, product.name, product.price, product.description, product.quantity, product.image_url]);
+    const response = await client.query(SQL, [product.id, product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip]);
     return response.rows[0];
   } catch (error) {
     console.log(error)
