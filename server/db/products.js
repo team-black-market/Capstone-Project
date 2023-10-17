@@ -13,9 +13,9 @@ const fetchProducts = async()=> {
 
 const createProduct = async(product)=> {
   const SQL = `
-    INSERT INTO products (id, name, price, description, quantity, image_url, for_vip) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *
+    INSERT INTO products (id, name, price, description, quantity, image_url, for_vip, userId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
   `;
-  const response = await client.query(SQL, [uuidv4(), product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip]);
+  const response = await client.query(SQL, [uuidv4(), product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip, product.userId]);
   return response.rows[0];
 };
 

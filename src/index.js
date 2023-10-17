@@ -188,7 +188,7 @@ const App = ()=> {
             <Route path='/home' element={<Home auth={auth}/>}/>
             <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews} productTags={productTags} setProductTags={setProductTags}/>}/>
             <Route path='/products/:id/edit' element={<EditProduct products={ products } updateProduct={ updateProduct } setProducts={ setProducts }/>} />
-            <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
+            <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts } auth={ auth }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist } minusLineItem={ minusLineItem } removeFromCart={ removeFromCart } deleteProduct={ deleteProduct }/>}/>
             <Route path='/products/search/:term' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist }/>}/>
             <Route path='/orders' element={<Orders orders = { orders } products = { products } lineItems = { lineItems }/>}/>
