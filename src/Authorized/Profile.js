@@ -4,6 +4,7 @@ const Profile = ({auth})=> {
     return(
         <>
             <h1>Welcome {auth.username}!</h1>
+            
         </>
     )
 }

@@ -26,7 +26,7 @@ let total = 0;
           })
         }
       </ul>
-      {total !== 0.00 ? `Your total is $${(total).toFixed(2)}` : 'Your cart is empty!'}
+      {total !== 0.00 ? `Your total is $${total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}` : 'Your cart is empty!'}
       <br />
       {
         lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? <button onClick={()=> {
@@ -38,3 +38,12 @@ let total = 0;
 };
 
 export default Cart;
+
+{/* <li key={ lineItem.id }>
+{ product.name }
+({ lineItem.quantity })
+<button onClick={()=> updateLineItem(lineItem)}>+</button>
+{
+  lineItem.quantity === 1 ? <button onClick={()=> removeFromCart(lineItem)}>Remove from cart?</button> : <button onClick={()=> minusLineItem(lineItem)}>-</button> 
+}
+</li> */}

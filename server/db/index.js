@@ -4,7 +4,8 @@ const {
   fetchProducts,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  fetchProductTags
 } = require('./products');
 
 const {
@@ -182,6 +183,10 @@ const seed = async()=> {
     createWishItem({ user_id: ethyl.id, product_id: bazz.id})
   ]);
 
+  await Promise.all([
+    fetchProductTags({user_id: ethyl.id})
+  ])
+
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
   let lineItem = await createLineItem({ order_id: cart.id, product_id: foo.id});
@@ -216,5 +221,6 @@ module.exports = {
   createReview,
   updateProduct,
   deleteProduct,
+  fetchProductTags,
   client
 };

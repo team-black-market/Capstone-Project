@@ -26,7 +26,7 @@ app.get('/', isLoggedIn, async(req, res, next)=> {
   }
 });
 
-//not using isAdmin here or isVip
+//not using isVip
 
 
 

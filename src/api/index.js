@@ -36,7 +36,7 @@ const fetchLineItems = async(setLineItems)=> {
 const fetchWishlist = async({userId, setWishlist})=> {
   const response = await axios.get(`/api/wishlist/${userId}`)
   setWishlist(response.data)
-}
+};
 
 const createLineItem = async({ product, cart, lineItems, setLineItems })=> {
   const response = await axios.post('/api/lineItems', {
@@ -51,7 +51,7 @@ const updateLineItem = async({ lineItem, cart, lineItems, setLineItems })=> {
     quantity: lineItem.quantity + 1,
     order_id: cart.id
   }, getHeaders());
-  setLineItems(lineItems.map( lineItem => lineItem.id == response.data.id ? response.data: lineItem));
+  setLineItems(lineItems.map((item) => item.id === response.data.id ? response.data: item));
 };
 
 const minusLineItem = async({ lineItem, cart, lineItems, setLineItems })=> {
@@ -82,12 +82,12 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
 const removeFromWishlist = async({userId, wishItem, setWishlist, wishlist})=> {
   await axios.delete(`/api/wishlist/${userId}/${wishItem.id}`, getHeaders())
   setWishlist(wishlist.filter((_wishItem) => _wishItem.id !== wishItem.id))
-}
+};
 
 const addToWishList = async({userId, wishItem, setWishlist, wishlist})=> {
   const {data} = await axios.post(`/api/wishlist/${userId}/${wishItem.id}`, {}, getHeaders())
   setWishlist([...wishlist, data])
-}
+};
 
 const newestProduct = async(items) => {
     const response = await axios.post('/api/products', items.product, getHeaders());
@@ -110,7 +110,7 @@ const deleteProduct = async({product, products, setProducts})=> {
   } catch (ex) {
     console.log(ex)
   }
-}
+};
 
 const newReview = async(items) => {
   try {
@@ -134,34 +134,39 @@ const attemptLoginWithToken = async(setAuth)=> {
       }
     }
   }
-}
+};
 
 const login = async({ credentials, setAuth })=> {
   const response = await axios.post('/api/login', credentials);
   const { token } = response.data;
   window.localStorage.setItem('token', token);
   attemptLoginWithToken(setAuth);
-}
+};
 
 const registerUser = async(newUserInfo)=> {
   const response = await axios.post('/api/register', newUserInfo.credentials)
   newUserInfo.setMessage(response)
-}
+};
 
 const updateUser = async({credentials, setUsernameMessage})=> {
   const response = await axios.put('/api/updateUser', credentials)
   setUsernameMessage(response)
-}
+};
 
 const updatePass = async({credentials, setPasswordMessage})=> {
   const response = await axios.put('/api/updatePass', credentials)
   setPasswordMessage(response)
-}
+};
 
 const logout = (setAuth)=> {
   window.localStorage.removeItem('token');
   setAuth({});
-}
+};
+
+const fetchProductTags = async(setProductTags)=> {
+  const response = await axios.get('/api/product_tags');
+  setProductTags(response.data);
+};
 
 const api = {
   login,
@@ -186,7 +191,8 @@ const api = {
   newReview,
   fetchReviews,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  fetchProductTags
 };
 
 export default api;
