@@ -13,6 +13,7 @@ const Product = ({products, newReview, reviews, setReviews})=> {
             <h3>Created at: {product.created_at}</h3>
             <p>{product.description}</p>
             <img className='imageSize' src={product.image_url}></img><br/>
+            {/* <p>{setProductTags}</p> */}
             <Link to="/products">Back</Link>
             <Review newReview={newReview} reviews={reviews} setReviews={setReviews}/>
             {/* <button onClick={ () => deleteLineItem(product)}>Remove Product</button> */}

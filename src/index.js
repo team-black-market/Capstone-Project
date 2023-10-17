@@ -13,7 +13,7 @@ import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
 import Profile from './Authorized/Profile';
 import EditProduct from './Authorized/Edit';
-import Settings from './Authorized/Settings'
+import Settings from './Authorized/Settings';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -23,6 +23,7 @@ const App = ()=> {
   const [wishlist, setWishlist] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [addresses, setAddresses] = useState([]);
+  const [productTags, setProductTags] = useState([]);
 
   const navigate = useNavigate()
 
@@ -81,6 +82,24 @@ const App = ()=> {
     if(auth.id){
       const fetchData = async()=> {
         await api.fetchReviews(setReviews);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchProductTags(setProductTags);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  useEffect(()=> {
+    if(auth.id){
+      const fetchData = async()=> {
+        await api.fetchProductTags(setProductTags);
       };
       fetchData();
     }
@@ -167,7 +186,7 @@ const App = ()=> {
           </nav>
           <Routes>
             <Route path='/home' element={<Home auth={auth}/>}/>
-            <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews}/>}/>
+            <Route path='/products/:id' element={<Product products={ products } newReview={ newReview } reviews={reviews} setReviews={setReviews} productTags={productTags} setProductTags={setProductTags}/>}/>
             <Route path='/products/:id/edit' element={<EditProduct products={ products } updateProduct={ updateProduct } setProducts={ setProducts }/>} />
             <Route path='/newProduct' element={<NewProduct newestProduct={ newestProduct }  products={ products } setProducts={ setProducts }/>}/>
             <Route path='/products' element={<Products auth = { auth } products={ products } cartItems = { cartItems } createLineItem = { createLineItem } updateLineItem = { updateLineItem } wishlist={ wishlist } setWishlist={ setWishlist } minusLineItem={ minusLineItem } removeFromCart={ removeFromCart } deleteProduct={ deleteProduct }/>}/>
@@ -180,7 +199,7 @@ const App = ()=> {
             <Route path='*' element={<></>}/>
           </Routes>
         </>
-        ):(
+        ) : (
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/login/*' element={<Login login={ login }/>}/>

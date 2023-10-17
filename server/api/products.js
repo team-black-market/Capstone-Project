@@ -4,7 +4,8 @@ const {
   fetchReviews,
   createReview,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  fetchProductTags
 } = require('../db');
 
 const express = require('express');
@@ -58,6 +59,15 @@ app.post('/:id', isLoggedIn, async (req, res, next) => {
     res.send(await createReview(req.body))
   } catch (ex) {
     next(ex)
+  }
+});
+
+app.get('/', async(req, res, next)=> {
+  try {
+    res.send(await fetchProductTags());
+  }
+  catch(ex){
+    next(ex);
   }
 });
 
