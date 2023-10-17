@@ -63,7 +63,7 @@ const seed = async()=> {
 
     CREATE TABLE addresses(
       id UUID PRIMARY KEY,
-      created at TIMESTAMP DEFAULT now(),
+      created_at TIMESTAMP DEFAULT now(),
       data JSON DEFAULT '{}',
       user_id UUID REFERENCES users(id) NOT NULL
     );
@@ -137,7 +137,6 @@ const seed = async()=> {
   await createAddress({ user_id: moe.id, data: { formatted_address: '907 S Peters St'}});
 
   const [foo, bar, bazz] = await Promise.all([
-    //add vip item
     createProduct({ name: 'The Batmobile', price:100000000, description:'The infamous mode of transportation for one of the most prestigious heroes in Gotham, Batman!', quantity: 1, image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmfDSHF5eotCiwTQbfT981MuXDn5G66tiT3TfPNU-F2iGizWRproABlsU16ygzkeDCMHs&usqp=CAU', for_vip: true }),
     createProduct({ name: 'The Lasso of Truth', price:265000, description:'A weapon wielded by none other than Wonder Woman herself!', quantity: 1, image_url: 'https://www.therpf.com/forums/attachments/lasso-jpg.1332542/', for_vip: true }),
     createProduct({ name: 'The Mark I', price:1998500, description:'The first suit ever designed and created by Tony Stark. One of a kind.', quantity: 1, image_url: 'https://media.sketchfab.com/models/57b18282c1a84c5899fcc7f67762a386/thumbnails/256649c3628f4a27ba26b4f28f6f5d6d/a3a7c33dabb64747953debf50e283685.jpeg', for_vip: true }),

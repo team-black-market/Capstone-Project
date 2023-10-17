@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Link, HashRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Link, HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './Unauthorized/Login';
 import api from './api';
 import Home from './Unauthorized/Home';
 import Register from './Unauthorized/Register';
-import Addresses from './Authorized/Addresses';
 import Product from './Authorized/Product'
 import NewProduct from './Authorized/NewProduct';
 import WishList from './Authorized/WishList';
@@ -13,7 +12,6 @@ import Products from './Authorized/Products'
 import Orders from './Authorized/Orders';
 import Cart from './Authorized/Cart';
 import Profile from './Authorized/Profile';
-import Reviews from './Authorized/Reviews';
 import EditProduct from './Authorized/Edit';
 import Settings from './Authorized/Settings'
 
@@ -55,7 +53,7 @@ const App = ()=> {
   useEffect(()=> {
     if(auth.id){
       const fetchData = async()=> {
-        await api.fetchAddresses(setAddresses);
+        await api.fetchAddresses({setAddresses, auth});
       };
       fetchData();
     }
@@ -181,9 +179,6 @@ const App = ()=> {
             <Route path='/profile' element={<Profile auth={auth}/>}/>
             <Route path='/settings' element={<Settings auth={auth} attemptLoginWithToken={ attemptLoginWithToken }/>}/>
             <Route path='*' element={<></>}/>
-            <Route path='/addresses' element={ 
-              <Addresses createAddress={ createAddress } addresses={ addresses } />
-              }/>
           </Routes>
         </>
         ):(

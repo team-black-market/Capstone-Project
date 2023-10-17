@@ -7,9 +7,10 @@ const express = require('express');
 const app = express.Router();
 const { isLoggedIn } = require('./middleware');
 
-app.get('/', isLoggedIn, async(req, res, next)=> {
+app.get('/:id', isLoggedIn, async(req, res, next)=> {
+  const user_id = req.params.id
   try {
-    res.send(await fetchAddresses(req.user.id));
+    res.send(await fetchAddresses(user_id));
   }
   catch(ex){
     next(ex);
