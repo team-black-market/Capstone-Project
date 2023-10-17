@@ -156,7 +156,6 @@ const App = ()=> {
             <Link to='/wishlist'><img className='icon' src='../assets/img/favoriteNav.svg'/>&nbsp;Wishlist</Link>
             <Link to='/orders'><img className='icon' src='../assets/img/orderIcon.svg'/>&nbsp;Orders</Link>
             <Link to='/cart'><img className='icon' src='../assets/img/cartIcon.svg'/>&nbsp;Cart ({ cartCount })</Link>
-            <Link to='/addresses'>Addresses ({ addresses.length })</Link>
             <div className='dropDown'>
               <Link className='dropbtn'> {auth.is_vip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null}&nbsp;{auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
               <div className='dropDownContent'>

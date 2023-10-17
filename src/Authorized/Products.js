@@ -41,6 +41,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
       <div id='searchBarContainer'>
         <form onSubmit={searchFunction}>
           <input placeholder='Search' value={ searchTerm || '' } onChange={ev => {setSearchTerm(ev.target.value)}}/>
+          &nbsp;&nbsp;
           <button>Search</button>
         </form>
       </div>
@@ -88,7 +89,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth, w
                   </div>
                   <div id='productFooter'>
                     <Link to={`/products/${product.id}`}>
-                      { product.name.length <= 15 ? product.name : product.name.slice(0, 15) + '...' }
+                      { product.name.length <= 30 ? product.name : product.name.slice(0, 30) + '...' }
                     </Link>
                     {
                       auth.id ? (
