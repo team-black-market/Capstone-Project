@@ -14,7 +14,7 @@ const fetchProducts = async(setProducts)=> {
 };
 
 const fetchProductTags = async(setProductTags)=> {
-  const response = await axios.get('/api/products/product_tags');
+  const response = await axios.get('/api/product_tags');
   setProductTags(response.data);
 };
 
@@ -169,8 +169,12 @@ const logout = (setAuth)=> {
 };
 
 const addProductTags = async({tags, setProductTags, productTags})=> {
-  const response = await axios.post('/api/products/product_tags', tags, getHeaders());
+  const response = await axios.post('/api/product_tags', tags, getHeaders());
   setProductTags([...productTags, response.data])
+}
+
+const editProductTags = async({tags})=> {
+  await axios.put('/api/product_tags', tags, getHeaders())
 }
 
 const api = {
@@ -198,7 +202,8 @@ const api = {
   updateProduct,
   deleteProduct,
   fetchProductTags,
-  addProductTags
+  addProductTags,
+  editProductTags
 };
 
 export default api;

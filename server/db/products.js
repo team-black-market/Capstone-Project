@@ -58,8 +58,18 @@ const addProductTags = async(tags)=> {
     RETURNING *
   `;
   const response = await client.query(SQL, [ uuidv4(), tags.product_id, tags.is_Weapon, tags.is_Unique, tags.is_Accessory, tags.is_Material, tags.is_Suit, tags.is_Substance, tags.is_Vehicle]);
-  return response.rows;
+  return response.rows[0];
 } 
+
+const editProductTags = async(tags)=> {
+  const SQL = `
+  UPDATE product_tags SET product_id = $2, is_weapon = $3, is_unique = $4, is_accessory = $5, is_material = $6, is_suit = $7, is_substance =$8, is_vehicle = $9
+  WHERE id = $1
+  RETURNING *
+`;
+const response = await client.query(SQL, [tags.id, tags.product_id, tags.is_Weapon, tags.is_Unique, tags.is_Accessory, tags.is_Material, tags.is_Suit, tags.is_Substance, tags.is_Vehicle]);
+return response.rows[0]
+}
 
 module.exports = {
   fetchProducts,
@@ -67,5 +77,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   fetchProductTags,
-  addProductTags
+  addProductTags,
+  editProductTags
 };
