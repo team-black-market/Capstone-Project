@@ -13,18 +13,18 @@ const fetchProducts = async()=> {
 
 const createProduct = async(product)=> {
   const SQL = `
-    INSERT INTO products (id, name, price, description, quantity, image_url, for_vip, userId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
+    INSERT INTO products (id, name, price, description, quantity, image_url, for_vip, userId , is_weapon, is_unique, is_accessory, is_material, is_suit, is_substance, is_vehicle) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *
   `;
-  const response = await client.query(SQL, [uuidv4(), product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip, product.userId]);
+  const response = await client.query(SQL, [uuidv4(), product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip, product.userId, product.is_weapon, product.is_unique, product.is_accessory, product.is_material, product.is_suit, product.is_substance, product.is_vehicle]);
   return response.rows[0];
 };
 
 const updateProduct = async(product)=> {
   try {
     const SQL = `
-      UPDATE products SET name = $2, price = $3, description = $4, quantity = $5, image_url = $6, for_vip = $7 WHERE id = $1 RETURNING *
+      UPDATE products SET name = $2, price = $3, description = $4, quantity = $5, image_url = $6, for_vip = $7, is_weapon = $8, is_unique = $9, is_accessory = $10, is_material = $11, is_suit = $12, is_substance = $13, is_vehicle = $14 WHERE id = $1 RETURNING *
     `;
-    const response = await client.query(SQL, [product.id, product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip]);
+    const response = await client.query(SQL, [product.id, product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip, product.is_weapon, product.is_unique, product.is_accessory, product.is_material, product.is_suit, product.is_substance, product.is_vehicle]);
     return response.rows[0];
   } catch (error) {
     console.log(error)
@@ -41,42 +41,9 @@ const deleteProduct = async(product)=> {
     console.log(error)
   }
 };
-
-const fetchProductTags = async()=> {
-  const SQL = `
-    SELECT *
-    FROM product_tags
-  `;
-  const response = await client.query(SQL);
-  return response.rows;
-};
-
-const addProductTags = async(tags)=> {
-  const SQL = `
-    INSERT INTO product_tags(id, product_id, is_weapon, is_unique, is_accessory, is_material, is_suit, is_substance, is_vehicle)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) 
-    RETURNING *
-  `;
-  const response = await client.query(SQL, [ uuidv4(), tags.product_id, tags.is_Weapon, tags.is_Unique, tags.is_Accessory, tags.is_Material, tags.is_Suit, tags.is_Substance, tags.is_Vehicle]);
-  return response.rows[0];
-} 
-
-const editProductTags = async(tags)=> {
-  const SQL = `
-  UPDATE product_tags SET product_id = $2, is_weapon = $3, is_unique = $4, is_accessory = $5, is_material = $6, is_suit = $7, is_substance =$8, is_vehicle = $9
-  WHERE id = $1
-  RETURNING *
-`;
-const response = await client.query(SQL, [tags.id, tags.product_id, tags.is_Weapon, tags.is_Unique, tags.is_Accessory, tags.is_Material, tags.is_Suit, tags.is_Substance, tags.is_Vehicle]);
-return response.rows[0]
-}
-
 module.exports = {
   fetchProducts,
   createProduct,
   updateProduct,
   deleteProduct,
-  fetchProductTags,
-  addProductTags,
-  editProductTags
 };
