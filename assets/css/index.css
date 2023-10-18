@@ -459,6 +459,10 @@ button:disabled {
 }
 
 .editForm button {
-  padding: 0.2em;
-  width: 4em;
+  padding: 0.4em;
+  width: fit-content;
+}
+
+.editForm .toggleButtons {
+  margin-bottom: 0.5em;
 }

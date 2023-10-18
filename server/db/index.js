@@ -5,7 +5,8 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
-  fetchProductTags
+  fetchProductTags,
+  addProductTags
 } = require('./products');
 
 const {
@@ -222,5 +223,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   fetchProductTags,
+  addProductTags,
   client
 };

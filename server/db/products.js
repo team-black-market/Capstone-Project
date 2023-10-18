@@ -22,9 +22,9 @@ const createProduct = async(product)=> {
 const updateProduct = async(product)=> {
   try {
     const SQL = `
-      UPDATE products SET name = $2, price = $3, description = $4, quantity = $5, image_url = $6 WHERE id = $1 RETURNING *
+      UPDATE products SET name = $2, price = $3, description = $4, quantity = $5, image_url = $6, for_vip = $7 WHERE id = $1 RETURNING *
     `;
-    const response = await client.query(SQL, [product.id, product.name, product.price, product.description, product.quantity, product.image_url]);
+    const response = await client.query(SQL, [product.id, product.name, product.price, product.description, product.quantity, product.image_url, product.for_vip]);
     return response.rows[0];
   } catch (error) {
     console.log(error)
@@ -51,10 +51,21 @@ const fetchProductTags = async()=> {
   return response.rows;
 };
 
+const addProductTags = async(tags)=> {
+  const SQL = `
+    INSERT INTO product_tags(id, product_id, is_weapon, is_unique, is_accessory, is_material, is_suit, is_substance, is_vehicle)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+    RETURNING *
+  `;
+  const response = await client.query(SQL, [ uuidv4(), tags.product_id, tags.is_Weapon, tags.is_Unique, tags.is_Accessory, tags.is_Material, tags.is_Suit, tags.is_Substance, tags.is_Vehicle]);
+  return response.rows;
+} 
+
 module.exports = {
   fetchProducts,
   createProduct,
   updateProduct,
   deleteProduct,
-  fetchProductTags
+  fetchProductTags,
+  addProductTags
 };
