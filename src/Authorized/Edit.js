@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import api from '../api';
 
-const EditProduct = ({ products, updateProduct, setProducts, auth, productTags, addProductTags}) => {
+const EditProduct = ({ products, updateProduct, setProducts, auth, productTags, addProductTags, setProductTags}) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
@@ -66,6 +67,7 @@ const submit = async(ev)=> {
     updateProduct({updatedProduct: updatedProduct, setProducts: setProducts, products: products})
     const tags = {product_id: product.id, is_Weapon: isWeapon, is_Accessory: isAccessory, is_Material: isMaterial, is_Suit: isSuit, is_Substance: isSubstance, is_Unique: isUnique, is_Vehicle: isVehicle}
     addProductTags(tags)
+    await api.fetchProductTags(setProductTags);
     nav('/products')
 };
 
