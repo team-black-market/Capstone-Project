@@ -529,7 +529,7 @@ button:disabled {
   justify-content: center;
 }
 
-.wishList .noListDiv {
+.noListDiv {
   margin-top: 1.5em;
   display: flex;
   flex-direction: column;
@@ -542,11 +542,11 @@ button:disabled {
   text-align: center;
 }
 
-.wishList h2{
+.wishList h2, .noListDiv h2{
   font-size: 2.5em; 
 }
 
-.wishList img {
+.noListDiv img {
   height: 75vh;
 }
 
@@ -570,4 +570,20 @@ button:disabled {
   height: 2em;
   font-size: 0.5em;
   padding: 0.2em;
+}
+
+/* Orders */
+.orderContainer {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.orderSubcontainer {
+  font-size: 2em;
+}
+
+.orderContainer div .order {
+  display: flex;
 }

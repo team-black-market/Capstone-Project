@@ -181,19 +181,6 @@ const seed = async()=> {
     createReview({ title: 'Unleash Your Inner Hero with the Batmobile!', description: 'I was lucky enough to be at a special event where the Batmobile made an appearance, and I got to see it up close and personal. This vehicle is nothing short of a work of art. The attention to detail is astounding, and it truly captures the essence of the Caped Crusader\'s iconic ride. From the outside, the Batmobile oozes power and style. It\'s a symbol of justice and heroism, and it demands attention wherever it goes. The matte black finish and the imposing silhouette make it a sight to behold. When you\'re in its presence, you can\'t help but feel like a hero yourself. Although I didn\'t get to drive it, I did get a glimpse of the interior, and it\'s just as impressive as the exterior. The cockpit is equipped with cutting-edge technology and displays that make it feel like you\'re in a high-tech crime-fighting machine. The attention to detail in the Bat-themed design elements is a fan\'s dream come true. In conclusion, the Batmobile is more than just a car; it\'s a symbol of hope and justice. It\'s a testament to human ingenuity and the power of one man\'s mission to make the world a better place. If you\'re a fan of Batman or just a lover of incredible automobiles, the Batmobile is a must-see.', stars: 5, productId: foo.id}),
     createReview({ title: 'Breathtakingly Fast and Stylish: Batmobile Delivers on Every Level!', description: 'I had the incredible opportunity to witness the Batmobile in action during a live demonstration, and I was left in awe of this incredible machine. This vehicle is not just about style; it\'s about raw power and cutting-edge technology. The Batmobile\'s design is a masterpiece of engineering and aesthetics. The sleek lines, menacing front grille, and those iconic fins at the back give it an unmistakable presence. When it took off, the acceleration was jaw-dropping, and the sound of the engine was pure music to the ears of every petrolhead present. I was fortunate to take a peek inside the cockpit, and it\'s nothing short of extraordinary. The state-of-the-art displays, control panels, and the seamless integration of the Bat-themed design elements left me speechless. It\'s like stepping into a high-tech fortress on wheels. In summary, the Batmobile is a true marvel of automotive engineering and design. It\'s not just a car; it\'s a symbol of the undying commitment to justice and the unwavering dedication to making the world a safer place. If you ever get the chance to experience the Batmobile in action, don\'t miss it. It\'s a thrill you\'ll remember for a lifetime.', stars: 5, productId: foo.id})
   ]);
-
-  await Promise.all([
-    fetchProductTags({user_id: ethyl.id})
-  ])
-
-  let orders = await fetchOrders(ethyl.id);
-  let cart = orders.find(order => order.is_cart);
-  let lineItem = await createLineItem({ order_id: cart.id, product_id: foo.id});
-  lineItem.quantity++;
-  await updateLineItem(lineItem);
-  lineItem = await createLineItem({ order_id: cart.id, product_id: bar.id});
-  cart.is_cart = false;
-  await updateOrder(cart);
 };
 
 module.exports = {

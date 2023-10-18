@@ -30,7 +30,6 @@ const WishList = ({products, auth, wishlist, setWishlist})=> {
                   })
               }
               </table>
-
             </div>
             : 
             <div className='noListDiv'>
