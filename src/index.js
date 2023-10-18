@@ -127,7 +127,7 @@ const App = ()=> {
             <div className='dropDown'>
               <Link className='dropbtn'> {auth.is_vip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null}&nbsp;{auth.username} <img style={{width: '0.5em', height: '0.5em'}} src='../assets/img/dropDownIcon.svg'/></Link>
               <div className='dropDownContent'>
-                <Link to='/profile'><img className='icon' src='../assets/img/profileIcon.svg'/>&nbsp;Profile</Link>
+                <Link to='/profile'><img className='icon' src='../assets/img/profileIcon.svg'/>&nbsp;About</Link>
                 <Link to='/settings'><img className='icon' src='../assets/img/settingsIcon.svg'/>&nbsp;Settings</Link>
                 <Link to='/' onClick={ logout }><img className='icon' src='../assets/img/logoutIcon.svg'/>&nbsp;Logout</Link>
               </div>
