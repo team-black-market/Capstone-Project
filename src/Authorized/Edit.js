@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import api from '../api';
 
-const EditProduct = ({ products, updateProduct, setProducts, auth, productTags, addProductTags}) => {
+const EditProduct = ({ products, updateProduct, setProducts, auth, productTags, addProductTags, editProductTags}) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
@@ -19,7 +20,6 @@ const EditProduct = ({ products, updateProduct, setProducts, auth, productTags, 
     const {id} = useParams();
     const product = products.find((product) => product.id === id)
     const p_tags = productTags.find((productTag) => productTag.product_id === product.id)
-    console.log(p_tags)
 
     useEffect(() => {
         setName(product.name);
@@ -60,7 +60,7 @@ const EditProduct = ({ products, updateProduct, setProducts, auth, productTags, 
         }
     }, [name, description, price, quantity, image_url, isVip]);
 
-const submit = async(ev)=> {
+const create = async(ev)=> {
     ev.preventDefault();
     const updatedProduct = {id: id, name: name, description: description, price: price, quantity: quantity, image_url: image_url, for_vip: isVip}
     updateProduct({updatedProduct: updatedProduct, setProducts: setProducts, products: products})
@@ -68,6 +68,13 @@ const submit = async(ev)=> {
     addProductTags(tags)
     nav('/products')
 };
+
+const edit = async(ev)=> {
+    ev.preventDefault();
+    const tags = {id: p_tags.id, product_id: product.id, is_Weapon: isWeapon, is_Accessory: isAccessory, is_Material: isMaterial, is_Suit: isSuit, is_Substance: isSubstance, is_Unique: isUnique, is_Vehicle: isVehicle}
+    editProductTags(tags)
+    nav('/products')
+}
 
 return (
         <div className='editContainer'>
@@ -93,7 +100,7 @@ return (
                 </div>
             </div>
             <div className='formContainer'>
-                <form className='editForm' onSubmit={ submit }>
+                <form className='editForm' onSubmit={ p_tags ? edit : create }>
                     <input placeholder={'Name: ' + product.name} onChange={ev => setName(ev.target.value)} />
                     <input contentEditable="true" placeholder={'Description: ' + product.description} onChange={ev => setDescription(ev.target.value)} />
                     <input type='number' placeholder={'Price: $' + (product.price).toFixed(2)} onChange={ev => setPrice(ev.target.value)} />
@@ -114,7 +121,6 @@ return (
                     <div>
                         <button onClick={()=> {nav('/products')}}>Cancel</button>
                         <button>Update</button>
-                        {/* disabled={ name === product.name && description === product.description && price === product.price && quantity === product.quantity && image_url === product.image_url && product.for_vip === isVip} */}
                     </div>
                 </form>
             </div>
