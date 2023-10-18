@@ -22,14 +22,19 @@ const activeOrders = orders.filter(order => !order.is_cart)
                           const product = products.find(product => product.id === lineItem.product_id);
                             total += product.price * lineItem.quantity
                           return (
+                          <>
                             <div className='order' key={ lineItem.id }>
-                              <p>${total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} for</p>
+                              <p>${product.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} for ({product.quantity})</p>
                               &nbsp;
                               <Link to={`/products/${product.id}`}>{product.name}</Link>
                             </div>
+                          </>
                           );
                         })
                       }
+                    <div>
+                      <p>{`Your total is $${total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}</p><br/>
+                    </div>
                   </div>
                 );
               })
