@@ -71,6 +71,8 @@ const create = async(ev)=> {
 
 const edit = async(ev)=> {
     ev.preventDefault();
+    const updatedProduct = {id: id, name: name, description: description, price: price, quantity: quantity, image_url: image_url, for_vip: isVip}
+    updateProduct({updatedProduct: updatedProduct, setProducts: setProducts, products: products})
     const tags = {id: p_tags.id, product_id: product.id, is_Weapon: isWeapon, is_Accessory: isAccessory, is_Material: isMaterial, is_Suit: isSuit, is_Substance: isSubstance, is_Unique: isUnique, is_Vehicle: isVehicle}
     editProductTags(tags)
     nav('/products')
