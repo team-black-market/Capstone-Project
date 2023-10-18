@@ -86,15 +86,3 @@ return (
 }
 
 export default EditProduct;
-
-// const chooseTag = (productTag) => {
-//     setProductsTags(productTag)
-//     navigate('/products')
-//   }
-
-// setProductTags.map((productTag) => (
-//     <button key={productTag.id} onClick={() => chooseTag(productTag)}>
-//       {productTag.name}
-//     </button>
-
-// useState for productTags 
