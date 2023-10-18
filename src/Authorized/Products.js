@@ -78,6 +78,7 @@ const Products = ({
       <div id="searchBarContainer">
         <form onSubmit={searchFunction}>
           <input
+            id='searchBar'
             placeholder="Search"
             value={searchTerm || ""}
             onChange={(ev) => {
@@ -86,34 +87,44 @@ const Products = ({
           />
           &nbsp;&nbsp;
           <button>Search</button>
-          <label>
-            Weapon
-            <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, weapon: true}) : setTagFilter({...tagFilter, weapon: false})}}/>
-          </label>
-          <label>
-            Accessory
-            <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, accessory: true}) : setTagFilter({...tagFilter, accessory: false})}}/>
-          </label>
-          <label>
-            Material
-            <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, material: true}) : setTagFilter({...tagFilter, material: false})}}/>
-          </label>
-          <label>
-            Suit
-            <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, suit: true}) : setTagFilter({...tagFilter, suit: false})}}/>
-          </label>
-          <label>
-            Substance
-            <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, substance: true}) : setTagFilter({...tagFilter, substance: false})}}/>
-          </label>
-          <label>
-            Vehicle
-            <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, vehicle: true}) : setTagFilter({...tagFilter, vehicle: false})}}/>
-          </label>
-          <label>
-            Unique
-            <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, unique: true}) : setTagFilter({...tagFilter, unique: false})}}/>
-          </label>
+          <div className='filterByContainer'>
+            <h3 style={{textAlign: 'center'}}>Sort by: </h3>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, weapon: true}) : setTagFilter({...tagFilter, weapon: false})}}/>
+              &nbsp;
+              Weapon
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, accessory: true}) : setTagFilter({...tagFilter, accessory: false})}}/>
+              &nbsp;
+              Accessory
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, material: true}) : setTagFilter({...tagFilter, material: false})}}/>
+              &nbsp;
+              Material
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, suit: true}) : setTagFilter({...tagFilter, suit: false})}}/>
+              &nbsp;
+              Suit
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, substance: true}) : setTagFilter({...tagFilter, substance: false})}}/>
+              &nbsp;
+              Substance
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, vehicle: true}) : setTagFilter({...tagFilter, vehicle: false})}}/>
+              &nbsp;
+              Vehicle
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, unique: true}) : setTagFilter({...tagFilter, unique: false})}}/>
+              &nbsp;
+              Unique
+            </label>
+          </div>
         </form>
       </div>
       <ul id="products">
