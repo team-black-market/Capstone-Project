@@ -51,10 +51,21 @@ const fetchProductTags = async()=> {
   return response.rows;
 };
 
+const addProductTags = async(tags)=> {
+  const SQL = `
+    INSERT INTO product_tags(id, product_id, is_weapon, is_unique, is_accessory, is_material, is_suit, is_substance, is_vehicle)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+    RETURNING *
+  `;
+  const response = await client.query(SQL, [ uuidv4(), tags.product_id, tags.is_Weapon, tags.is_Unique, tags.is_Accessory, tags.is_Material, tags.is_Suit, tags.is_Substance, tags.is_Vehicle]);
+  return response.rows;
+} 
+
 module.exports = {
   fetchProducts,
   createProduct,
   updateProduct,
   deleteProduct,
-  fetchProductTags
+  fetchProductTags,
+  addProductTags
 };

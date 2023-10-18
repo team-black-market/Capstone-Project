@@ -16,8 +16,6 @@ const Product = ({products, newReview, reviews, setReviews})=> {
             {/* <p>{setProductTags}</p> */}
             <Link to="/products">Back</Link>
             <Review newReview={newReview} reviews={reviews} setReviews={setReviews}/>
-            {/* <button onClick={ () => deleteLineItem(product)}>Remove Product</button> */}
-            {/* TO DO */}
         </>
     )
 };

@@ -13,13 +13,18 @@ const fetchProducts = async(setProducts)=> {
   setProducts(response.data.filter(product => product.is_active === true));
 };
 
+const fetchProductTags = async(setProductTags)=> {
+  const response = await axios.get('/api/products/product_tags');
+  setProductTags(response.data);
+};
+
 const fetchAddresses = async({setAddresses, auth})=> {
   const response = await axios.get(`api/addresses/${auth.id}`, getHeaders());
   setAddresses(response.data);
 }
 
 const fetchReviews = async(setReviews)=> {
-  const response = await axios.get('/api/products/reviews');
+  const response = await axios.get('/api/reviews');
   setReviews(response.data);
 };
 
@@ -114,7 +119,7 @@ const deleteProduct = async({product, products, setProducts})=> {
 
 const newReview = async(items) => {
   try {
-    const response = await axios.post(`/api/products/${items.id}`, items.review, getHeaders());
+    const response = await axios.post(`/api/reviews/${items.id}`, items.review, getHeaders());
     items.setReviews([...items.reviews, response.data]);
   } catch (ex) {
     console.log(ex);
@@ -163,10 +168,10 @@ const logout = (setAuth)=> {
   setAuth({});
 };
 
-const fetchProductTags = async(setProductTags)=> {
-  const response = await axios.get('/api/product_tags');
-  setProductTags(response.data);
-};
+const addProductTags = async({tags, setProductTags, productTags})=> {
+  const response = await axios.post('/api/products/product_tags', tags, getHeaders());
+  setProductTags([...productTags, response.data])
+}
 
 const api = {
   login,
@@ -192,7 +197,8 @@ const api = {
   fetchReviews,
   updateProduct,
   deleteProduct,
-  fetchProductTags
+  fetchProductTags,
+  addProductTags
 };
 
 export default api;

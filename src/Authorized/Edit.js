@@ -1,51 +1,73 @@
-// use put 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-const EditProduct = ({ products, updateProduct, setProducts, auth}) => {
+const EditProduct = ({ products, updateProduct, setProducts, auth, productTags, addProductTags}) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
     const [image_url, setImage_url] = useState('');
     const [isVip, setIsVip] = useState(false)
+    const [isWeapon, setIsWeapon] = useState(false)
+    const [isAccessory, setIsAccessory] = useState(false)
+    const [isMaterial, setIsMaterial] = useState(false)
+    const [isSuit, setIsSuit] = useState(false)
+    const [isSubstance, setIsSubstance] = useState(false)
+    const [isVehicle, setIsVehicle] = useState(false)
+    const [isUnique, setIsUnique] = useState(false)
     const nav = useNavigate();
     const {id} = useParams();
     const product = products.find((product) => product.id === id)
+    const p_tags = productTags.find((productTag) => productTag.product_id === product.id)
+    console.log(p_tags)
 
-useEffect(() => {
-    setName(product.name);
-    setDescription(product.description);
-    setPrice(product.price);
-    setQuantity(product.quantity);
-    setImage_url(product.image_url);
-    setIsVip(product.for_vip)
-}, []);
-
-useEffect(() => {
-    if(name === ''){
+    useEffect(() => {
         setName(product.name);
-    }
-    if(description === ''){
         setDescription(product.description);
-    }
-    if(price === ''){
         setPrice(product.price);
-    }
-    if(quantity === ''){
         setQuantity(product.quantity);
-    }
-    if(image_url === ''){
         setImage_url(product.image_url);
-    }
-}, [name, description, price, quantity, image_url, isVip]);
+        setIsVip(product.for_vip)
+    }, [product]);
 
-    const submit = async(ev)=> {
-        ev.preventDefault();
-        const updatedProduct = {id: id, name: name, description: description, price: price, quantity: quantity, image_url: image_url, for_vip: isVip}
-        updateProduct({updatedProduct: updatedProduct, setProducts: setProducts, products: products})
-        nav('/products')
-    };
+    useEffect(()=> {
+        if(p_tags){
+            setIsWeapon(p_tags.is_weapon)
+            setIsAccessory(p_tags.is_accessory)
+            setIsMaterial(p_tags.is_material)
+            setIsSuit(p_tags.is_suit)
+            setIsSubstance(p_tags.is_substance)
+            setIsVehicle(p_tags.is_vehicle)
+            setIsUnique(p_tags.is_unique)
+        }
+    }, [p_tags])
+
+    useEffect(() => {
+        if(name === ''){
+            setName(product.name);
+        }
+        if(description === ''){
+            setDescription(product.description);
+        }
+        if(price === ''){
+            setPrice(product.price);
+        }
+        if(quantity === ''){
+            setQuantity(product.quantity);
+        }
+        if(image_url === ''){
+            setImage_url(product.image_url);
+        }
+    }, [name, description, price, quantity, image_url, isVip]);
+
+const submit = async(ev)=> {
+    ev.preventDefault();
+    const updatedProduct = {id: id, name: name, description: description, price: price, quantity: quantity, image_url: image_url, for_vip: isVip}
+    updateProduct({updatedProduct: updatedProduct, setProducts: setProducts, products: products})
+    const tags = {product_id: product.id, is_Weapon: isWeapon, is_Accessory: isAccessory, is_Material: isMaterial, is_Suit: isSuit, is_Substance: isSubstance, is_Unique: isUnique, is_Vehicle: isVehicle}
+    addProductTags(tags)
+    nav('/products')
+};
 
 return (
         <div className='editContainer'>
@@ -57,7 +79,7 @@ return (
                     </div>
                     <div>
                         {
-                            product.for_vip || isVip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null
+                            isVip ? <img className='icon' src='../assets/img/vipIcon.svg'/> : null
                         }
                     </div>
                 </div>
@@ -80,11 +102,19 @@ return (
                     { auth.is_admin ?
                     <div className='toggleButtons'>
                         <button style={isVip === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isVip === false ? setIsVip(true) : setIsVip(false)}>VIP</button>
+                        <button style={isWeapon === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isWeapon === false ? setIsWeapon(true) : setIsWeapon(false)}>Weapon</button>
+                        <button style={isAccessory === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isAccessory === false ? setIsAccessory(true) : setIsAccessory(false)}>Accessory</button>
+                        <button style={isMaterial === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isMaterial === false ? setIsMaterial(true) : setIsMaterial(false)}>Material</button>
+                        <button style={isSuit === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isSuit === false ? setIsSuit(true) : setIsSuit(false)}>Suit</button>
+                        <button style={isSubstance === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isSubstance === false ? setIsSubstance(true) : setIsSubstance(false)}>Substance</button>
+                        <button style={isVehicle === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isVehicle === false ? setIsVehicle(true) : setIsVehicle(false)}>Vehicle</button>
+                        <button style={isUnique === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isUnique === false ? setIsUnique(true) : setIsUnique(false)}>Unique</button>
                     </div> 
                     : null}
                     <div>
                         <button onClick={()=> {nav('/products')}}>Cancel</button>
-                        <button disabled={ name === product.name && description === product.description && price === product.price && quantity === product.quantity && image_url === product.image_url && product.for_vip === isVip}>Update</button>
+                        <button>Update</button>
+                        {/* disabled={ name === product.name && description === product.description && price === product.price && quantity === product.quantity && image_url === product.image_url && product.for_vip === isVip} */}
                     </div>
                 </form>
             </div>

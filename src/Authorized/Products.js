@@ -25,11 +25,6 @@ const Products = ({
     setDeleteItem(product);
   };
 
-  const chooseTag = (productTag) => {
-    setProductTags(productTag)
-    navigate('/products')
-  }
-
   const searchFunction = ()=> {
     if(searchTerm !== ''){
       navigate(`/products/search/${searchTerm}`)
