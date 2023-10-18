@@ -322,6 +322,10 @@ button:disabled {
   flex-wrap: wrap;
 }
 
+.tagButton:hover {
+  cursor: default;
+}
+
 .productContainer {
   padding: 0.25em;
   border: 1px solid white;
