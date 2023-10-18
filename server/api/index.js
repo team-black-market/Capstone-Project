@@ -8,5 +8,4 @@ app.use('/lineItems', require('./lineItems'));
 app.use('/wishlist', require('./wishList'));
 app.use('/addresses', require('./addresses'));
 app.use('/reviews', require('./reviews'))
-app.use('/product_tags', require('./productTags'))
 module.exports = app;

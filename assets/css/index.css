@@ -351,14 +351,20 @@ button:disabled {
   display: flex;
   justify-content: center;
   padding-top: 1em;
-  width: 97vw;
+  width: 98.5vw;
 }
 
-#searchBarContainer input::placeholder {
+#searchBarContainer form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#searchBarContainer #searchBar::placeholder {
   color: white;
 }
 
-#searchBarContainer input{
+#searchBarContainer #searchBar{
   width: 40vw;
   color: white;
   background-color: #6e6d6b;
@@ -369,10 +375,24 @@ button:disabled {
 
 #searchBarContainer button {
   height: 2em;
+  margin-right: 2em;
 }
 
 .searchBar {
   width: 80vw;
+}
+
+.filterByContainer{
+  display: flex;
+  align-items: center;
+}
+
+.filterByContainer label {
+  display: inline-block;
+}
+
+.filterByContainer label {
+  margin: 0 0.5em 0 0.5em
 }
 
 .deletePrompt {

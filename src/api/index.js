@@ -100,6 +100,7 @@ const newestProduct = async(items) => {
 };
 
 const updateProduct = async(items) => {
+  console.log(items)
   try {
     const response = await axios.put(`/api/products/${items.updatedProduct.id}`, items.updatedProduct, getHeaders());
     items.setProducts(items.products.map( product => product.id == response.data.id ? response.data: product));
@@ -168,7 +169,7 @@ const logout = (setAuth)=> {
   setAuth({});
 };
 
-const addProductTags = async({tags, setProductTags, productTags})=> {
+const addProductTags = async({tags, setProductTags, productTags, products})=> {
   const response = await axios.post('/api/product_tags', tags, getHeaders());
   setProductTags([...productTags, response.data])
 }

@@ -12,11 +12,12 @@ const Products = ({
   setWishlist,
   minusLineItem,
   removeFromCart,
-  deleteProduct
+  deleteProduct,
 }) => {
   const [deletePrompt, setDeletePrompt] = useState(false);
   const [deleteItem, setDeleteItem] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [tagFilter, setTagFilter] = useState({})
   const navigate = useNavigate();
   const { term } = useParams();
 
@@ -32,6 +33,18 @@ const Products = ({
       navigate(`/products`);
     }
   };
+
+  useEffect(()=> {
+    setTagFilter({
+      weapon: false,
+      accessory: false,
+      material: false,
+      suit: false,
+      substance: false,
+      vehicle: false,
+      unique: false,
+    })
+  }, [])
 
   return (
     <div>
@@ -65,6 +78,7 @@ const Products = ({
       <div id="searchBarContainer">
         <form onSubmit={searchFunction}>
           <input
+            id='searchBar'
             placeholder="Search"
             value={searchTerm || ""}
             onChange={(ev) => {
@@ -73,13 +87,54 @@ const Products = ({
           />
           &nbsp;&nbsp;
           <button>Search</button>
+          <div className='filterByContainer'>
+            <h3 style={{textAlign: 'center'}}>Sort by: </h3>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, weapon: true}) : setTagFilter({...tagFilter, weapon: false})}}/>
+              &nbsp;
+              Weapon
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, accessory: true}) : setTagFilter({...tagFilter, accessory: false})}}/>
+              &nbsp;
+              Accessory
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, material: true}) : setTagFilter({...tagFilter, material: false})}}/>
+              &nbsp;
+              Material
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, suit: true}) : setTagFilter({...tagFilter, suit: false})}}/>
+              &nbsp;
+              Suit
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, substance: true}) : setTagFilter({...tagFilter, substance: false})}}/>
+              &nbsp;
+              Substance
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, vehicle: true}) : setTagFilter({...tagFilter, vehicle: false})}}/>
+              &nbsp;
+              Vehicle
+            </label>
+            <label>
+              <input type="checkbox" onClick={(ev)=> {ev.target.checked ? setTagFilter({...tagFilter, unique: true}) : setTagFilter({...tagFilter, unique: false})}}/>
+              &nbsp;
+              Unique
+            </label>
+          </div>
         </form>
       </div>
       <ul id="products">
         {products
           .filter(
-            (product) =>
-              !term || product.name.toLowerCase().includes(term.toLowerCase())
+            (product) => {
+              return (!term || product.name.toLowerCase().includes(term.toLowerCase())) && 
+              ((Object.keys(tagFilter).every((k) => tagFilter[k] === false)) || 
+              ((product.is_weapon === tagFilter.weapon) && (product.is_accessory === tagFilter.accessory) && (product.is_material === tagFilter.material) && (product.is_suit === tagFilter.suit) && (product.is_substance === tagFilter.substance) && (product.is_vehicle === tagFilter.vehicle) && (product.is_unique === tagFilter.unique)))
+            }
           )
           .map((product) => {
             const cartItem = cartItems.find(
@@ -87,12 +142,11 @@ const Products = ({
             );
             const favorite = wishlist.find(
               (wishItem) => wishItem.product_id === product.id
-            );
+            )
             return auth.is_vip || product.userid === auth.id ? (
               <div className="productContainer" key={product.id}>
                 <div id="productHeader">
                   <div>
-
                     <p>${(product.price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</p>
 
                     <p>Qty: {product.quantity}</p>
@@ -261,7 +315,7 @@ const Products = ({
               </div>
             );
           })}
-      </ul>
+      </ul>   
     </div>
   );
 };
