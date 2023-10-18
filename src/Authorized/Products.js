@@ -12,7 +12,7 @@ const Products = ({
   setWishlist,
   minusLineItem,
   removeFromCart,
-  deleteProduct,
+  deleteProduct
 }) => {
   const [deletePrompt, setDeletePrompt] = useState(false);
   const [deleteItem, setDeleteItem] = useState("");
@@ -234,25 +234,29 @@ const Products = ({
                 <div id="productImage">
                   <img src={product.image_url} />
                 </div>
-                <div id="productFooter">
-                  <Link to={`/products/${product.id}`}>{product.name}</Link>
-                  {auth.id ? (
-                    cartItem ? (
-                      <button
-                        className="buttonStyle"
-                        onClick={() => updateLineItem(cartItem)}
-                      >
-                        Add Another
-                      </button>
-                    ) : (
-                      <button onClick={() => createLineItem(product)}>
-                        Add
-                      </button>
-                    )
-                  ) : null}
-                  {auth.is_admin ? (
-                    <Link to={`/products/${product.id}/edit`}>Edit</Link>
-                  ) : null}
+                <div id='productFooter'>
+                  <Link to={`/products/${product.id}`}>
+                    { product.name }
+                  </Link>
+                  {
+                      auth.id ? (
+                        cartItem ?
+                        <div>
+                          <button onClick={ ()=> updateLineItem(cartItem)} disabled={(cartItem.quantity === product.quantity) ? true : false}>+</button>
+                          &nbsp;
+                          {
+                            cartItem.quantity > 1 ? <button onClick={ ()=> minusLineItem(cartItem)}>-</button> 
+                            : <button onClick={ ()=> removeFromCart(cartItem)}>-</button>
+                          }
+                        </div>
+                        : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
+                      ): null 
+                    }
+                  {
+                    auth.is_admin ? (
+                      <Link to={`/products/${product.id}/edit`}>Edit</Link>
+                    ): null
+                  }  
                 </div>
               </div>
             );
