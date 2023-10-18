@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const Reviews = ({products, newReview, setReviews, reviews}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [stars, setStars] = useState('');
+    const [stars, setStars] = useState(1);
     const { id } = useParams();
 
     const submit = async(ev)=> {
@@ -24,7 +24,7 @@ return (
             <form className='editForm' onSubmit={ submit }>
                 <input placeholder='title' value={ title } onChange={ev => setTitle(ev.target.value)} />
                 <input placeholder='description' value={ description } onChange={ev => setDescription(ev.target.value)} />
-                <input placeholder='stars' value={ stars } onChange={ev => setStars(ev.target.value)} />
+                <input id="number-input" type='number' min='1' max='5' step='1' placeholder='stars' value={ stars } onChange={ev => setStars(ev.target.value)} />
                 <button>Submit</button>
             </form>
             <hr style={{border: '2px solid white', margin: '1em 0 1em 0'}}/>

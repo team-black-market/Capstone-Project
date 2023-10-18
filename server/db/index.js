@@ -183,11 +183,6 @@ const seed = async()=> {
   ]);
 
   await Promise.all([
-    createWishItem({ user_id: ethyl.id, product_id: foo.id}),
-    createWishItem({ user_id: ethyl.id, product_id: bazz.id})
-  ]);
-
-  await Promise.all([
     fetchProductTags({user_id: ethyl.id})
   ])
 

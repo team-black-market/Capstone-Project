@@ -520,3 +520,54 @@ button:disabled {
   width: 1.75em;
   height: 1.75em;
 }
+
+/* Wishlist */
+.wishList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishList .noListDiv {
+  margin-top: 1.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishList h1 {
+  font-size: 4em;
+  text-align: center;
+}
+
+.wishList h2{
+  font-size: 2.5em; 
+}
+
+.wishList img {
+  height: 75vh;
+}
+
+.wishList table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+.wishList th, td {
+  font-size: 3em;
+  padding: 0.2em
+}
+
+.wishList #productInfo {
+  display: flex;
+  align-items: center;
+}
+
+.wishList button {
+  width: 4em;
+  height: 2em;
+  font-size: 0.5em;
+  padding: 0.2em;
+}
