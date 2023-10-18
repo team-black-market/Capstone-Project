@@ -107,16 +107,20 @@ return (
                     <input type='number' placeholder={'Quantity: ' + product.quantity} onChange={ev => setQuantity(ev.target.value)} />
                     <input placeholder={'Image URL: ' + product.image_url} onChange={ev => setImage_url(ev.target.value)} />
                     { auth.is_admin ?
-                    <div className='toggleButtons'>
-                        <button style={isVip === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isVip === false ? setIsVip(true) : setIsVip(false)}>VIP</button>
-                        <button style={isWeapon === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isWeapon === false ? setIsWeapon(true) : setIsWeapon(false)}>Weapon</button>
-                        <button style={isAccessory === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isAccessory === false ? setIsAccessory(true) : setIsAccessory(false)}>Accessory</button>
-                        <button style={isMaterial === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isMaterial === false ? setIsMaterial(true) : setIsMaterial(false)}>Material</button>
-                        <button style={isSuit === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isSuit === false ? setIsSuit(true) : setIsSuit(false)}>Suit</button>
-                        <button style={isSubstance === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isSubstance === false ? setIsSubstance(true) : setIsSubstance(false)}>Substance</button>
-                        <button style={isVehicle === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isVehicle === false ? setIsVehicle(true) : setIsVehicle(false)}>Vehicle</button>
-                        <button style={isUnique === true ? {borderColor: 'orange'} : null} type='button' onClick={ ()=> isUnique === false ? setIsUnique(true) : setIsUnique(false)}>Unique</button>
-                    </div> 
+                    <>
+                    <h1 style={{textAlign: 'center', marginBottom: '0.5em', fontSize: '3em'}}>Tags</h1>
+                        <div className='toggleButtons'>
+                            <button style={isVip === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isVip === false ? setIsVip(true) : setIsVip(false)}>VIP</button>
+                            <button style={isWeapon === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isWeapon === false ? setIsWeapon(true) : setIsWeapon(false)}>Weapon</button>
+                            <button style={isAccessory === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isAccessory === false ? setIsAccessory(true) : setIsAccessory(false)}>Accessory</button>
+                            <button style={isMaterial === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isMaterial === false ? setIsMaterial(true) : setIsMaterial(false)}>Material</button>
+                            <button style={isSuit === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isSuit === false ? setIsSuit(true) : setIsSuit(false)}>Suit</button>
+                            <button style={isSubstance === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isSubstance === false ? setIsSubstance(true) : setIsSubstance(false)}>Substance</button>
+                            <button style={isVehicle === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isVehicle === false ? setIsVehicle(true) : setIsVehicle(false)}>Vehicle</button>
+                            <button style={isUnique === true ? {borderColor: 'orange', color: 'orange'} : null} type='button' onClick={ ()=> isUnique === false ? setIsUnique(true) : setIsUnique(false)}>Unique</button>
+                        </div>
+                        <hr style={{border: '1px solid white', margin: '0.5em 0 1em 0'}}/>
+                    </>
                     : null}
                     <div>
                         <button onClick={()=> {nav('/products')}}>Cancel</button>
