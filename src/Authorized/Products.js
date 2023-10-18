@@ -131,7 +131,9 @@ const Products = ({
         {products
           .filter(
             (product) => {
-              return (!term || product.name.toLowerCase().includes(term.toLowerCase())) && ((Object.keys(tagFilter).every((k) => tagFilter[k] == false)) || ((product.is_weapon === tagFilter.weapon) && (product.is_accessory === tagFilter.accessory) && (product.is_material === tagFilter.material) && (product.is_suit === tagFilter.suit) && (product.is_substance === tagFilter.substance) && (product.is_vehicle === tagFilter.vehicle) && (product.is_unique === tagFilter.unique)))
+              return (!term || product.name.toLowerCase().includes(term.toLowerCase())) && 
+              ((Object.keys(tagFilter).every((k) => tagFilter[k] === false)) || 
+              ((product.is_weapon === tagFilter.weapon) && (product.is_accessory === tagFilter.accessory) && (product.is_material === tagFilter.material) && (product.is_suit === tagFilter.suit) && (product.is_substance === tagFilter.substance) && (product.is_vehicle === tagFilter.vehicle) && (product.is_unique === tagFilter.unique)))
             }
           )
           .map((product) => {
