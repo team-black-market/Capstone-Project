@@ -632,12 +632,18 @@ font-size: 3em
 
 .profileContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.settingsContainer div{
+  text-align: center;
+}
+
 .settingsContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

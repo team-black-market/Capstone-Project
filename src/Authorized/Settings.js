@@ -43,6 +43,7 @@ const Settings = ({ auth, attemptLoginWithToken })=> {
     return(
         <div className='settingsContainer'>
             <h1>Welcome to your settings page {`${auth.username}`}!</h1>
+            <br/>
             <div>
                 <h2>Update username?</h2>
                 <p>Only you can see your username!</p>
@@ -58,6 +59,7 @@ const Settings = ({ auth, attemptLoginWithToken })=> {
                     : null}
                 </form>
             </div>
+            <br/>
             <div>
                 <h2>Update Password?</h2>
                 <p>A secure password helps protect your Black Market account!</p>
