@@ -629,3 +629,15 @@ font-size: 3em
   font-size:30px;
 
 }
+
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.settingsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -41,7 +41,7 @@ const Settings = ({ auth, attemptLoginWithToken })=> {
     }
 
     return(
-        <div>
+        <div className='settingsContainer'>
             <h1>Welcome to your settings page {`${auth.username}`}!</h1>
             <div>
                 <h2>Update username?</h2>
