@@ -252,10 +252,6 @@ const Products = ({
                     <p>Qty: {product.quantity}</p>
                   </div>
                   <div>
-                    {product.for_vip ? (
-                      <img className="icon" src="../assets/img/vipIcon.svg" />
-                    ) : null}
-                    &nbsp;&nbsp;
                     {favorite ? (
                       <img
                         onClick={() =>

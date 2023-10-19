@@ -40,12 +40,3 @@ let total = 0;
 };
 
 export default Cart;
-
-{/* <li key={ lineItem.id }>
-{ product.name }
-({ lineItem.quantity })
-<button onClick={()=> updateLineItem(lineItem)}>+</button>
-{
-  lineItem.quantity === 1 ? <button onClick={()=> removeFromCart(lineItem)}>Remove from cart?</button> : <button onClick={()=> minusLineItem(lineItem)}>-</button> 
-}
-</li> */}
