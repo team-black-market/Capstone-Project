@@ -607,3 +607,25 @@ button:disabled {
 .orderContainer div .order {
   display: flex;
 }
+
+
+/* Cart */
+.cart-title{
+font-size: 3em
+}
+
+.cart-list-item{
+  text-align:center;
+  border: solid white 1px;
+  font-size: 2em;
+  padding: 1px
+}
+
+.cart-total{
+  font-size:2em
+}
+
+.cart-create-order{
+  font-size:30px;
+
+}
