@@ -1,13 +1,12 @@
-<div align='center'><link rel='icon' href="/assets/img/icon.svg"/></div>
-
-### The Black Market
+<h1 align='center'>The Black Market</h1>
+<br>
 <h2>About the project</h2>
 
 <p>This is a ecommerce website with the ability to supply you with any superhero weapon It was built with vanilla JavaScript and CSS.</p>
 
 Live Demo: <a href='https://black-market-50e6.onrender.com/#/'>Black Market Demo</a>
-<p>User: Ethyl</p>
-<p>Pass: 1234</p>
+- User: Ethyl
+- Pass: 1234
 
 <h2>Screenshots of the project</h2>
 <br>
